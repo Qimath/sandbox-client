@@ -153,6 +153,7 @@ div {
   justify-content: center;
   display: inline-flex;
   user-select: none;
+  -webkit-user-select: none;
   pointer-events: none;
 }
 </style>

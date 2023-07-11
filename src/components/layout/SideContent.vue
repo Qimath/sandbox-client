@@ -53,28 +53,28 @@ const settingsTitle = computed(() => {
       </section>
 
       <section class="pages">
-        <router-link to="methods" class="methods"
+        <router-link to="/methods" class="methods"
           ><span class="material-symbols-outlined">code_blocks</span></router-link
         >
-        <router-link to="debug" class="debugging"
+        <router-link to="/debug" class="debugging"
           ><span class="material-symbols-outlined">adb</span></router-link
         >
-        <router-link to="ticket" class="ticket"
+        <router-link to="/ticket" class="ticket"
           ><span class="material-symbols-outlined">confirmation_number</span></router-link
         >
-        <router-link to="contact" class="contact"
+        <router-link to="/contact" class="contact"
           ><span class="material-symbols-outlined">chat</span></router-link
         >
-        <router-link to="lab" class="laboratory"
+        <router-link to="/lab" class="laboratory"
           ><span class="material-symbols-outlined">science</span></router-link
         >
       </section>
 
-      <section class="dashboard">
+      <section class="/dashboard">
         <router-link to="account" class="account"
           ><span class="material-symbols-outlined">account_circle</span></router-link
         >
-        <router-link to="settings" class="settings"
+        <router-link to="/settings" class="settings"
           ><span class="material-symbols-outlined">settings</span></router-link
         >
       </section>
@@ -99,6 +99,8 @@ aside nav {
   height: 100vh;
   width: var(--layout-aside-width);
   padding: 0.25rem 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 aside nav section {

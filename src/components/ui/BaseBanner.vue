@@ -73,10 +73,13 @@ const props = defineProps({
   padding: 1rem;
   font-size: 1.75rem;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .banner .category {
-  font-weight: 600;
+  user-select: none;
+  -webkit-user-select: none;
   margin-right: 1rem;
 }
 

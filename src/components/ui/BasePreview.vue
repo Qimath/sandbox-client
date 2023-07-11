@@ -49,6 +49,8 @@ onMounted(() => {})
   border-radius: 50%;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .website-logo img {
@@ -78,10 +80,5 @@ onMounted(() => {})
   font-size: 1.375rem;
   font-weight: 600;
   color: var(--blue-pri);
-  user-select: text !important;
-}
-
-.website-id {
-  user-select: text !important;
 }
 </style>

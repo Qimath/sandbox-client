@@ -79,6 +79,8 @@ nav {
   border-bottom: 1px solid var(--container-border);
   padding: 0 1rem;
   width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 nav section {

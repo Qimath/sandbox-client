@@ -76,6 +76,7 @@ select + label {
   color: var(--label-tri);
   pointer-events: none;
   user-select: none;
+  -webkit-user-select: none;
   align-content: center;
   align-items: center;
   padding-top: 0.375rem;

@@ -162,7 +162,6 @@ pre {
   white-space: nowrap;
   resize: none;
   overflow: hidden;
-  user-select: text;
 }
 
 div:last-of-type > pre {
@@ -199,6 +198,8 @@ span.refresh {
   transition: all 0.1s linear;
   padding: 0.375rem;
   z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
   font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
 }
 

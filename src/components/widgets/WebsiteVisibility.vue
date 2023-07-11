@@ -95,7 +95,6 @@ pre {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  user-select: text;
   flex-wrap: wrap;
 }
 
@@ -103,7 +102,6 @@ pre * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  user-select: text;
   flex-wrap: wrap;
 }
 </style>

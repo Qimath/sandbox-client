@@ -25,17 +25,18 @@ const props = defineProps({
   justify-content: flex-start;
   align-items: center;
   flex: 0 0 auto;
-  width: v-bind(width);
   overflow-y: scroll;
   overflow-x: hidden;
   background: var(--container-bg);
   max-height: 100%;
   min-width: 20rem;
+  width: v-bind(width);
 }
 
 .container.grow {
   flex-grow: 1;
   width: auto;
+  max-width: initial;
 }
 
 .top-liner, .bottom-liner {

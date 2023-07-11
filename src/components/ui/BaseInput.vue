@@ -90,6 +90,8 @@ onMounted(() => {
       type="number"
       :value="value"
       @input="$emit('update:value', $event.target.value)"
+      auto-complete="nope"
+      data-1p-ignore
     />
     <input
       v-else
@@ -98,13 +100,17 @@ onMounted(() => {
       type="text"
       :value="value"
       @input="$emit('update:value', $event.target.value)"
+      auto-complete="nope"
+      data-1p-ignore
     />
     <label :for="id">
       <span class="material-symbols-outlined">{{ icon }}</span>
       {{ error || success || label }}
     </label>
     <span v-if="copy" class="copy-type">{{ copyType }}</span>
-    <span v-if="copy" class="simple material-symbols-outlined" @click="$emit('copy')">content_copy</span>
+    <span v-if="copy" class="simple material-symbols-outlined" @click="$emit('copy')"
+      >content_copy</span
+    >
     <span v-if="secret" class="large material-symbols-outlined" @click="$emit('secret')">key</span>
   </div>
 </template>
@@ -152,6 +158,7 @@ label {
   color: var(--label-tri);
   pointer-events: none;
   user-select: none;
+  -webkit-user-select: none;
   align-content: center;
   align-items: center;
   padding-top: 0.375rem;
@@ -205,6 +212,8 @@ div > span.simple {
   font-size: 1.25rem;
   color: var(--liner-tri);
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
   transition: all 0.1s linear;
 }
 
@@ -227,6 +236,8 @@ div > span.copy-type {
   color: var(--blue-duo);
   font-size: 0.875rem;
   font-weight: 500;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 div > span.large {
@@ -239,6 +250,8 @@ div > span.large {
   transition: all 0.1s linear;
   padding: 0.75rem;
   font-size: 1.75rem;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 div > span.large:hover {
@@ -329,5 +342,37 @@ div.error textarea {
   100% {
     opacity: 0;
   }
+}
+
+/* Changing the background color on input autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  visibility: hidden;
+  display: none !important;
+}
+
+/* Preventing password suggestions */
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  appearance: textfield;
+}
+
+/* Internet Explorer 11 */
+input[type='number']::-ms-clear {
+  display: none;
 }
 </style>
