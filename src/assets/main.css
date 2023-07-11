@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+@import './base.css';
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  min-width: fit-content;
+  color: var(--main-text-normal);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: 'Fredoka', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color 0.5s, background-color 0.5s, border-color 0.5s;
+}
+
+div,
+main,
+aside,
+header,
+footer,
+nav,
+article,
+section,
+form {
+  display: flex;
+}
+
+span,
+p,
+a,
+input,
+textarea,
+button,
+select,
+label,
+pre,
+li {
+  display: inline-flex;
+  text-decoration: none;
+  outline: none;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+  flex-direction: row;
+  min-height: 100vh;
+  font-weight: normal;
+}
+
+h1, h2, h3, h4, label, ::before, ::after, input[type="submit"], button, span, select {
+  cursor: default;
+  white-space: nowrap;
+}
+
+*:not(input[type="text"], textarea, p, pre) {
+  user-select: none;
+}
+
+input[type="submit"], button {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+input[type="submit"] {
+  cursor: pointer
+}
+
+a *, button * {
+  cursor: pointer;
+}
+
+strong {
+  font-weight: 500;
+  padding: 0 0.5rem;
+}

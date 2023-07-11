@@ -1,0 +1,196 @@
+<script setup>
+const emits = defineEmits(['generate'])
+const props = defineProps({
+  button: {
+    type: Boolean,
+    default: false
+  },
+  color: {
+    type: String,
+    default: ''
+  },
+  value: {
+    type: String,
+    default: ''
+  },
+  id: {
+    type: String,
+    default: ''
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
+
+<template>
+  <button v-if="button" :id="id" :class="color" type="button">
+    <span v-if="loading">
+      ‎ 
+      <div class="ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </span>
+    <span v-else>
+      {{ value }}
+    </span>
+  </button>
+  <input v-else :id="id" :value="value" :class="color" type="submit" />
+</template>
+
+<style scoped>
+input,
+button {
+  width: 100%;
+  padding: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.0625rem;
+  transition: background-color 0.1s linear;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  justify-content: center;
+  border: none;
+  border-radius: 0.25rem;
+  color: var(--main-text-reverse);
+}
+
+input.default,
+button.default {
+  background: var(--dft-duo);
+  color: var(--dft-text);
+}
+
+input.default:hover,
+button.default:hover {
+  background: var(--dft-pri);
+}
+
+input.default:active,
+button.default:active {
+  background: var(--dft-tri);
+}
+
+input.blue,
+button.blue {
+  background: var(--blue-duo);
+}
+
+input.blue:hover,
+button.blue:hover {
+  background: var(--blue-pri);
+}
+
+input.blue:active,
+button.blue:active {
+  background: var(--blue-tri);
+}
+
+input.red,
+button.red {
+  background: var(--red-duo);
+}
+
+input.red:hover,
+button.red:hover {
+  background: var(--red-pri);
+}
+
+input.red:active,
+button.red:active {
+  background: var(--red-tri);
+}
+
+input.green,
+button.green {
+  background: var(--green-duo);
+}
+
+input.green:hover,
+button.green:hover {
+  background: var(--green-pri);
+}
+
+input.green:active,
+button.green:active {
+  background: var(--green-tri);
+}
+
+
+input.orange,
+button.orange {
+  background: var(--orange-duo);
+}
+
+input.orange:hover,
+button.orange:hover {
+  background: var(--orange-pri);
+}
+
+input.orange:active,
+button.orange:active {
+  background: var(--orange-tri);
+}
+
+.element button:first-child {
+  margin-top: 0;
+}
+
+.ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 3.5rem;
+  font-size: 5rem;
+}
+.ellipsis div {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--main-text-reverse);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.ellipsis div:nth-child(1) {
+  left: 0.5rem;
+  animation: ellipsis1 0.6s infinite;
+}
+.ellipsis div:nth-child(2) {
+  left: 0.5rem;
+  animation: ellipsis2 0.6s infinite;
+}
+.ellipsis div:nth-child(3) {
+  left: 2rem;
+  animation: ellipsis2 0.6s infinite;
+}
+.ellipsis div:nth-child(4) {
+  left: 3.5rem;
+  animation: ellipsis3 0.6s infinite;
+}
+@keyframes ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(1.5rem, 0);
+  }
+}
+</style>
