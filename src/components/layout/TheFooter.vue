@@ -21,7 +21,7 @@ footer {
 }
 
 a {
-  margin-left: 0.25rem;
+  margin-left: 0.375rem;
   color: var(--orange-pri);
 }
 
