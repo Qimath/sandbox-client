@@ -62,10 +62,10 @@ onMounted(() => {})
   position: absolute;
   top: 0;
   right: 0;
-  height: 1.75rem;
-  width: 1.75rem;
+  height: 1.875rem;
+  width: 1.875rem;
   border-radius: 50%;
-  border: 0.25rem solid var(--container-bg);
+  border: 0.375rem solid var(--container-bg);
 }
 
 .website-availability.online {
