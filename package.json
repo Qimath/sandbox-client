@@ -12,6 +12,7 @@
   "dependencies": {
     "crisp-sdk-web": "^1.0.18",
     "crypto-js": "^4.1.1",
+    "openai": "^3.3.0",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-cookies": "^1.8.3",
