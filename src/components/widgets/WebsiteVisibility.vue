@@ -42,7 +42,7 @@ async function debugChatbox() {
 
     const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}`
 
-    let response = await fetch('http://localhost:1337/api', {
+    let response = await fetch('https://crisp-sandbox.netlify.app/.netlify/functions/troubleshoot', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
