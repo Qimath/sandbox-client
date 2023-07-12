@@ -17,6 +17,10 @@
   border-right: 1px solid var(--container-border);
 }
 
+.container.full .card {
+  height: calc(100% - 3rem);
+}
+
 .card.grow {
   width: 100%;
 }

@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <BaseContainer grow>
+  <BaseContainer grow full>
     <template #container>
       <BaseCard>
         <template #card> </template>
@@ -41,12 +41,4 @@ onMounted(() => {
 </teleport>
 </template>
 
-<style scoped>
-.container {
-  height: 100%;
-  max-height: 100%;
-}
-.card {
-  height: calc(100% - 3rem);
-}
-</style>
+<style scoped></style>

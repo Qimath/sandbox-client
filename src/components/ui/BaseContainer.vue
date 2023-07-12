@@ -4,6 +4,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  full: {
+    type: Boolean,
+    default: false
+  },
   width: {
     type: String,
     default: null
@@ -12,7 +16,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="container" :class="{ grow: grow }" ref="container">
+  <div class="container" :class="{ grow: grow, full: full }" ref="container">
     <span class="top-liner"></span>
     <slot name="container"></slot>
     <span class="bottom-liner"></span>
@@ -39,7 +43,13 @@ const props = defineProps({
   max-width: initial;
 }
 
-.top-liner, .bottom-liner {
+.container.full {
+  height: 100%;
+  max-height: 100%;
+}
+
+.top-liner,
+.bottom-liner {
   position: sticky;
   display: flex;
   max-height: 1.5rem;
@@ -47,6 +57,11 @@ const props = defineProps({
   width: 100%;
   background: var(--container-bg);
   z-index: 5;
+}
+
+.container.full .top-liner,
+.container.full .bottom-liner {
+  background: none;
 }
 
 .top-liner {
@@ -61,30 +76,25 @@ const props = defineProps({
   border-top: none;
 }
 
-.container::-webkit-scrollbar
-{
-	width: 1rem;
+.container::-webkit-scrollbar {
+  width: 1rem;
 }
 
-.container::-webkit-scrollbar-track
-{              
-	background-color: var(--main-bg-pri);
+.container::-webkit-scrollbar-track {
+  background-color: var(--main-bg-pri);
 }
 
-.container::-webkit-scrollbar-thumb
-{
-	border-radius: 1rem;
-	background-color: var(--liner-pri);
+.container::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: var(--liner-pri);
   border: 5px solid var(--main-bg-pri);
 }
 
-.container::-webkit-scrollbar-thumb:hover
-{
-	background-color: var(--liner-duo);
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--liner-duo);
 }
 
-.container::-webkit-scrollbar-thumb:active
-{
-	background-color: var(--liner-tri);
+.container::-webkit-scrollbar-thumb:active {
+  background-color: var(--liner-tri);
 }
 </style>

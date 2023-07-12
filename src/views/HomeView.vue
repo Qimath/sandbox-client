@@ -1,12 +1,10 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
-
 import BaseContainer from '../components/ui/BaseContainer.vue'
 import BaseCard from '../components/ui/BaseCard.vue'
 </script>
 
 <template>
-  <BaseContainer grow>
+  <BaseContainer grow full>
     <template #container>
       <BaseCard>
         <template #card>
@@ -17,15 +15,11 @@ import BaseCard from '../components/ui/BaseCard.vue'
 </template>
 
 <style scoped>
-.container {
-  height: 100%;
-  max-height: 100%;
-}
-.card {
-  height: calc(100% - 3rem);
+html[data-theme="light"] .container {
+  background-image: url('../assets/pattern-light.png');
 }
 
-iframe body {
-    background: red!important;
+html[data-theme="dark"] .container {
+  background-image: url('../assets/pattern-dark.png');
 }
 </style>
