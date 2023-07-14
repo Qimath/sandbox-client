@@ -459,7 +459,6 @@ const options = {
     'marigold',
     'poppy'
   ],
-
   avatars: [
     'https://crisp-sandbox.netlify.app/images/avatars/mcfly.png',
     'https://crisp-sandbox.netlify.app/images/avatars/mushu.png',
@@ -470,7 +469,6 @@ const options = {
     'https://crisp-sandbox.netlify.app/images/avatars/inalhya.png',
     'https://crisp-sandbox.netlify.app/images/avatars/harkos.png'
   ],
-
   sendMessage: `Hey there,
       
   I'm having a bit of trouble customizing the color of the chatbox on my website. I want it to match my branding, but I can't figure out how to do it.
@@ -575,7 +573,7 @@ export default function useMethodGenerator(id) {
     'session-email': generateEmail,
     'session-phone': generatePhone,
     'session-company': () => generateCompany(options.companies),
-    'session-avatar': generateAvatar,
+    'session-avatar': generateAvatar(options.avatars),
     'session-data': () => generateData(options.datas, options.values),
     'session-segment': () => generateSegment(options.segments),
     event: generateEvent,
