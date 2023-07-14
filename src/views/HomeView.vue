@@ -67,7 +67,7 @@ const contentVisibility = ref(false)
 const headerAnimation = ref(false)
 
 async function displayContent() {
-  let timeout = guides.length * 200
+  let timeout = guides.length * 175
   if (contentVisibility.value) {
     contentVisibility.value = !contentVisibility.value
     await new Promise((resolve) => setTimeout(resolve, timeout))
