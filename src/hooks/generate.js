@@ -461,14 +461,14 @@ const options = {
   ],
 
   avatars: [
-    'https://crisp-sandbox.netlify.app/assets/avatars/mcfly.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/mushu.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/mira.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/mishka.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/moon.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/eole.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/inalhya.png',
-    'https://crisp-sandbox.netlify.app/assets/avatars/harkos.png'
+    'https://crisp-sandbox.netlify.app/images/avatars/mcfly.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/mushu.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/mira.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/mishka.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/moon.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/eole.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/inalhya.png',
+    'https://crisp-sandbox.netlify.app/images/avatars/harkos.png'
   ],
 
   sendMessage: `Hey there,
@@ -524,7 +524,7 @@ function generateAvatar(avatars) {
     const avatar = avatars[randomAvatarIndex]
     return avatar
   }
-  return 'https://crisp-sandbox.netlify.app/assets/avatars/mcfly.png'
+  return 'https://crisp-sandbox.netlify.app/images/avatars/mcfly.png'
 }
 
 function generateData(datas, values) {
