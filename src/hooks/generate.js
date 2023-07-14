@@ -1,3 +1,6 @@
+import { computed } from 'vue'
+import { useConfigStore } from '../stores/config.js'
+
 const options = {
   adjectives: [
     'Marvelous',
@@ -550,6 +553,28 @@ function generateEvent() {
 }
 
 function generateTrigger() {
+  const configStore = useConfigStore()
+  const websiteConfig = computed(() => configStore.website.config).value
+
+  if (
+    websiteConfig &&
+    websiteConfig.plugins &&
+    websiteConfig.plugins['urn:crisp.im:triggers:0'] &&
+    websiteConfig.plugins['urn:crisp.im:triggers:0'].settings &&
+    websiteConfig.plugins['urn:crisp.im:triggers:0'].settings.triggers
+  ) {
+    const allTriggers = websiteConfig.plugins['urn:crisp.im:triggers:0'].settings.triggers
+
+    const enabledTriggers = Object.keys(allTriggers).filter(
+      (id) => allTriggers[id].enabled === true
+    )
+
+    if (enabledTriggers.length > 0) {
+      const randomTriggerIndex = Math.floor(Math.random() * enabledTriggers.length)
+      return enabledTriggers[randomTriggerIndex]
+    }
+  }
+
   return 'trigger-test'
 }
 
@@ -573,7 +598,7 @@ export default function useMethodGenerator(id) {
     'session-email': generateEmail,
     'session-phone': generatePhone,
     'session-company': () => generateCompany(options.companies),
-    'session-avatar': generateAvatar(options.avatars),
+    'session-avatar': () => generateAvatar(options.avatars),
     'session-data': () => generateData(options.datas, options.values),
     'session-segment': () => generateSegment(options.segments),
     event: generateEvent,
