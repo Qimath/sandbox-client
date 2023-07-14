@@ -84,7 +84,7 @@ input[type="submit"] {
   cursor: pointer
 }
 
-a *, button * {
+a, a *, button, button * {
   cursor: pointer;
 }
 
