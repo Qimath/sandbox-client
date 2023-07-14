@@ -1,3 +1,5 @@
 <script setup></script>
 
-<template>Account</template>
+<template>
+    <div class="view-wrapper"></div>
+</template>

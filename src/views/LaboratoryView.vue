@@ -11,34 +11,36 @@ const { bannerOptions, displayBanner, closeBanner } = useBanner()
 
 onMounted(() => {
   displayBanner({
-      message: 'Access Restricted. You do not have permission to view this content at the moment.',
-      type: 'error',
-      animate: true
-    })
+    message: 'Access Restricted. You do not have permission to view this content at the moment.',
+    type: 'error',
+    animate: true
+  })
 })
 </script>
 
 <template>
-  <BaseContainer grow full>
-    <template #container>
-      <BaseCard>
-        <template #card> </template>
-      </BaseCard>
-    </template>
-  </BaseContainer>
+  <div class="view-wrapper">
+    <BaseContainer grow full>
+      <template #container>
+        <BaseCard>
+          <template #card> </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
 
-  <teleport to="#app">
-  <transition name="banner" mode="out-in">
-    <BaseBanner
-      v-if="bannerOptions.visibility"
-      @bannerClose="closeBanner"
-      :message="bannerOptions.message"
-      :action="bannerOptions.action"
-      :animate="bannerOptions.animate"
-      :type="bannerOptions.type"
-    />
-  </transition>
-</teleport>
+    <teleport to="#app">
+      <transition name="banner" mode="out-in">
+        <BaseBanner
+          v-if="bannerOptions.visibility"
+          @bannerClose="closeBanner"
+          :message="bannerOptions.message"
+          :action="bannerOptions.action"
+          :animate="bannerOptions.animate"
+          :type="bannerOptions.type"
+        />
+      </transition>
+    </teleport>
+  </div>
 </template>
 
 <style scoped></style>

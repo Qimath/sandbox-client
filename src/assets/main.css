@@ -42,6 +42,7 @@ footer,
 nav,
 article,
 section,
+ul,
 form {
   display: flex;
 }

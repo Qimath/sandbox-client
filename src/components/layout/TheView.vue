@@ -1,9 +1,27 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+let transitionName = ref('default-transition')
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'home' || from.name === 'home') {
+    transitionName.value = 'home'
+  } else {
+    transitionName.value = 'default'
+  }
+  next()
+})
 </script>
 
 <template>
   <div class="view">
-    <RouterView />
+    <router-view v-slot="{ Component }">
+      <transition :name="transitionName" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -16,5 +34,32 @@ div.view {
   height: calc(100vh - var(--layout-header-height) - var(--layout-footer-height) - 2rem);
   min-height: calc(100vh - var(--layout-header-height) - var(--layout-footer-height) - 2rem);
   max-height: calc(100vh - var(--layout-header-height) - var(--layout-footer-height) - 2rem);
+}
+
+.view-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.home-enter-active, .home-leave-active {
+  transition: all 0.75s ease;
+}
+.home-enter-from, .home-leave-to {
+  transform: translateY(5%);
+  opacity: 0;
+}
+.home-enter-to, .home-leave-from {
+  transform: translateY(0);
+}
+  
+  
+  .default-enter-active, .default-leave-active {
+  transition: all 0 ease;
+}
+.default-enter-from, .default-leave-to {
+  transform: scale(1);
+}
+.default-enter-to, .default-leave-from {
+  transform: scale(1);
 }
 </style>

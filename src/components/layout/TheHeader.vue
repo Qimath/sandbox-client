@@ -104,7 +104,7 @@ h1 {
   font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.05rem;
 }
 
 h2 {

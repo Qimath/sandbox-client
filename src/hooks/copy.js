@@ -1,6 +1,6 @@
 const TIME_THRESHOLD = 3000
-const COPY_A = 'web'
-const COPY_B = 'npm'
+const COPY_A = 'web copy'
+const COPY_B = 'npm copy'
 
 const functionStates = {
   copyNickname: {

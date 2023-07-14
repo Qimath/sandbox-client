@@ -9,31 +9,33 @@ import WebsitePreview from '../components/widgets/WebsitePreview.vue'
 </script>
 
 <template>
-  <BaseContainer width="50rem">
-    <template #container>
-      <BaseCard>
-        <template #card>
-          <WebsitePreview />
-          <TicketHandler />
-        </template>
-      </BaseCard>
-    </template>
-  </BaseContainer>
-  <BaseContainer grow>
-    <template #container>
-      <BaseCard>
-        <template #card>
-          <WebsiteHandler />
-          <SessionHandler />
-        </template>
-      </BaseCard>
-      <BaseCard>
-        <template #card>
-          <GetHandler />
-        </template>
-      </BaseCard>
-    </template>
-  </BaseContainer>
+  <div class="view-wrapper">
+    <BaseContainer width="50rem">
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <WebsitePreview />
+            <TicketHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+    <BaseContainer grow>
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <WebsiteHandler />
+            <SessionHandler />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <GetHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+  </div>
 </template>
 
 <style scoped></style>

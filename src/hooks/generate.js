@@ -459,6 +459,18 @@ const options = {
     'marigold',
     'poppy'
   ],
+
+  avatars: [
+    'https://crisp-sandbox.netlify.app/assets/avatars/mcfly.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/mushu.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/mira.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/mishka.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/moon.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/eole.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/inalhya.png',
+    'https://crisp-sandbox.netlify.app/assets/avatars/harkos.png'
+  ],
+
   sendMessage: `Hey there,
       
   I'm having a bit of trouble customizing the color of the chatbox on my website. I want it to match my branding, but I can't figure out how to do it.
@@ -485,7 +497,7 @@ function generateNickname(adjectives, nouns) {
     const lastName = nouns[randomNounIndex]
     return `${firstName} ${lastName}`
   }
-  return 'Default Nickname'
+  return 'Chrisp'
 }
 
 function generateEmail() {
@@ -503,11 +515,16 @@ function generateCompany(companies) {
     const company = companies[randomCompanyIndex]
     return company
   }
-  return 'Default Company'
+  return 'La Fistinière'
 }
 
-function generateAvatar() {
-  return 'https://chrisp-sandbox.herokuapp.com/mcfly_pup.png'
+function generateAvatar(avatars) {
+  if (Array.isArray(avatars) && avatars.length > 0) {
+    const randomAvatarIndex = Math.floor(Math.random() * avatars.length)
+    const avatar = avatars[randomAvatarIndex]
+    return avatar
+  }
+  return 'https://crisp-sandbox.netlify.app/assets/avatars/mcfly.png'
 }
 
 function generateData(datas, values) {
@@ -527,7 +544,7 @@ function generateSegment(segments) {
     const segment = segments[randomSegmentIndex]
     return segment
   }
-  return 'Default Segment'
+  return 'segment'
 }
 
 function generateEvent() {
@@ -542,14 +559,14 @@ function generateSendMessage(sendMessage) {
   if (typeof sendMessage === 'string') {
     return sendMessage
   }
-  return 'Default Send Message'
+  return 'Hello world'
 }
 
 function generateShowMessage(showMessage) {
   if (typeof showMessage === 'string') {
     return showMessage
   }
-  return 'Default Show Message'
+  return 'Hello world'
 }
 
 export default function useMethodGenerator(id) {
@@ -561,8 +578,8 @@ export default function useMethodGenerator(id) {
     'session-avatar': generateAvatar,
     'session-data': () => generateData(options.datas, options.values),
     'session-segment': () => generateSegment(options.segments),
-    'event': generateEvent,
-    'trigger': generateTrigger,
+    event: generateEvent,
+    trigger: generateTrigger,
     'send-message': () => generateSendMessage(options.sendMessage),
     'show-message': () => generateShowMessage(options.showMessage)
   }

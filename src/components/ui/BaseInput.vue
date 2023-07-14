@@ -107,7 +107,7 @@ onMounted(() => {
       <span class="material-symbols-outlined">{{ icon }}</span>
       {{ error || success || label }}
     </label>
-    <span v-if="copy" class="copy-type">{{ copyType }}</span>
+    <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
     <span v-if="copy" class="simple material-symbols-outlined" @click="$emit('copy')"
       >content_copy</span
     >
@@ -218,26 +218,43 @@ div > span.simple {
 }
 
 div > span.simple:hover {
-  color: var(--blue-duo);
+  color: var(--green-duo);
 }
 
 div > span.simple:active {
-  color: var(--blue-tri);
+  color: var(--green-tri);
 }
 
 div > span.copy-type {
   display: flex;
   position: absolute;
-  animation: blink 0.5s ease;
+  animation: blink 1s ease;
   align-items: center;
-  right: 100%;
-  top: 0;
-  right: 2rem;
-  color: var(--blue-duo);
-  font-size: 0.875rem;
-  font-weight: 500;
+  justify-content: center;
+  right: -1rem;
+  top: -3.5rem;
   user-select: none;
   -webkit-user-select: none;
+  color: var(--main-text-reverse);
+  background: var(--green-pri);
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: var(--main-shadow) 0 0 8px, var(--main-shadow) 0 0 8px;
+}
+
+div > span.copy-type::after {
+  content: '';
+	position: absolute;
+	bottom: -20%;
+	right: 12%;
+	width: 0;
+	height: 0;
+	border: 1rem solid transparent;
+	border-top-color: var(--green-pri);
+	border-bottom: 0;
 }
 
 div > span.large {

@@ -11,41 +11,43 @@ import WebsiteVisibility from '../components/widgets/WebsiteVisibility.vue'
 </script>
 
 <template>
-  <BaseContainer width="50rem">
-    <template #container>
-      <BaseCard>
-        <template #card>
-          <WebsitePreview />
-          <WebsiteDetails />
-        </template>
-      </BaseCard>
-      <BaseCard>
-        <template #card>
-          <WebsiteVisibility />
-        </template>
-      </BaseCard>
-      <BaseCard>
-        <template #card>
-          <WebsiteSettings />
-        </template>
-      </BaseCard>
-    </template>
-  </BaseContainer>
-  <BaseContainer grow>
-    <template #container>
-      <BaseCard>
-        <template #card>
-          <WebsiteHandler />
-          <SessionHandler />
-        </template>
-      </BaseCard>
-      <BaseCard>
-        <template #card>
-          <GetHandler />
-        </template>
-      </BaseCard>
-    </template>
-  </BaseContainer>
+  <div class="view-wrapper">
+    <BaseContainer width="50rem">
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <WebsitePreview />
+            <WebsiteDetails />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <WebsiteVisibility />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <WebsiteSettings />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+    <BaseContainer grow>
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <WebsiteHandler />
+            <SessionHandler />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <GetHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+  </div>
 </template>
 
 <style scoped></style>

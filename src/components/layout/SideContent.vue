@@ -152,6 +152,9 @@ aside nav section a::before {
   font-weight: 600;
   opacity: 0;
   animation: labelDelay 1s linear;
+  z-index: 1000;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 aside nav section a:hover::before {
@@ -203,6 +206,7 @@ aside nav section a::after {
   display: none;
   opacity: 0;
   content: '';
+  z-index: 1000;
 }
 
 aside nav section a:hover::after {

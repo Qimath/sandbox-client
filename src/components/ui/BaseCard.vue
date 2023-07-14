@@ -18,7 +18,8 @@
 }
 
 .container.full .card {
-  height: calc(100% - 3rem);
+  min-height: calc(100% - 3rem);
+  justify-content: flex-start;
 }
 
 .card.grow {

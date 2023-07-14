@@ -3,7 +3,7 @@
 <template>
   <footer>
     <h3></h3>
-    <p>a simple vue sandbox &nbsp; - &nbsp; full code available on</p>
+    <p>a simple (crisp) sandbox &nbsp; - &nbsp; full code available on</p>
     <a href="https://github.com/Qimath/sandbox-client">Github</a>
   </footer>
 </template>

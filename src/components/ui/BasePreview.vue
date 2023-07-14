@@ -1,16 +1,10 @@
 <script setup>
-import { onMounted } from 'vue'
-
-defineEmits(['refresh'])
-
 const props = defineProps({
   config: {
     type: Object,
     default: {}
   }
 })
-
-onMounted(() => {})
 </script>
 
 <template>
@@ -26,7 +20,7 @@ onMounted(() => {})
   </div>
 </template>
 
-<style>
+<style scoped>
 .website-info {
   flex-direction: row;
   justify-content: center;

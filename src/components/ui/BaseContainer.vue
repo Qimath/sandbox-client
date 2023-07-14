@@ -33,6 +33,7 @@ const props = defineProps({
   overflow-x: hidden;
   background: var(--container-bg);
   max-height: 100%;
+  height: fit-content;
   min-width: 20rem;
   width: v-bind(width);
 }
@@ -45,7 +46,6 @@ const props = defineProps({
 
 .container.full {
   height: 100%;
-  max-height: 100%;
 }
 
 .top-liner,

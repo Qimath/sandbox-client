@@ -68,7 +68,7 @@ async function copyMethod() {
       copyMethod.successTimeoutId = ref(
         setTimeout(() => {
           copyResult.copyType = ''
-        }, 500)
+        }, 1000)
       )
     }
   } catch (error) {

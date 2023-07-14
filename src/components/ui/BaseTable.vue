@@ -138,7 +138,7 @@ div {
   border-top: 0.25rem solid var(--container-bg);
 }
 
-.item-container:first-of-type > .item > .item-name > .title {
+.table > .item-container:first-of-type > .item > .item-name > .title {
   border: none;
 }
 

@@ -15,14 +15,16 @@ async function sendPrompt(input) {
       content: `
     You are an assistant that supports the Crisp technical support team. You are tasked with analyzing data and determining whether the Crisp chatbox is visible or not. Here are the rules you need to follow:
 
-    1. If 'hide_vacation' is true, the chatbox is hidden everywhere.
-    2. If 'hide_on_away' is true and 'online' is false, the chatbox is hidden.
-    3. If 'check_domain' is true, the chatbox is only visible on the 'website_url' domain.
-    4. If 'allowed_pages' are specified, the chatbox is only visible on these pages.
-    5. If a page is listed in 'blocked_pages', the chatbox is not visible on this page.
-    6. If 'blocked_countries' or 'blocked_locales' match the user's location or browser language, the chatbox is hidden.
-    7. If the user's IP is listed in 'blocked_ips', the chatbox is hidden.
-    8. 'hide_on_mobile' hides the chatbox on mobile devices.
+    1. If 'online' is false, the support is away. The chatbox stays visible nonetheless, unless 'hide_on_away' is true.
+    2. If 'hide_vacation' is true, the chatbox is hidden everywhere.
+    3. If 'hide_on_away' is true and 'online' is false, the chatbox is hidden.
+    4. If 'check_domain' is true, the chatbox is only visible on the 'website_url' domain.
+    5. If 'allowed_pages' are specified, the chatbox is only visible on these pages.
+    6. If a page is listed in 'blocked_pages', the chatbox is not visible on this page.
+    7. If 'blocked_countries' or 'blocked_locales' match the user's location or browser language, the chatbox is hidden.
+    8. If the user's IP is listed in 'blocked_ips', the chatbox is hidden.
+    9. 'hide_on_mobile' hides the chatbox on mobile devices.
+    10. If 'online' is false, and 'hide_on_away' is false, the chatbox will be visible.
 
     Start by stating whether the chatbox should be visible on the 'current_page'. Then list any pages, countries, languages, or IPs where the chatbox will be hidden. Use HTML line breaks to separate items and avoid unnecessary phrases. Remain professional but lively in your responses.
        
@@ -173,7 +175,7 @@ async function sendPrompt(input) {
       content: `
       current page: http://localhost:5173/debug?
       website settings:
-      online: online,
+      online: true,
       website_url: theenergycompany.com,
       hide_vacation: false,
       hide_on_away: false,
@@ -207,7 +209,7 @@ async function sendPrompt(input) {
       content: `
       current page: http://localhost:5173/debug?
       website settings:
-      online: offline,
+      online: false,
       website_url: ,
       hide_vacation: true,
       hide_on_away: false,

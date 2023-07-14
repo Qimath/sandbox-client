@@ -44,8 +44,8 @@ const props = defineProps({
 dialog {
   position: fixed;
   top: 20vh;
-  left: 30%;
-  width: 40%;
+  left: 40%;
+  width: 30%;
   z-index: 500;
   border-radius: 0.25rem;
   border: none;
@@ -87,7 +87,7 @@ span {
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .modal-enter-from,
@@ -98,7 +98,7 @@ span {
 
 .backdrop-enter-active,
 .backdrop-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .backdrop-enter-from,
