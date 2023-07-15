@@ -249,7 +249,6 @@ async function sendPrompt(input) {
       <p>Unfortunately your last response was wrong. Even if 'online' is false, the chatbox remains visible unless 'hide_on_away' is enabled, which is not the case here.</p>
       <p>Therefore, in this case the chatbox was visible. <br>
       You need to pay attention to how settings interact between each others.</p>
-      ,
       `
     },
     {
@@ -259,7 +258,6 @@ async function sendPrompt(input) {
       If 'online' is true, the chatbox will be visible regardless if 'hide_on_away' is set to true or not. <br>
       If 'online' is false (support is offline), the chatbox will still be visible, unless 'hide_on_away' is true, and only if it is true.</p>
       <p>You are indeed correct, and the chatbox was visible in this case, especially as Vacation mode was disabled and there was no other restrictions present.</p>
-      ,
       `
     },
     {
