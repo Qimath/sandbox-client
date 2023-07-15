@@ -1,5 +1,5 @@
 <script setup>
-const emits = defineEmits(['generate'])
+const emits = defineEmits(['generate', 'copy'])
 const props = defineProps({
   button: {
     type: Boolean,
@@ -20,29 +20,54 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  copy: {
+    type: Boolean,
+    default: false
+  },
+  copyType: {
+    type: String,
+    default: ''
   }
 })
 </script>
 
 <template>
-  <button v-if="button" :id="id" :class="color" type="button">
-    <span v-if="loading">
-      ‎ 
-      <div class="ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </span>
-    <span v-else>
-      {{ value }}
-    </span>
-  </button>
-  <input v-else :id="id" :value="value" :class="color" type="submit" />
+  <div class="btn-container">
+    <button v-if="button" :id="id" :class="color" type="button">
+      <span v-if="loading">
+        ‎
+        <div class="ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </span>
+      <span v-else>
+        {{ value }}
+      </span>
+    </button>
+
+    <input v-else :id="id" :value="value" :class="color" type="submit" />
+
+    <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
+    <span v-if="copy" class="simple material-symbols-outlined" @click.stop="$emit('copy')"
+      >content_copy</span
+    >
+  </div>
 </template>
 
 <style scoped>
+div {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+div:first-of-type {
+  margin-top: 0;
+}
+
 input,
 button {
   width: 100%;
@@ -50,7 +75,6 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.0625rem;
   transition: background-color 0.1s linear;
-  margin-top: 0.75rem;
   cursor: pointer;
   justify-content: center;
   border: none;
@@ -119,24 +143,85 @@ button.green:active {
   background: var(--green-tri);
 }
 
-
 input.orange,
-button.orange {
+button.orange,
+input.orange + span.simple,
+button.orange + span.simple {
   background: var(--orange-duo);
 }
 
 input.orange:hover,
-button.orange:hover {
+button.orange:hover,
+input.orange + span.simple:hover,
+button.orange + span.simple:hover {
   background: var(--orange-pri);
 }
 
 input.orange:active,
-button.orange:active {
+button.orange:active,
+input.orange + span.simple:active,
+button.orange + span.simple:active {
   background: var(--orange-tri);
 }
 
 .element button:first-child {
   margin-top: 0;
+}
+
+span.simple {
+  position: absolute;
+  padding: 1rem;
+  right: 0;
+  top: 0;
+  justify-content: flex-end;
+  font-size: 1.25rem;
+  color: var(--main-text-reverse);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.1s linear;
+  height: 100%;
+  width: 3.25rem;
+  border-left: 2px solid hsla(0, 0%, 0%, 0.1);
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+span.copy-type {
+  display: flex;
+  position: absolute;
+  animation: blink 1s ease;
+  align-items: center;
+  justify-content: center;
+  right: calc(3.125 + 1px);
+  top: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  color: var(--main-text-reverse);
+  background: var(--green-pri);
+  padding: 0.625rem 1.25rem 0.875rem 4.5rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  z-index: 1000;
+  width: calc(100% - 3.125rem);
+  height: 100%;
+  box-shadow: var(--main-shadow) 0 0 8px, var(--main-shadow) 0 0 8px;
+}
+
+span.copy-type::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: 0;
+  top: 50%;
+  border: 0.75rem solid transparent;
+  border-left-color: var(--green-pri);
+  border-right: 0;
+  margin-top: -0.75rem;
+  margin-right: -0.5rem;
 }
 
 .ellipsis {

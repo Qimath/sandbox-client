@@ -1,52 +1,87 @@
 <script setup>
-import { Crisp } from "crisp-sdk-web"
+import { computed, reactive, ref } from 'vue'
+import { useMethodsStore } from '../../stores/methods.js'
+
+import useMethodPusher from '../../hooks/push.js'
+import useMethodCopier from '../../hooks/copy.js'
+
 import BaseButton from '../ui/BaseButton.vue'
 
-function doShow() {
-  Crisp.chat.show();
+const methodsStore = useMethodsStore()
+
+const doMethods = computed(() => ({
+  showChatbox: methodsStore.showChatbox,
+  hideChatbox: methodsStore.hideChatbox,
+  openChatbox: methodsStore.openChatbox,
+  closeChatbox: methodsStore.closeChatbox,
+  swapLeft: methodsStore.swapLeft,
+  swapRight: methodsStore.swapRight,
+  mute: methodsStore.mute,
+  unmute: methodsStore.unmute
+}))
+
+const copyResults = reactive({})
+const successTimeoutIds = reactive({})
+
+
+async function copyMethod(id) {
+  if (!copyResults[id]) {
+    copyResults[id] = reactive({ copyType: '' })
+  }
+
+  copyResults[id].copyType = ''
+
+  try {
+    const result = await useMethodCopier(id)
+    if (result) {
+      setTimeout(() => {
+        Object.assign(copyResults[id], result)
+        navigator.clipboard.writeText(copyResults[id].copyValue)
+      }, 1)
+
+      if (successTimeoutIds[id]) {
+        clearTimeout(successTimeoutIds[id].value)
+      }
+
+      successTimeoutIds[id] = ref(
+        setTimeout(() => {
+          copyResults[id].copyType = ''
+        }, 1000)
+      )
+    }
+  } catch (error) {
+    console.error('An app error occurred:', error)
+  }
 }
 
-function doHide() {
-  Crisp.chat.hide();
-}
+async function pushMethod(id) {
+  try {
+    const result = await useMethodPusher(id)
 
-function doOpen() {
-  Crisp.chat.open();
-}
-
-function doClose() {
-  Crisp.chat.close('left');
-}
-
-function doSwapLeft() {
-  Crisp.setPosition("left");
-}
-
-function doSwapRight() {
-  Crisp.setPosition("right");
-}
-
-function doMute() {
-  Crisp.muteSound(true);
-}
-
-function doUnmute() {
-  Crisp.muteSound(false);
+    if (result) {
+      return
+    }
+  } catch (error) {
+    console.error('An app error occurred:', error)
+  }
 }
 </script>
 
 <template>
   <div class="element">
     <form @submit.prevent="" name="do-method">
-      <BaseButton id="chat-show" value="show" color="orange" button @click="doShow" />
-      <BaseButton id="chat-hide" value="hide" color="orange" button @click="doHide" />
-      <BaseButton id="chat-open" value="open" color="orange" button @click="doOpen" />
-      <BaseButton id="chat-close" value="close" color="orange" button @click="doClose" />
-      <BaseButton id="chat-position" value="swap left" color="orange" button @click="doSwapLeft" />
-      <BaseButton id="chat-position" value="swap right" color="orange" button @click="doSwapRight" />
-      <BaseButton id="chat-position" value="mute" color="orange" button @click="doMute" />
-      <BaseButton id="chat-position" value="unmute" color="orange" button @click="doUnmute" />
-
+      <BaseButton
+        v-for="(method, key) in doMethods"
+        :key="key"
+        :id="method.id"
+        :value="key"
+        color="orange"
+        button
+        @click="pushMethod(method.id)"
+        copy
+        :copyType="copyResults[method.id]?.copyType"
+        @copy="copyMethod(method.id)"
+      />
     </form>
   </div>
 </template>

@@ -44,8 +44,8 @@ const props = defineProps({
 dialog {
   position: fixed;
   top: 20vh;
-  left: 40%;
-  width: 30%;
+  left: 30%;
+  width: 40%;
   z-index: 500;
   border-radius: 0.25rem;
   border: none;
@@ -72,7 +72,7 @@ h3 {
 }
 
 section {
-  padding: 3rem;
+  padding: 3.5rem;
   width: 100%;
   flex-direction: column;
 }

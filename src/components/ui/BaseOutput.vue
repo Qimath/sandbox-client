@@ -196,7 +196,7 @@ span.refresh {
   right: 0;
   top: 0;
   transition: all 0.1s linear;
-  padding: 0.375rem;
+  padding: 0.75rem;
   z-index: 1;
   user-select: none;
   -webkit-user-select: none;
@@ -212,7 +212,7 @@ span.refresh:active {
 }
 
 div:first-child,
-div + div {
+div:not(.btn-container) + div {
   margin-top: 0;
 }
 

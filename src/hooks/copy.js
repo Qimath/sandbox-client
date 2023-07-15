@@ -46,6 +46,38 @@ const functionStates = {
   copyShowMessage: {
     lastClickTime: null,
     useAlternateCopy: false
+  },
+  copyShowChatbox: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copyHideChatbox: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copyOpenChatbox: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copyCloseChatbox: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copySwapLeft: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copySwapRight: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copyMute: {
+    lastClickTime: null,
+    useAlternateCopy: false
+  },
+  copyUnmute: {
+    lastClickTime: null,
+    useAlternateCopy: false
   }
 }
 
@@ -201,6 +233,94 @@ function copyShowMessage(value = '') {
   }
 }
 
+function copyShowChatbox() {
+  const copyType = getCopyType('copyShowChatbox')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["do", "chat:show"]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.chat.show();` }
+  }
+}
+
+function copyHideChatbox() {
+  const copyType = getCopyType('copyHideChatbox')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["do", "chat:hide"]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.chat.hide();` }
+  }
+}
+
+function copyOpenChatbox() {
+  const copyType = getCopyType('copyOpenChatbox')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["do", "chat:open"]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.chat.open();` }
+  }
+}
+
+function copyCloseChatbox() {
+  const copyType = getCopyType('copyCloseChatbox')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["do", "chat:close"]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.chat.close();` }
+  }
+}
+
+function copySwapLeft() {
+  const copyType = getCopyType('copySwapLeft')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["config", "position:reverse", [true]]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.setPosition("left");` }
+  }
+}
+
+function copySwapRight() {
+  const copyType = getCopyType('copySwapRight')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["config", "position:reverse", [false]]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.setPosition("right");` }
+  }
+}
+
+function copyMute() {
+  const copyType = getCopyType('copyMute')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["config", "sound:mute", [true]]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.muteSound(true);` }
+  }
+}
+
+function copyUnmute() {
+  const copyType = getCopyType('copyUnmute')
+
+  switch (copyType) {
+    case COPY_A:
+      return { copyType, copyValue: `$crisp.push(["config", "sound:mute", [false]]);` }
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.muteSound(false);` }
+  }
+}
+
 export default function useMethodCopier(id, value) {
   const copiers = {
     'session-nickname': () => copyNickname(value),
@@ -213,7 +333,15 @@ export default function useMethodCopier(id, value) {
     event: () => copyEvent(value),
     trigger: () => copyTrigger(value),
     'send-message': () => copySendMessage(value),
-    'show-message': () => copyShowMessage(value)
+    'show-message': () => copyShowMessage(value),
+    'show-chatbox': () => copyShowChatbox(),
+    'hide-chatbox': () => copyHideChatbox(),
+    'open-chatbox': () => copyOpenChatbox(),
+    'close-chatbox': () => copyCloseChatbox(),
+    'swap-left': () => copySwapLeft(),
+    'swap-right': () => copySwapRight(),
+    mute: () => copyMute(),
+    unmute: () => copyUnmute()
   }
 
   return copiers[id] ? copiers[id]() : null

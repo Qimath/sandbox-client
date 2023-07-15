@@ -65,6 +65,39 @@ export const useMethodsStore = defineStore({
       label: 'Show message',
       icon: 'mark_as_unread'
     }
+    ,
+    showChatbox: {
+      id: 'show-chatbox',
+      label: 'Show chatbox'
+    },
+    hideChatbox: {
+      id: 'hide-chatbox',
+      label: 'Hide chatbox'
+    },
+    openChatbox: {
+      id: 'open-chatbox',
+      label: 'Open chatbox'
+    },
+    closeChatbox: {
+      id: 'close-chatbox',
+      label: 'Close chatbox'
+    },
+    swapLeft: {
+      id: 'swap-left',
+      label: 'Swap left'
+    },
+    swapRight: {
+      id: 'swap-right',
+      label: 'Swap right'
+    },
+    mute: {
+      id: 'mute',
+      label: 'Mute'
+    },
+    unmute: {
+      id: 'unmute',
+      label: 'Unmute'
+    }
   }),
 
   getters: {

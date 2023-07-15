@@ -182,6 +182,118 @@ function pushShowMessage(value) {
   }
 }
 
+function doShowChatbox() {
+  const result = reactive({})
+
+  try {
+    Crisp.chat.show()
+    result.success = 'Chatbox showed'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doHideChatbox() {
+  const result = reactive({})
+
+  try {
+    Crisp.chat.hide()
+    result.success = 'Chatbox hidden'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doOpenChatbox() {
+  const result = reactive({})
+
+  try {
+    Crisp.chat.open()
+    result.success = 'Chatbox opened'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doCloseChatbox() {
+  const result = reactive({})
+
+  try {
+    Crisp.chat.close()
+    result.success = 'Chatbox closed'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doSwapLeft() {
+  const result = reactive({})
+
+  try {
+    Crisp.setPosition("left");
+    result.success = 'Chatbox swapped left'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doSwapRight() {
+  const result = reactive({})
+
+  try {
+    Crisp.setPosition("right");
+    result.success = 'Chatbox swapped right'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doMute() {
+  const result = reactive({})
+
+  try {
+    Crisp.muteSound(true);
+    result.success = 'Chatbox sounds muted'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
+function doUnmute() {
+  const result = reactive({})
+
+  try {
+    Crisp.muteSound(false);
+    result.success = 'Chatbox sounds unmuted'
+    return result
+  } catch (error) {
+    console.error(error)
+    result.error = error.message
+    return result
+  }
+}
+
 export default function useMethodPusher(id, value) {
   const pushers = {
     'session-nickname': () => pushNickname(value),
@@ -194,7 +306,15 @@ export default function useMethodPusher(id, value) {
     'event': () => pushEvent(value),
     'trigger': () => pushTrigger(value),
     'send-message': () => pushSendMessage(value),
-    'show-message': () => pushShowMessage(value)
+    'show-message': () => pushShowMessage(value),
+    'show-chatbox': () => doShowChatbox(),
+    'hide-chatbox': () => doHideChatbox(),
+    'open-chatbox': () => doOpenChatbox(),
+    'close-chatbox': () => doCloseChatbox(),
+    'swap-left': () => doSwapLeft(),
+    'swap-right': () => doSwapRight(),
+    mute: () => doMute(),
+    unmute: () => doUnmute()
   }
 
   return pushers[id] ? pushers[id]() : null

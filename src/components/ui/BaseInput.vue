@@ -218,11 +218,11 @@ div > span.simple {
 }
 
 div > span.simple:hover {
-  color: var(--green-duo);
+  color: var(--green-pri);
 }
 
 div > span.simple:active {
-  color: var(--green-tri);
+  color: var(--green-duo);
 }
 
 div > span.copy-type {
@@ -231,13 +231,13 @@ div > span.copy-type {
   animation: blink 1s ease;
   align-items: center;
   justify-content: center;
-  right: -1rem;
-  top: -3.5rem;
+  right: 2.5rem;
+  top: -0.625rem;
   user-select: none;
   -webkit-user-select: none;
   color: var(--main-text-reverse);
   background: var(--green-pri);
-  padding: 0.625rem 1.25rem;
+  padding: 0.625rem 1.25rem 0.875rem 1.25rem;
   border-radius: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
@@ -248,13 +248,15 @@ div > span.copy-type {
 div > span.copy-type::after {
   content: '';
 	position: absolute;
-	bottom: -20%;
-	right: 12%;
 	width: 0;
 	height: 0;
-	border: 1rem solid transparent;
-	border-top-color: var(--green-pri);
-	border-bottom: 0;
+	right: 0;
+	top: 50%;
+	border: 0.75rem solid transparent;
+	border-left-color: var(--green-pri);
+	border-right: 0;
+	margin-top: -0.75rem;
+	margin-right: -0.5rem;
 }
 
 div > span.large {
