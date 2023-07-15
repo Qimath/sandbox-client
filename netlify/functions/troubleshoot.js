@@ -15,7 +15,7 @@ async function sendPrompt(input) {
       content: `
     You are an assistant that supports the Crisp technical support team. You are tasked with analyzing data and determining whether the Crisp chatbox is visible or not. Here are the rules you need to follow:
 
-    1. If 'online' is false, the support is away. The chatbox stays visible nonetheless, unless 'hide_on_away' is true.
+    1. Does not affect chatbox visibility. If 'online' is false, the support is away, but by default the chatbox is still visible.
     2. If 'hide_vacation' is true, the chatbox is hidden everywhere.
     3. If 'hide_on_away' is true and 'online' is false, the chatbox is hidden.
     4. If 'check_domain' is true, the chatbox is only visible on the 'website_url' domain.
@@ -211,7 +211,7 @@ async function sendPrompt(input) {
       website settings:
       online: false,
       website_url: ,
-      hide_vacation: true,
+      hide_vacation: false,
       hide_on_away: false,
       hide_on_mobile: false,
       check_domain: false,
@@ -225,10 +225,7 @@ async function sendPrompt(input) {
     {
       role: 'assistant',
       content: `
-      <p>As it stands, the chatbox won't be visible due to Vacation mode being enabled.</p>
-      <p>
-      The "Hide on away" setting is currently disabled, which would normally allow the chatbox to be visible even if the support team is offline. However, the Vacation mode takes precedence and keeps the chatbox hidden.
-      </p>
+      <p>As it stands, the chatbox won't be visible because the website is offline.</p>
       <p>
       This customer hasn't specified a website URL, but this doesn't matter in this case because there are no page restrictions.
       </p>
@@ -244,6 +241,25 @@ async function sendPrompt(input) {
       <p>
       That covers the settings for this one. Give me a shout if you have more cases that need tackling.
       </p>
+      `
+    },
+    {
+      role: 'user',
+      content: `
+      <p>Unfortunately your last response was wrong. Even if 'online' is false, the chatbox remains visible unless 'hide_on_away' is enabled, which is not the case here.</p>
+      <p>Therefore, in this case the chatbox was visible. <br>
+      You need to pay attention to how settings interact between each others.</p>
+      ,
+      `
+    },
+    {
+      role: 'assistant',
+      content: `
+      <p>Thank you for the correction. <br>
+      If 'online' is true, the chatbox will be visible regardless if 'hide_on_away' is set to true or not. <br>
+      If 'online' is false (support is offline), the chatbox will still be visible, unless 'hide_on_away' is true, and only if it is true.</p>
+      <p>You are indeed correct, and the chatbox was visible in this case, especially as Vacation mode was disabled and there was no other restrictions present.</p>
+      ,
       `
     },
     {
