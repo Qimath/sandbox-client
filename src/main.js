@@ -25,7 +25,7 @@ app.use(
     domain: 'qimath.eu.auth0.com',
     clientId: 'zZubwhjaJQXhX3hV2Qvt3MPm49wicuNV',
     authorizationParams: {
-      redirect_uri: 'https://crisp-sandbox.netlify.app/account'
+      redirect_uri: window.location.origin + '/account'
     }
   })
 )

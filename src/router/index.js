@@ -66,6 +66,11 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  console.log(`Navigating from ${from.fullPath} to ${to.fullPath}`)
+  next()
+})
+
 // Navigation Guard to close the banner when navigating to a different view
 router.beforeEach((to, from, next) => {
   const { closeBanner } = useBanner()
@@ -76,14 +81,13 @@ router.beforeEach((to, from, next) => {
 // Navigation Guard to check if a website_id was passed in the url
 // This id will be stored and used to load the proper website in the Crisp plugin
 router.beforeEach((to, from, next) => {
-  const websiteId = to.query.website_id;
+  const websiteId = to.query.website_id
 
   if (websiteId) {
-    const configStore = useConfigStore();
-    configStore.setWebsiteIdAndSecrets(websiteId);
+    const configStore = useConfigStore()
+    configStore.setWebsiteIdAndSecrets(websiteId)
   }
-
-  next();
-});
+  next()
+})
 
 export default router
