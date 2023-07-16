@@ -73,7 +73,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="{ error: !!error, success: !!success }">
+  <div class="input-wrapper" :class="{ error: !!error, success: !!success }">
     <textarea
       v-if="textarea"
       placeholder=" "
@@ -119,6 +119,14 @@ onMounted(() => {
 div {
   flex-direction: column;
   width: 100%;
+}
+
+div.input-wrapper + div.input-wrapper {
+  margin-top: 0.75rem;
+}
+
+.dual div.input-wrapper + div.input-wrapper {
+  margin-top: 0;
 }
 
 dialog div + div {

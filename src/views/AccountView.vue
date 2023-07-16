@@ -1,27 +1,20 @@
 <script setup>
-import useNetlifyIdentity from '../hooks/identity.js'
-
-const { user, login, logout, signup } = useNetlifyIdentity()
+import BaseContainer from '../components/ui/BaseContainer.vue'
+import BaseCard from '../components/ui/BaseCard.vue'
+import AccountHandler from '../components/widgets/AccountHandler.vue'
 </script>
 
 <template>
   <div class="view-wrapper">
-    <div>
-      <button @click="login">Log in</button>
-    </div>
-
-    <div>
-      <button @click="signup">Sign up</button>
-    </div>
-
-    <div>
-      <button @click="logout">Log out</button>
-    </div>
-
-    <div v-if="user">
-      <h2>User Details</h2>
-      <p>Email: {{ user.email }}</p>
-    </div>
+    <BaseContainer grow full>
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <AccountHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
   </div>
 </template>
 
