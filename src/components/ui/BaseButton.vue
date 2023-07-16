@@ -62,6 +62,8 @@ const props = defineProps({
 div {
   margin-top: 0.75rem;
   width: 100%;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 div:first-of-type {
@@ -172,8 +174,6 @@ span.simple {
   position: absolute;
   padding: 1rem;
   right: 0;
-  top: 0;
-  justify-content: flex-end;
   font-size: 1.25rem;
   color: var(--main-text-reverse);
   cursor: pointer;
@@ -190,24 +190,23 @@ span.simple {
 span.copy-type {
   display: flex;
   position: absolute;
-  animation: blink 1s ease;
   align-items: center;
   justify-content: center;
-  right: calc(3.125 + 1px);
+  right: calc(3.25rem);
   top: 0;
   user-select: none;
   -webkit-user-select: none;
   color: var(--main-text-reverse);
   background: var(--green-pri);
-  padding: 0.625rem 1.25rem 0.875rem 4.5rem;
+  padding: 0 0 0.25rem 3.25rem;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
-  z-index: 1000;
-  width: calc(100% - 3.125rem);
+  z-index: 100;
+  width: calc(100% - 3.25rem + 1px);
   height: 100%;
-  box-shadow: var(--main-shadow) 0 0 8px, var(--main-shadow) 0 0 8px;
+  box-shadow: var(--main-shadow) 0 0 0.5rem, var(--main-shadow) 0 0 0.5rem;
 }
 
 span.copy-type::after {
@@ -222,6 +221,7 @@ span.copy-type::after {
   border-right: 0;
   margin-top: -0.75rem;
   margin-right: -0.5rem;
+  z-index: 100;
 }
 
 .ellipsis {
@@ -254,6 +254,7 @@ span.copy-type::after {
   left: 3.5rem;
   animation: ellipsis3 0.6s infinite;
 }
+
 @keyframes ellipsis1 {
   0% {
     transform: scale(0);

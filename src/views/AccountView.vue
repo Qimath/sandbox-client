@@ -1,19 +1,7 @@
 <script setup>
-import { useAuth0 } from '@auth0/auth0-vue'
+import useNetlifyIdentity from '../hooks/identity.js'
 
-const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0()
-
-const login = () => {
-  loginWithRedirect()
-}
-
-const handleLogout = () => {
-  logout({
-    logoutParams: {
-      returnTo: window.location.origin + '/account'
-    }
-  })
-}
+const { user, login, logout, signup } = useNetlifyIdentity()
 </script>
 
 <template>
@@ -23,15 +11,18 @@ const handleLogout = () => {
     </div>
 
     <div>
-      <button @click="handleLogout">Log out</button>
+      <button @click="signup">Sign up</button>
     </div>
 
     <div>
-      <h2>User Profile</h2>
-      <pre v-if="isAuthenticated"><code>{{ user }}</code></pre>
+      <button @click="logout">Log out</button>
+    </div>
+
+    <div v-if="user">
+      <h2>User Details</h2>
+      <p>Email: {{ user.email }}</p>
     </div>
   </div>
 </template>
 
 <style scoped></style>
-

@@ -228,7 +228,6 @@ div > span.simple:active {
 div > span.copy-type {
   display: flex;
   position: absolute;
-  animation: blink 1s ease;
   align-items: center;
   justify-content: center;
   right: 2.5rem;
@@ -241,8 +240,8 @@ div > span.copy-type {
   border-radius: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
-  z-index: 1000;
-  box-shadow: var(--main-shadow) 0 0 8px, var(--main-shadow) 0 0 8px;
+  z-index: 100;
+  box-shadow: var(--main-shadow) 0 0 0.5rem, var(--main-shadow) 0 0 0.5rem;
 }
 
 div > span.copy-type::after {
@@ -257,6 +256,7 @@ div > span.copy-type::after {
 	border-right: 0;
 	margin-top: -0.75rem;
 	margin-right: -0.5rem;
+  z-index: 100;
 }
 
 div > span.large {
@@ -345,21 +345,6 @@ div.error textarea {
   }
   100% {
     transform: translateX(0);
-  }
-}
-
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
   }
 }
 

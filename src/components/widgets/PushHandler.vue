@@ -51,8 +51,6 @@ watch(
 )
 
 async function copyMethod() {
-  copyResult.copyType = ''
-
   try {
     const result = await useMethodCopier(selectedMethod.id, selectedMethod.value)
     if (result) {

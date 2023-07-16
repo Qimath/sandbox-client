@@ -29,8 +29,6 @@ async function copyMethod(id) {
     copyResults[id] = reactive({ copyType: '' })
   }
 
-  copyResults[id].copyType = ''
-
   try {
     const result = await useMethodCopier(id)
     if (result) {
@@ -40,7 +38,7 @@ async function copyMethod(id) {
       }, 1)
 
       if (successTimeoutIds[id]) {
-        clearTimeout(successTimeoutIds[id].value)
+        clearTimeout(successTimeoutIds[id])
       }
 
       successTimeoutIds[id] = ref(
@@ -74,7 +72,7 @@ async function pushMethod(id) {
         v-for="(method, key) in doMethods"
         :key="key"
         :id="method.id"
-        :value="key"
+        :value="method.label"
         color="orange"
         button
         @click="pushMethod(method.id)"

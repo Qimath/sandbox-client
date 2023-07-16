@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import { createAuth0 } from '@auth0/auth0-vue'
+// import { createAuth0 } from '@auth0/auth0-vue'
 
 import { useConfigStore } from './stores/config.js'
 import { useUserStore } from './stores/user.js'
@@ -20,15 +20,15 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VueCookies)
-app.use(
-  createAuth0({
-    domain: 'qimath.eu.auth0.com',
-    clientId: 'zZubwhjaJQXhX3hV2Qvt3MPm49wicuNV',
-    authorizationParams: {
-      redirect_uri: window.location.origin + '/account'
-    }
-  })
-)
+// app.use(
+//   createAuth0({
+//     domain: 'qimath.eu.auth0.com',
+//     clientId: 'zZubwhjaJQXhX3hV2Qvt3MPm49wicuNV',
+//     authorizationParams: {
+//       redirect_uri: window.location.origin + '/account'
+//     }
+//   })
+// )
 
 const userStore = useUserStore()
 const configStore = useConfigStore()
