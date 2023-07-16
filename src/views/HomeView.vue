@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { nextTick, ref, reactive } from 'vue'
 
 import BaseContainer from '../components/ui/BaseContainer.vue'
 import BaseCard from '../components/ui/BaseCard.vue'
@@ -63,21 +63,32 @@ const guides = reactive([
   }
 ])
 
-const contentVisibility = ref(false)
-const headerAnimation = ref(false)
+const states = reactive({
+  contentVisible: false,
+  headerShrunk: false,
+  inTransition: false
+})
 
-async function displayContent() {
-  let timeout = guides.length * 175
-  if (contentVisibility.value) {
-    contentVisibility.value = !contentVisibility.value
-    await new Promise((resolve) => setTimeout(resolve, timeout))
-    headerAnimation.value = !headerAnimation.value
+const toggleContentVisibility = async () => {
+  states.inTransition = true
+  await nextTick()
+
+  if (states.contentVisible) {
+    states.contentVisible = false
+    states.headerShrunk = false
+    await pause(1000)
   } else {
-    headerAnimation.value = !headerAnimation.value
-    await new Promise((resolve) => setTimeout(resolve, timeout))
-    contentVisibility.value = !contentVisibility.value
+    states.headerShrunk = true
+    await pause(1000)
+    states.contentVisible = true
+    await pause(1000)
   }
+
+  states.inTransition = false
 }
+
+// Helper function to pause execution
+const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration))
 </script>
 
 <template>
@@ -86,11 +97,14 @@ async function displayContent() {
       <template #container>
         <BaseCard>
           <template #card>
-            <div class="home-header" :class="{ shrink: headerAnimation }">
+            <div
+              class="home-header"
+              :class="{ shrink: states.headerShrunk, animated: states.inTransition }"
+            >
               <h1>a simple (crisp) sandbox</h1>
               <h2>quick and easy way to test, replicate or troubleshoot chatbox issues</h2>
               <div>
-                <a href="#" @click="displayContent">Getting Started</a>
+                <a href="#" @click.prevent="toggleContentVisibility">Getting Started</a>
                 <span class="separator">|</span>
                 <router-link to="/methods">Start Playing</router-link>
               </div>
@@ -98,7 +112,7 @@ async function displayContent() {
             <div class="home-content">
               <transition-group name="home-content" tag="div">
                 <BaseGuide
-                  v-if="contentVisibility"
+                  v-if="states.contentVisible"
                   v-for="(guide, index) in guides"
                   :key="index"
                   :img="guide.img"
@@ -127,13 +141,16 @@ html[data-theme='dark'] .container {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 1s cubic-bezier(0.5, 0, 0.2, 1);
-  top: 30%;
+  margin-top: 25vh;
   margin-bottom: 5rem;
 }
 
 .home-header.shrink {
-  top: 0;
+  margin-top: 5vh;
+}
+
+.home-header.animated {
+  transition: margin-top 1s cubic-bezier(0.5, 0, 0.2, 1);
 }
 
 .home-header h1 {
@@ -192,7 +209,7 @@ html[data-theme='dark'] .container {
 
 .home-content-enter-active {
   animation: moveInLeft 0.5s ease both;
-  animation-delay: calc(var(--i) * 0.2s);
+  animation-delay: calc(var(--i) * 0.25s);
 }
 
 .home-content-enter-active:nth-child(2n) {
@@ -222,32 +239,16 @@ html[data-theme='dark'] .container {
 }
 
 .home-content-leave-active {
-  animation: moveOutLeft 0.5s ease both;
-  animation-delay: calc((var(--total) - var(--i)) * 0.2s);
+  animation: moveOutDown 1s ease both;
 }
 
-.home-content-leave-active:nth-child(2n) {
-  animation-name: moveOutRight;
-}
-
-@keyframes moveOutLeft {
+@keyframes moveOutDown {
   0% {
-    transform: translateX(0);
+    transform: translate(0, 0);
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%);
-    opacity: 0;
-  }
-}
-
-@keyframes moveOutRight {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(50%);
+    transform: translate(0, 100%);
     opacity: 0;
   }
 }

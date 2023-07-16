@@ -95,7 +95,7 @@ watch(
 </script>
 
 <template>
-  <div
+  <section
     class="output-container"
     :class="{
       compact: compact,
@@ -124,17 +124,17 @@ watch(
     <span v-if="refresh" class="refresh material-symbols-outlined" @click="$emit('refresh')"
       >refresh</span
     >
-  </div>
+    </section>
 </template>
 
 <style scoped>
-div {
+section {
   flex-direction: column;
   margin-top: 0.75rem;
   width: 100%;
 }
 
-div > div {
+section > section {
   margin-top: 0;
 }
 
@@ -164,28 +164,8 @@ pre {
   overflow: hidden;
 }
 
-div:last-of-type > pre {
+section:last-of-type > pre {
   border-bottom: 1px solid var(--output-border);
-}
-
-div.double {
-  flex-direction: row;
-  border: 1px solid var(--output-border);
-  border-bottom: none;
-}
-
-div.double:last-of-type {
-  flex-direction: row;
-  border-bottom: 1px solid var(--output-border);
-}
-
-div.double pre {
-  border: none;
-}
-
-div.double pre + pre {
-  border-left: 1px solid var(--output-border);
-  background: var(--output-cell);
 }
 
 span.refresh {
@@ -211,8 +191,8 @@ span.refresh:active {
   color: var(--output-ref-active);
 }
 
-div:first-child,
-div:not(.btn-container) + div {
+section:first-child,
+section + section {
   margin-top: 0;
 }
 
@@ -235,50 +215,69 @@ div:not(.btn-container) + div {
   border-radius: 0;
 }
 
-.output-container .double:last-of-type {
-  border-bottom-right-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+div.double {
+  flex-direction: row;
 }
 
-div.success pre {
+div.double pre {
+  width: 50%;
+}
+
+.output-container div.double:last-of-type pre {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom: 1px solid var(--output-border);
+}
+
+.output-container div.double:last-of-type pre + pre {
+  border-radius: 0;
+  border-bottom-right-radius: 0.25rem;
+}
+
+div.double pre + pre {
+  border-left: none;
+  background: var(--output-cell);
+  width: 100%;
+}
+
+section.success pre {
   animation: flashSuccess 0.5s infinite;
 }
 
-div.error pre {
+section.error pre {
   animation: flashError 0.5s infinite;
 }
 
-div.hold pre {
+section.hold pre {
   color: var(--output-text) !important;
 }
 
-div.compact {
+section.compact {
   flex-direction: row;
   border: none;
   border-bottom: 1px solid var(--container-bg);
   overflow: hidden;
 }
 
-div.compact:first-child {
+section.compact:first-child {
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
 }
 
-div.compact:last-child {
+section.compact:last-child {
   flex-direction: row;
   border: none;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
 }
 
-div.compact span.label {
+section.compact span.label {
   width: 50%;
   border: none;
   border-right: 1px solid var(--container-bg);
   align-items: center;
 }
 
-div.compact pre {
+section.compact pre {
   padding: 0.75rem 1rem;
   border: none;
 }

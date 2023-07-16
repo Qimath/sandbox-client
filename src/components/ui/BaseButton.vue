@@ -66,7 +66,7 @@ div {
   overflow: hidden;
 }
 
-div:first-of-type {
+div:first-child {
   margin-top: 0;
 }
 

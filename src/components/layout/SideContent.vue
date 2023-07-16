@@ -139,13 +139,10 @@ aside nav section a::before {
   align-items: center;
   justify-content: center;
   left: calc(4rem + 0.5rem);
-  color: var(--main-text-normal);
-  background: var(--container-bg);
-  height: 3rem;
-  padding: 0 1.5rem;
+  color: var(--main-text-reverse);
+  background: var(--orange-pri);
+  padding: 1rem 2rem;
   box-shadow: var(--main-shadow) 0 4px 8px, var(--main-shadow) 4px 4px 4px;
-  border: 1px solid var(--container-border);
-  border-left: none;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
   font-size: 1rem;
@@ -220,7 +217,7 @@ aside nav section a:hover::after {
   margin-left: -5px;
   border: 5px solid transparent;
   border-left: 0;
-  border-right-color: var(--container-bg);
+  border-right-color: var(--orange-pri);
   opacity: 1;
   animation: labelDelay 1s linear;
 }
