@@ -1,128 +1,135 @@
 <script setup>
-import { ref, reactive, onMounted, computed, watch } from 'vue'
-import { useMethodsStore } from '../../stores/methods.js'
+import { ref, reactive, onMounted, computed, watch } from "vue";
+import { useMethodsStore } from "@/stores/methods.js";
 
-import useMethodGenerator from '../../hooks/generate.js'
-import useMethodPusher from '../../hooks/push.js'
-import useMethodCopier from '../../hooks/copy.js'
+import useMethodGenerator from "@/hooks/generate.js";
+import useMethodPusher from "@/hooks/push.js";
+import useMethodCopier from "@/hooks/copy.js";
 
-import BaseInput from '../ui/BaseInput.vue'
-import BaseButton from '../ui/BaseButton.vue'
+import BaseInput from "@/components/ui/BaseInput.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
 
 const props = defineProps({
   methodId: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 
-const methodsStore = useMethodsStore()
+const methodsStore = useMethodsStore();
 const selectedMethod = reactive({
-  value: '',
-  error: '',
-  success: ''
-})
+  value: "",
+  error: "",
+  success: "",
+});
 
 onMounted(() => {
-  Object.assign(selectedMethod, methodsStore.getMethodById(props.methodId))
+  Object.assign(selectedMethod, methodsStore.getMethodById(props.methodId));
 
-  if (selectedMethod.id === 'session-data') {
+  if (selectedMethod.id === "session-data") {
     selectedMethod.value = {
-      dataKey: '',
-      dataValue: ''
-    }
+      dataKey: "",
+      dataValue: "",
+    };
   }
-})
+});
 
-const isSetSessionData = computed(() => selectedMethod.id === 'session-data')
+const isSetSessionData = computed(() => selectedMethod.id === "session-data");
 const isTextArea = computed(
-  () => selectedMethod.id === 'send-message' || selectedMethod.id === 'show-message'
-)
+  () =>
+    selectedMethod.id === "send-message" || selectedMethod.id === "show-message"
+);
 
-const copyResult = reactive({})
+const copyResult = reactive({});
 
 watch(
   () => selectedMethod.value,
   (newValue) => {
-    if (!!selectedMethod.error && newValue !== '') {
-      selectedMethod.error = ''
+    if (!!selectedMethod.error && newValue !== "") {
+      selectedMethod.error = "";
     }
   }
-)
+);
 
 async function copyMethod() {
   try {
-    const result = await useMethodCopier(selectedMethod.id, selectedMethod.value)
+    const result = await useMethodCopier(
+      selectedMethod.id,
+      selectedMethod.value
+    );
     if (result) {
       setTimeout(() => {
-        Object.assign(copyResult, result)
-        navigator.clipboard.writeText(copyResult.copyValue)
-      }, 1)
+        Object.assign(copyResult, result);
+        navigator.clipboard.writeText(copyResult.copyValue);
+      }, 1);
 
       if (copyMethod.successTimeoutId) {
-        clearTimeout(copyMethod.successTimeoutId.value)
+        clearTimeout(copyMethod.successTimeoutId.value);
       }
 
       copyMethod.successTimeoutId = ref(
         setTimeout(() => {
-          copyResult.copyType = ''
+          copyResult.copyType = "";
         }, 1000)
-      )
+      );
     }
   } catch (error) {
-    console.error('An app error occurred:', error)
-    selectedMethod.error = 'App error: Copy'
+    console.error("An app error occurred:", error);
+    selectedMethod.error = "App error: Copy";
   }
 }
 
 async function generateMethod() {
   try {
-    const generatedValue = await useMethodGenerator(selectedMethod.id)
+    const generatedValue = await useMethodGenerator(selectedMethod.id);
 
-    if (selectedMethod.id === 'session-data') {
-      selectedMethod.value.dataKey = generatedValue.dataKey
-      selectedMethod.value.dataValue = generatedValue.dataValue
+    if (selectedMethod.id === "session-data") {
+      selectedMethod.value.dataKey = generatedValue.dataKey;
+      selectedMethod.value.dataValue = generatedValue.dataValue;
     } else {
-      selectedMethod.value = generatedValue
+      selectedMethod.value = generatedValue;
     }
 
-    await pushMethod()
+    await pushMethod();
   } catch (error) {
-    console.error('An app error occurred:', error)
-    selectedMethod.error = 'App error: Generate'
+    console.error("An app error occurred:", error);
+    selectedMethod.error = "App error: Generate";
   }
 }
 
 async function pushMethod() {
-  selectedMethod.success = ''
-  selectedMethod.error = ''
+  selectedMethod.success = "";
+  selectedMethod.error = "";
 
   try {
-    const result = await useMethodPusher(selectedMethod.id, selectedMethod.value)
+    const result = await useMethodPusher(
+      selectedMethod.id,
+      selectedMethod.value
+    );
 
     if (result) {
-      if (result.error && result.error !== '') {
+      if (result.error && result.error !== "") {
         setTimeout(() => {
-          selectedMethod.error = result.error
-        }, 1)
+          selectedMethod.error = result.error;
+        }, 1);
       }
 
-      if (result.success && result.success !== '') {
+      if (result.success && result.success !== "") {
         if (pushMethod.successTimeoutId) {
-          clearTimeout(pushMethod.successTimeoutId.value)
+          clearTimeout(pushMethod.successTimeoutId.value);
         }
 
-        selectedMethod.success = result.success
+        selectedMethod.success = result.success;
         pushMethod.successTimeoutId = ref(
           setTimeout(() => {
-            selectedMethod.success = ''
+            selectedMethod.success = "";
           }, 1000)
-        )
+        );
       }
     }
   } catch (error) {
-    console.error('An app error occurred:', error)
-    selectedMethod.error = 'App error: Push'
+    console.error("An app error occurred:", error);
+    selectedMethod.error = "App error: Push";
   }
 }
 </script>
@@ -164,7 +171,11 @@ async function pushMethod() {
         :copyType="copyResult.copyType"
         @copy="copyMethod"
       />
-      <BaseButton :id="'submit-push-' + selectedMethod.id" color="default" value="submit" />
+      <BaseButton
+        :id="'submit-push-' + selectedMethod.id"
+        color="default"
+        value="submit"
+      />
       <BaseButton
         :id="'generate-' + selectedMethod.id"
         color="blue"

@@ -2,13 +2,13 @@
 const props = defineProps({
   desc: {
     type: String,
-    default: ''
+    default: "",
   },
   img: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 </script>
 
 <template>
@@ -21,7 +21,6 @@ const props = defineProps({
 </template>
 
 <style scoped>
-
 section {
   flex-direction: row;
   justify-content: flex-start;
@@ -48,7 +47,7 @@ section :deep(p) {
   font-weight: 400;
   margin: 0.25rem 0;
   transition: all 0.3s linear;
-  cursor: default
+  cursor: default;
 }
 
 section img {
@@ -62,6 +61,6 @@ section img {
 }
 
 section img:hover {
-  transform: scale(1.1)
+  transform: scale(1.1);
 }
 </style>

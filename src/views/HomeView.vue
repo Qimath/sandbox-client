@@ -1,94 +1,96 @@
 <script setup>
-import { nextTick, ref, reactive } from 'vue'
+import { nextTick, reactive } from "vue";
 
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import BaseGuide from '../components/ui/BaseGuide.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseGuide from "@/components/ui/BaseGuide.vue";
 
-import ImageSecrets from '../assets/tutorial/secrets.png'
-import ImageCopy from '../assets/tutorial/copy.png'
-import ImageSessionReset from '../assets/tutorial/session_reset.png'
-import ImageTroubleshoot from '../assets/tutorial/troubleshoot.png'
-import ImageWebsiteLoading from '../assets/tutorial/website_loading.png'
-import ImageConfig from '../assets/tutorial/config.png'
-import ImageSettings from '../assets/tutorial/settings.png'
+import ImageSecrets from "@/assets/images/tutorial/secrets.png";
+import ImageCopy from "@/assets/images/tutorial/copy.png";
+import ImageSessionReset from "@/assets/images/tutorial/session_reset.png";
+import ImageTroubleshoot from "@/assets/images/tutorial/troubleshoot.png";
+import ImageWebsiteLoading from "@/assets/images/tutorial/website_loading.png";
+import ImageConfig from "@/assets/images/tutorial/config.png";
+import ImageSettings from "@/assets/images/tutorial/settings.png";
+import ImageMore from "@/assets/images/tutorial/more.png";
 
 const guides = reactive([
   {
     img: ImageSecrets,
     desc: `<p>Pops a modal which will allow you to set HMAC secrets for the Ticket Center and Email Verification.</p>
       <p>Secrets will remain saved for the current Website ID and be applied whenever it is loaded again.</p>
-      <p>Loading a Contact Form & Ticket Center require this domain to be authorized. The latter also needs you to push an email address.</p>`
+      <p>Loading a Contact Form & Ticket Center require this domain to be authorized. The latter also needs you to push an email address.</p>`,
   },
   {
     img: ImageCopy,
     desc: `<p>Click once to copy the Web SDK method & its value into the clipboard, and twice for the NPM version.</p>
-      <p>If no value is present, a default placeholder will be created.</p>`
+      <p>If no value is present, a default placeholder will be created.</p>`,
   },
   {
     img: ImageSessionReset,
     desc: `<p>No need for incognito windows, the session can be reset automatically to start a fresh one.</p>
-      <p>The 'clear LocalStorage on session reset' will clear all Crisp-stored data, and simulate a completely new visitor session. For instance to fire a trigger again.</p>`
+      <p>The 'clear LocalStorage on session reset' will clear all Crisp-stored data, and simulate a completely new visitor session. For instance to fire a trigger again.</p>`,
   },
   {
     img: ImageTroubleshoot,
     desc: `<p>The website's configuration is fetched, to consult all the of the current chatbox settings.</p>
-      <p>'Troubleshoot Chatbox' will feed that data to an AI, and generate a somewhat questionable diagnostic.</p>`
+      <p>'Troubleshoot Chatbox' will feed that data to an AI, and generate a somewhat questionable diagnostic.</p>`,
   },
   {
     img: ImageConfig,
     desc: `<p>The configuration file is also directly visible from this widget.</p>
-      <p>'General informations, chatbox settings, but also customizations and triggers can be reviewed.</p>`
+      <p>'General informations, chatbox settings, but also customizations and triggers can be reviewed.</p>`,
   },
   {
     img: ImageWebsiteLoading,
     desc: `<p>Any Website ID can be loaded, and even if the chatbox visibility is restricted, the iFrame version can be displayed.</p>
-      <p>It is also possible to load any (initiated) conversation by using its Session ID.</p>`
+      <p>It is also possible to load any (initiated) conversation by using its Session ID.</p>`,
   },
   {
     img: ImageWebsiteLoading,
     desc: `<p>Account creation and login currently serves only to test Token IDs.</p>
-      <p>Settings can be applied to 'Merge conversations', as described in the SDK documentation.</p>`
+      <p>Settings can be applied to 'Merge conversations', as described in the SDK documentation.</p>`,
   },
   {
     img: ImageSettings,
     desc: `<p>Set website preferences or chatbox configuration from this page.</p>
       <p>Settings such as Session Merge, Chatbox language, Cookie expiration timer, etc may require to reload the app.</p>
-      <p>Crisp SDK callbacks can also be enabled to subscribe to certain events and be notified in the browser's console.</p>`
+      <p>Crisp SDK callbacks can also be enabled to subscribe to certain events and be notified in the browser's console.</p>`,
   },
   {
-    img: ImageSettings,
+    img: ImageMore,
     desc: `<p>More features are available such as the website's online status, loading chatbox iFrames, a Dark Theme, etc... Dig around!</p>
-      <p>The sandbox's full code is available on Github, from the app's footer.</p>`
-  }
-])
+      <p>The sandbox's full code is available on Github, from the app's footer.</p>`,
+  },
+]);
 
 const states = reactive({
   contentVisible: false,
   headerShrunk: false,
-  inTransition: false
-})
+  inTransition: false,
+});
 
 const toggleContentVisibility = async () => {
-  states.inTransition = true
-  await nextTick()
+  states.inTransition = true;
+  await nextTick();
 
   if (states.contentVisible) {
-    states.contentVisible = false
-    states.headerShrunk = false
-    await pause(1000)
+    states.contentVisible = false;
+    states.headerShrunk = false;
+    await pause(1000);
   } else {
-    states.headerShrunk = true
-    await pause(1000)
-    states.contentVisible = true
-    await pause(1000)
+    states.headerShrunk = true;
+    await pause(1000);
+    states.contentVisible = true;
+    await pause(1000);
   }
 
-  states.inTransition = false
-}
+  states.inTransition = false;
+};
 
 // Helper function to pause execution
-const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration))
+const pause = (duration) =>
+  new Promise((resolve) => setTimeout(resolve, duration));
 </script>
 
 <template>
@@ -99,12 +101,20 @@ const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duratio
           <template #card>
             <div
               class="home-header"
-              :class="{ shrink: states.headerShrunk, animated: states.inTransition }"
+              :class="{
+                shrink: states.headerShrunk,
+                animated: states.inTransition,
+              }"
             >
               <h1>a simple (crisp) sandbox</h1>
-              <h2>quick and easy way to test, replicate or troubleshoot chatbox issues</h2>
+              <h2>
+                quick and easy way to test, replicate or troubleshoot chatbox
+                issues
+              </h2>
               <div>
-                <a href="#" @click.prevent="toggleContentVisibility">Getting Started</a>
+                <a href="#" @click.prevent="toggleContentVisibility"
+                  >Getting Started</a
+                >
                 <span class="separator">|</span>
                 <router-link to="/methods">Start Playing</router-link>
               </div>
@@ -129,12 +139,12 @@ const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duratio
 </template>
 
 <style scoped>
-html[data-theme='light'] .container {
-  background-image: url('../assets/pattern-light.png');
+html[data-theme="light"] .container {
+  background-image: url("@/assets/images/general/pattern-light.png");
 }
 
-html[data-theme='dark'] .container {
-  background-image: url('../assets/pattern-dark.png');
+html[data-theme="dark"] .container {
+  background-image: url("@/assets/images/general/pattern-dark.png");
 }
 
 .home-header {

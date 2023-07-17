@@ -2,17 +2,17 @@
 const props = defineProps({
   grow: {
     type: Boolean,
-    default: false
+    default: false,
   },
   full: {
     type: Boolean,
-    default: false
+    default: false,
   },
   width: {
     type: String,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 </script>
 
 <template>

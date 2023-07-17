@@ -1,29 +1,29 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { useConfigStore } from '../../stores/config.js'
+import { computed, ref } from "vue";
+import { useConfigStore } from "@/stores/config.js";
 
-import BaseButton from '../ui/BaseButton.vue'
+import BaseButton from "@/components/ui/BaseButton.vue";
 
-const configStore = useConfigStore()
-const websiteConfig = computed(() => configStore.website.config)
+const configStore = useConfigStore();
+const websiteConfig = computed(() => configStore.website.config);
 
-const isLoading = ref(false)
-const gptResponse = ref('')
+const isLoading = ref(false);
+const gptResponse = ref("");
 
 function formatSettings(settings) {
   return Object.entries(settings)
     .map(([key, value]) => `${key}: ${value}`)
-    .join(',\n')
+    .join(",\n");
 }
 
 async function debugChatbox() {
-  if (isLoading.value) return
+  if (isLoading.value) return;
 
   try {
-    isLoading.value = true
+    isLoading.value = true;
 
-    const url = window.location.href
-    const { online, settings } = websiteConfig.value
+    const url = window.location.href;
+    const { online, settings } = websiteConfig.value;
     const relevantSettings = {
       online,
       website_url: settings.check_domain,
@@ -35,28 +35,31 @@ async function debugChatbox() {
       blocked_pages: settings.blocked_pages,
       blocked_countries: settings.blocked_countries,
       blocked_locales: settings.blocked_locales,
-      blocked_ips: settings.blocked_ips
-    }
+      blocked_ips: settings.blocked_ips,
+    };
 
-    const formattedSettings = formatSettings(relevantSettings)
+    const formattedSettings = formatSettings(relevantSettings);
 
-    const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}`
+    const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}`;
 
-    let response = await fetch('https://crisp-sandbox.netlify.app/.netlify/functions/troubleshoot', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt })
-    })
+    let response = await fetch(
+      "https://crisp-sandbox.netlify.app/.netlify/functions/troubleshoot",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      }
+    );
 
-    response = await response.json()
-    gptResponse.value = response.message[0].message.content
-    gptResponse.value = gptResponse.value.replace(/\n/g, '<br/>')
+    response = await response.json();
+    gptResponse.value = response.message[0].message.content;
+    gptResponse.value = gptResponse.value.replace(/\n/g, "<br/>");
   } catch (error) {
-    console.error('Error during fetch response: ', error)
+    console.error("Error during fetch response: ", error);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
 }
 </script>

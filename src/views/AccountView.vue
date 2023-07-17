@@ -1,7 +1,7 @@
 <script setup>
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import AccountHandler from '../components/widgets/AccountHandler.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import AccountHandler from "@/components/widgets/AccountHandler.vue";
 </script>
 
 <template>

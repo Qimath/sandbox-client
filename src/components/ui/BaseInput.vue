@@ -1,75 +1,75 @@
 <script setup>
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted, nextTick } from "vue";
 
-defineEmits(['update:value', 'copy', 'secret'])
+defineEmits(["update:value", "copy", "secret"]);
 
 const props = defineProps({
   textarea: {
     type: Boolean,
-    default: false
+    default: false,
   },
   secret: {
     type: Boolean,
-    default: false
+    default: false,
   },
   copy: {
     type: Boolean,
-    default: true
+    default: true,
   },
   copyType: {
     type: String,
-    default: ''
+    default: "",
   },
   label: {
     type: String,
-    default: ''
+    default: "",
   },
   id: {
     type: String,
-    default: ''
+    default: "",
   },
   icon: {
     type: String,
-    default: ''
+    default: "",
   },
   value: {
     type: [String, Number],
-    default: ''
+    default: "",
   },
   error: {
     type: String,
-    default: ''
+    default: "",
   },
   success: {
     type: String,
-    default: ''
+    default: "",
   },
   number: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const rows = ref(5)
-const textareaRef = ref(null)
+const rows = ref(5);
+const textareaRef = ref(null);
 
 const resizeTextarea = () => {
   if (textareaRef.value) {
-    textareaRef.value.style.height = 'auto'
-    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
+    textareaRef.value.style.height = "auto";
+    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
   }
-}
+};
 
 watch(
   () => props.value,
   () => {
-    nextTick(resizeTextarea)
+    nextTick(resizeTextarea);
   }
-)
+);
 
 onMounted(() => {
-  nextTick(resizeTextarea)
-})
+  nextTick(resizeTextarea);
+});
 </script>
 
 <template>
@@ -108,10 +108,18 @@ onMounted(() => {
       {{ error || success || label }}
     </label>
     <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
-    <span v-if="copy" class="simple material-symbols-outlined" @click="$emit('copy')"
+    <span
+      v-if="copy"
+      class="simple material-symbols-outlined"
+      @click="$emit('copy')"
       >content_copy</span
     >
-    <span v-if="secret" class="large material-symbols-outlined" @click="$emit('secret')">key</span>
+    <span
+      v-if="secret"
+      class="large material-symbols-outlined"
+      @click="$emit('secret')"
+      >key</span
+    >
   </div>
 </template>
 
@@ -196,7 +204,7 @@ textarea:placeholder-shown:focus + label {
 
 input + label span,
 textarea + label span {
-  margin-right: 0.2em;
+  margin-right: 0.5em;
   font-size: 1.4em;
   color: var(--label-duo);
   transition: color 0.1s linear;
@@ -253,17 +261,17 @@ div > span.copy-type {
 }
 
 div > span.copy-type::after {
-  content: '';
-	position: absolute;
-	width: 0;
-	height: 0;
-	right: 0;
-	top: 50%;
-	border: 0.75rem solid transparent;
-	border-left-color: var(--green-pri);
-	border-right: 0;
-	margin-top: -0.75rem;
-	margin-right: -0.5rem;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: 0;
+  top: 50%;
+  border: 0.75rem solid transparent;
+  border-left-color: var(--green-pri);
+  border-right: 0;
+  margin-top: -0.75rem;
+  margin-right: -0.5rem;
   z-index: 100;
 }
 
@@ -379,12 +387,12 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   appearance: textfield;
 }
 
 /* Internet Explorer 11 */
-input[type='number']::-ms-clear {
+input[type="number"]::-ms-clear {
   display: none;
 }
 </style>

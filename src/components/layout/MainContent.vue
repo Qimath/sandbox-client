@@ -1,7 +1,7 @@
 <script setup>
-import TheHeader from './TheHeader.vue'
-import TheView from './TheView.vue'
-import TheFooter from './TheFooter.vue'
+import TheHeader from "@/components/layout/TheHeader.vue";
+import TheView from "@/components/layout/TheView.vue";
+import TheFooter from "@/components/layout/TheFooter.vue";
 </script>
 
 <template>

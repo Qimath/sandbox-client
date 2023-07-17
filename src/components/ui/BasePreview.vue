@@ -2,16 +2,19 @@
 const props = defineProps({
   config: {
     type: Object,
-    default: {}
-  }
-})
+    default: {},
+  },
+});
 </script>
 
 <template>
   <div class="website-info">
     <div class="website-logo">
       <img :src="props.config.config.settings.logo" />
-      <span class="website-availability" :class="props.config.config.online ? 'online' : 'offline'"></span>
+      <span
+        class="website-availability"
+        :class="props.config.config.online ? 'online' : 'offline'"
+      ></span>
     </div>
     <div>
       <span class="website-name">{{ props.config.config.website }}</span>

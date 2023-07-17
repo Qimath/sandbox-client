@@ -1,42 +1,48 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive } from "vue";
 
 const props = defineProps({
   config: {
     type: [Object, String, Array, Boolean],
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const isDrawerOpen = reactive({})
+const isDrawerOpen = reactive({});
 
 const toggleDrawer = (key) => {
   if (isDrawerOpen[key] === undefined) {
-    isDrawerOpen[key] = true
+    isDrawerOpen[key] = true;
   } else {
-    isDrawerOpen[key] = !isDrawerOpen[key]
+    isDrawerOpen[key] = !isDrawerOpen[key];
   }
-}
+};
 
 const formatKey = (key) => {
-  if (typeof key === 'string') {
-    return key.replace(/_/g, ' ')
+  if (typeof key === "string") {
+    return key.replace(/_/g, " ");
   }
-  return key
-}
+  return key;
+};
 
 const isEmptyObject = (obj) => {
-  return obj && typeof obj === 'object' && Object.keys(obj).length === 0
-}
+  return obj && typeof obj === "object" && Object.keys(obj).length === 0;
+};
 </script>
 
 <template>
   <div class="item-container" v-for="(value, key) in config" :key="key">
     <div v-if="value && Array.isArray(value)" class="item">
       <div class="item-name">
-        <span class="title" @click="toggleDrawer(key)">{{ formatKey(key) }}</span>
-        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]">expand_more</span>
-        <span class="toggle material-symbols-outlined" v-else>chevron_left</span>
+        <span class="title" @click="toggleDrawer(key)">{{
+          formatKey(key)
+        }}</span>
+        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]"
+          >expand_more</span
+        >
+        <span class="toggle material-symbols-outlined" v-else
+          >chevron_left</span
+        >
       </div>
       <div class="drawer" v-show="isDrawerOpen[key]">
         <div v-if="value.length === 0" class="item-container">
@@ -44,7 +50,12 @@ const isEmptyObject = (obj) => {
             <div class="item-single">N/A</div>
           </div>
         </div>
-        <div v-else class="item-container" v-for="(item, index) in value" :key="index">
+        <div
+          v-else
+          class="item-container"
+          v-for="(item, index) in value"
+          :key="index"
+        >
           <div class="item-content">
             <div class="item-single">{{ item }}</div>
           </div>
@@ -53,9 +64,15 @@ const isEmptyObject = (obj) => {
     </div>
     <div v-else-if="value && typeof value === 'object'" class="item">
       <div class="item-name">
-        <span class="title" @click="toggleDrawer(key)">{{ formatKey(key) }}</span>
-        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]">expand_more</span>
-        <span class="toggle material-symbols-outlined" v-else>chevron_left</span>
+        <span class="title" @click="toggleDrawer(key)">{{
+          formatKey(key)
+        }}</span>
+        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]"
+          >expand_more</span
+        >
+        <span class="toggle material-symbols-outlined" v-else
+          >chevron_left</span
+        >
       </div>
       <div class="drawer" v-show="isDrawerOpen[key]">
         <div v-if="isEmptyObject(value)" class="item-container">

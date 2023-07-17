@@ -1,40 +1,58 @@
 <script setup>
-defineEmits(['banner-close', 'banner-action'])
+defineEmits(["banner-close", "banner-action"]);
 
 const props = defineProps({
   message: {
     type: String,
-    default: ''
+    default: "",
   },
   action: {
     type: String,
-    default: ''
+    default: "",
   },
   animate: {
     type: Boolean,
-    default: false
+    default: false,
   },
   type: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 </script>
 
 <template>
   <div class="banner" :class="[{ animate: animate }, type]">
-    <span @click="$emit('banner-close')" class="close material-symbols-outlined">close</span>
-    <span v-if="type === 'info'" class="category material-symbols-outlined">info</span>
-    <span v-else-if="type === 'warning'" class="category material-symbols-outlined">warning</span>
-    <span v-else-if="type === 'success'" class="category material-symbols-outlined">check_circle</span>
-    <span v-else-if="type === 'error'" class="category material-symbols-outlined">cancel</span>
+    <span @click="$emit('banner-close')" class="close material-symbols-outlined"
+      >close</span
+    >
+    <span v-if="type === 'info'" class="category material-symbols-outlined"
+      >info</span
+    >
+    <span
+      v-else-if="type === 'warning'"
+      class="category material-symbols-outlined"
+      >warning</span
+    >
+    <span
+      v-else-if="type === 'success'"
+      class="category material-symbols-outlined"
+      >check_circle</span
+    >
+    <span
+      v-else-if="type === 'error'"
+      class="category material-symbols-outlined"
+      >cancel</span
+    >
     <p v-html="message" class="message"></p>
-    <button v-if="action && action !== ''" @click="$emit('banner-action', action)">
+    <button
+      v-if="action && action !== ''"
+      @click="$emit('banner-action', action)"
+    >
       {{ action }}
     </button>
   </div>
 </template>
-
 
 <style scoped>
 .banner {
@@ -120,7 +138,7 @@ const props = defineProps({
 }
 
 .banner.animate::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -130,7 +148,11 @@ const props = defineProps({
 }
 
 .banner.animate.success::before {
-  background: linear-gradient(90deg, var(--green-pri) 50%, var(--green-duo) 50%);
+  background: linear-gradient(
+    90deg,
+    var(--green-pri) 50%,
+    var(--green-duo) 50%
+  );
   background-size: 200% 100%;
 }
 
@@ -145,7 +167,11 @@ const props = defineProps({
 }
 
 .banner.animate.warning::before {
-  background: linear-gradient(90deg, var(--orange-pri) 50%, var(--orange-duo) 50%);
+  background: linear-gradient(
+    90deg,
+    var(--orange-pri) 50%,
+    var(--orange-duo) 50%
+  );
   background-size: 200% 100%;
 }
 

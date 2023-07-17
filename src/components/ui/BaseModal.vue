@@ -1,16 +1,16 @@
 <script setup>
-defineEmits(['update:value', 'copy', 'modalClose'])
+defineEmits(["update:value", "copy", "modalClose"]);
 
 const props = defineProps({
   title: {
     type: String,
-    default: ''
+    default: "",
   },
   openModal: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 </script>
 
 <template>
@@ -21,7 +21,9 @@ const props = defineProps({
     <dialog open v-if="openModal">
       <header>
         <h3>{{ title }}</h3>
-        <span @click="$emit('modalClose')" class="material-symbols-outlined">close</span>
+        <span @click="$emit('modalClose')" class="material-symbols-outlined"
+          >close</span
+        >
       </header>
       <section>
         <slot name="modal"></slot>

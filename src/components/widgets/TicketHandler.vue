@@ -1,23 +1,23 @@
 <script setup>
-import { computed } from 'vue'
-import { useConfigStore } from '../../stores/config.js'
-import { useSessionStore } from '../../stores/session.js'
-import CryptoJS from 'crypto-js'
+import { computed } from "vue";
+import { useConfigStore } from "@/stores/config.js";
+import { useSessionStore } from "@/stores/session.js";
+import CryptoJS from "crypto-js";
 
-const configStore = useConfigStore()
-const sessionStore = useSessionStore()
+const configStore = useConfigStore();
+const sessionStore = useSessionStore();
 
-const websiteId = computed(() => configStore.website.id)
-const ticketSecret = computed(() => configStore.website.ticketSecret)
-const userEmail = computed(() => sessionStore.session.content.email)
+const websiteId = computed(() => configStore.website.id);
+const ticketSecret = computed(() => configStore.website.ticketSecret);
+const userEmail = computed(() => sessionStore.session.content.email);
 
 const computedHmac = computed(() => {
   if (userEmail.value && ticketSecret.value) {
-    return CryptoJS.HmacSHA256(userEmail.value, ticketSecret.value).toString()
+    return CryptoJS.HmacSHA256(userEmail.value, ticketSecret.value).toString();
   } else {
-    return null
+    return null;
   }
-})
+});
 </script>
 
 <template>

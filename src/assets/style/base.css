@@ -79,7 +79,7 @@
   --color-cyan-3: hsl(200, 55%, 55%);
 }
 
-:root[data-theme='light'] {
+:root[data-theme="light"] {
   --aside-bg: var(--color-indigo);
   --aside-icon: var(--color-pearl-3);
   --aside-icon-active: var(--color-tone-100);
@@ -151,7 +151,7 @@
   --table-text: var(--color-navy-3);
 }
 
-:root[data-theme='dark'] {
+:root[data-theme="dark"] {
   --aside-bg: var(--color-indigo);
   --aside-icon: var(--color-pearl-3);
   --aside-icon-active: var(--color-tone-100);

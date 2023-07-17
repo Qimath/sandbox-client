@@ -1,21 +1,22 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import BaseBanner from '../components/ui/BaseBanner.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseBanner from "@/components/ui/BaseBanner.vue";
 
-import { useBanner } from '../hooks/banner.js'
+import { useBanner } from "@/hooks/banner.js";
 
-const { bannerOptions, displayBanner, closeBanner } = useBanner()
+const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
 onMounted(() => {
   displayBanner({
-    message: 'Access Restricted. You do not have permission to view this content at the moment.',
-    type: 'error',
-    animate: true
-  })
-})
+    message:
+      "Access Restricted. You do not have permission to view this content at the moment.",
+    type: "error",
+    animate: true,
+  });
+});
 </script>
 
 <template>

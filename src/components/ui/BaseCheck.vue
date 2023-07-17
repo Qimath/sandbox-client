@@ -1,43 +1,50 @@
 <script setup>
-import { watch, ref } from 'vue'
+import { watch, ref } from "vue";
 
-const emit = defineEmits(['update:value'])
+const emit = defineEmits(["update:value"]);
 
 const props = defineProps({
   value: {
     type: Boolean,
-    default: false
+    default: false,
   },
   id: {
     type: String,
-    default: ''
+    default: "",
   },
   label: {
     type: String,
-    default: ''
+    default: "",
+  },
+});
+
+const checked = ref(props.value);
+
+watch(
+  () => props.value,
+  (newValue) => {
+    checked.value = newValue;
   }
-})
-
-const checked = ref(props.value)
-
-watch(() => props.value, (newValue) => {
-  checked.value = newValue
-})
+);
 
 watch(checked, (newValue) => {
-  emit('update:value', newValue)
-})
+  emit("update:value", newValue);
+});
 </script>
 
 <template>
-    <label class="switch" :for="id">
-      <input :id="id" type="checkbox" :checked="checked" @input="checked = !checked" />
-      <div class="slider"></div>
-    </label>
+  <label class="switch" :for="id">
+    <input
+      :id="id"
+      type="checkbox"
+      :checked="checked"
+      @input="checked = !checked"
+    />
+    <div class="slider"></div>
+  </label>
 </template>
 
 <style scoped>
-
 .switch {
   display: inline-block;
   height: 2rem;
@@ -63,7 +70,7 @@ watch(checked, (newValue) => {
 .slider:before {
   background-color: var(--container-bg);
   bottom: 4px;
-  content: '';
+  content: "";
   height: 1.5rem;
   left: 0.25rem;
   position: absolute;

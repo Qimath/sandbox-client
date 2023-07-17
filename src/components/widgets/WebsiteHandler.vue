@@ -1,139 +1,142 @@
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useConfigStore } from '../../stores/config.js'
+import { computed, ref, onMounted, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useConfigStore } from "@/stores/config.js";
 
-import BaseInput from '../ui/BaseInput.vue'
-import BaseButton from '../ui/BaseButton.vue'
-import BaseOutput from '../ui/BaseOutput.vue'
-import BaseModal from '../ui/BaseModal.vue'
-import BaseBanner from '../ui/BaseBanner.vue'
+import BaseInput from "@/components/ui/BaseInput.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseOutput from "@/components/ui/BaseOutput.vue";
+import BaseModal from "@/components/ui/BaseModal.vue";
+import BaseBanner from "@/components/ui/BaseBanner.vue";
 
-import { useBanner } from '../../hooks/banner.js'
+import { useBanner } from "@/hooks/banner.js";
 
-const { bannerOptions, displayBanner, closeBanner } = useBanner()
+const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const configStore = useConfigStore()
+const configStore = useConfigStore();
 
-const websiteId = computed(() => configStore.website.id)
-const websiteName = computed(() => configStore.website.config.website)
-const emailSecret = computed(() => configStore.website.emailSecret)
-const ticketSecret = computed(() => configStore.website.ticketSecret)
-const websiteValidity = computed(() => configStore.website.valid)
+const websiteId = computed(() => configStore.website.id);
+const websiteName = computed(() => configStore.website.config.website);
+const emailSecret = computed(() => configStore.website.emailSecret);
+const ticketSecret = computed(() => configStore.website.ticketSecret);
+const websiteValidity = computed(() => configStore.website.valid);
 
-const websiteIdValue = ref('')
-const emailSecretInput = ref('')
-const ticketSecretInput = ref('')
+const websiteIdValue = ref("");
+const emailSecretInput = ref("");
+const ticketSecretInput = ref("");
 
-const modalVisibility = ref(false)
+const modalVisibility = ref(false);
 
 function loadStaging() {
   router
     .push({
       path: router.currentRoute.value.path,
-      query: { website_id: configStore.website.staging }
+      query: { website_id: configStore.website.staging },
     })
-    .then(() => router.go())
+    .then(() => router.go());
 }
 
 function loadWebsite(value) {
   router
     .push({
       path: router.currentRoute.value.path,
-      query: { website_id: value.trim() }
+      query: { website_id: value.trim() },
     })
-    .then(() => router.go())
+    .then(() => router.go());
 }
 
 function modalOpen() {
-  modalVisibility.value = true
+  modalVisibility.value = true;
 }
 
 function modalClose() {
-  modalVisibility.value = false
+  modalVisibility.value = false;
 }
 
 function setSecrets() {
   try {
-    configStore.updateSecrets(emailSecretInput.value, ticketSecretInput.value)
-    modalVisibility.value = false
+    configStore.updateSecrets(emailSecretInput.value, ticketSecretInput.value);
+    modalVisibility.value = false;
 
     displayBanner({
       message: `Secrets keys for <strong>${websiteName.value}</strong> have been saved.`,
-      type: 'success',
-      animate: true
-    })
+      type: "success",
+      animate: true,
+    });
   } catch (error) {
-    console.error('An app error occurred:', error)
+    console.error("An app error occurred:", error);
 
     displayBanner({
-      message: 'An error occured while saving the secret keys: ' + value.error,
-      type: 'error',
-      animate: true
-    })
+      message: "An error occured while saving the secret keys: " + value.error,
+      type: "error",
+      animate: true,
+    });
   }
 }
 
 function clearSecrets() {
-  localStorage.removeItem('secrets')
-  modalVisibility.value = false
+  localStorage.removeItem("secrets");
+  modalVisibility.value = false;
 
   displayBanner({
-    message: 'Memorized secret keys have been cleared.',
-    type: 'warning',
-    animate: true
-  })
+    message: "Memorized secret keys have been cleared.",
+    type: "warning",
+    animate: true,
+  });
 }
 
-watch(() => route.fullPath, () => {
-  if (window.sessionStorage.getItem('validWebsite')) {
-    displayBanner({
-      message: `Website ID <strong>${websiteId.value}</strong> for <strong>${websiteName.value}</strong> was successfully loaded!`,
-      type: 'success',
-      animate: true
-    })
+watch(
+  () => route.fullPath,
+  () => {
+    if (window.sessionStorage.getItem("validWebsite")) {
+      displayBanner({
+        message: `Website ID <strong>${websiteId.value}</strong> for <strong>${websiteName.value}</strong> was successfully loaded!`,
+        type: "success",
+        animate: true,
+      });
 
-    window.sessionStorage.removeItem('validWebsite')
+      window.sessionStorage.removeItem("validWebsite");
+    }
+
+    if (window.sessionStorage.getItem("unvalidWebsite")) {
+      displayBanner({
+        message: `Website ID <strong>${websiteId.value}</strong> is invalid.`,
+        type: "error",
+        animate: true,
+      });
+
+      window.sessionStorage.removeItem("unvalidWebsite");
+    }
   }
-
-  if (window.sessionStorage.getItem('unvalidWebsite')) {
-    displayBanner({
-      message: `Website ID <strong>${websiteId.value}</strong> is invalid.`,
-      type: 'error',
-      animate: true
-    })
-
-    window.sessionStorage.removeItem('unvalidWebsite')
-  }
-})
+);
 
 onMounted(() => {
-  ticketSecretInput.value = ticketSecret.value
-  emailSecretInput.value = emailSecret.value
-})
+  ticketSecretInput.value = ticketSecret.value;
+  emailSecretInput.value = emailSecret.value;
+});
 
 watch(
   websiteValidity,
   (newVal, oldVal) => {
-    const websiteIdLoaded = router.currentRoute.value.query.website_id
+    const websiteIdLoaded = router.currentRoute.value.query.website_id;
     if (websiteIdLoaded) {
       if (newVal !== oldVal) {
         if (newVal == false) {
-          window.sessionStorage.setItem('unvalidWebsite', 'true')
+          window.sessionStorage.setItem("unvalidWebsite", "true");
         } else if (newVal == true) {
-          window.sessionStorage.setItem('validWebsite', 'true')
+          window.sessionStorage.setItem("validWebsite", "true");
         }
       }
-      const newQuery = { ...router.currentRoute.value.query }
-      delete newQuery.website_id
-      router.push({ query: newQuery })
+      const newQuery = { ...router.currentRoute.value.query };
+      delete newQuery.website_id;
+      router.push({ query: newQuery });
     }
   },
   { immediate: false }
-)
+);
 </script>
 
 <template>
@@ -149,7 +152,13 @@ watch(
         @secret="modalOpen"
       />
       <BaseButton id="website-submit" color="default" value="submit" />
-      <BaseButton id="website-staging" color="blue" value="staging" button @click="loadStaging" />
+      <BaseButton
+        id="website-staging"
+        color="blue"
+        value="staging"
+        button
+        @click="loadStaging"
+      />
       <BaseOutput
         id="get-website-id"
         label="Website ID"
@@ -157,7 +166,11 @@ watch(
         :url="'https://go.crisp.chat/chat/embed/?website_id=' + websiteId"
         link
       />
-      <BaseOutput id="get-website-name" label="Website name" :value="websiteName" />
+      <BaseOutput
+        id="get-website-name"
+        label="Website name"
+        :value="websiteName"
+      />
     </form>
   </div>
 

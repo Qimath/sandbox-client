@@ -1,26 +1,26 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
 export const useSessionStore = defineStore({
-  id: 'session',
+  id: "session",
   state: () => ({
     session: {
-      id: 'N/A',
-      token: 'N/A',
+      id: "N/A",
+      token: "N/A",
       content: {
-        nickname: 'N/A',
-        email: 'N/A',
-        phone: 'N/A',
-        company: 'N/A',
-        avatar: 'N/A',
-        data: 'N/A'
-      }
-    }
+        nickname: "N/A",
+        email: "N/A",
+        phone: "N/A",
+        company: "N/A",
+        avatar: "N/A",
+        data: "N/A",
+      },
+    },
   }),
 
   getters: {
     getSession: (state) => {
-      return state.session
-    }
+      return state.session;
+    },
   },
 
   actions: {
@@ -29,17 +29,19 @@ export const useSessionStore = defineStore({
         ...this.session.content,
         ...content,
         data: {
-          ...(content.data !== undefined ? content.data : this.session.content.data),
+          ...(content.data !== undefined
+            ? content.data
+            : this.session.content.data),
         },
       };
     },
 
     setSessionId(value) {
-      this.session.id = value
+      this.session.id = value;
     },
 
     setSessionToken(value) {
-      this.session.token = value
-    }
-  }
-})
+      this.session.token = value;
+    },
+  },
+});

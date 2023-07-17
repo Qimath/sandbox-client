@@ -1,31 +1,31 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue";
 
-const emits = defineEmits(['update:value'])
+const emits = defineEmits(["update:value"]);
 const props = defineProps({
   options: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   id: {
     type: String,
-    default: ''
+    default: "",
   },
   value: {
     type: String,
-    default: ''
+    default: "",
   },
   name: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 
-const selected = ref(props.value)
+const selected = ref(props.value);
 
 watch(selected, (newVal) => {
-  emits('update:value', newVal)
-})
+  emits("update:value", newVal);
+});
 </script>
 
 <template>

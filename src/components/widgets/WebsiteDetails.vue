@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue'
-import { useConfigStore } from '../../stores/config.js'
+import { computed } from "vue";
+import { useConfigStore } from "@/stores/config.js";
 
-import BaseOutput from '../ui/BaseOutput.vue'
+import BaseOutput from "@/components/ui/BaseOutput.vue";
 
-const configStore = useConfigStore()
-const websiteConfig = computed(() => configStore.website)
+const configStore = useConfigStore();
+const websiteConfig = computed(() => configStore.website);
 </script>
 
 <template>
@@ -57,7 +57,10 @@ const websiteConfig = computed(() => configStore.website)
         id="website-messenger"
         label="Messenger"
         :value="websiteConfig.config.channels.messenger"
-        :url="'https://www.facebook.com/profile.php?id=' + websiteConfig.config.channels.messenger"
+        :url="
+          'https://www.facebook.com/profile.php?id=' +
+          websiteConfig.config.channels.messenger
+        "
         link
         compact
       />
@@ -85,7 +88,9 @@ const websiteConfig = computed(() => configStore.website)
         id="website-instagram"
         label="Instagram"
         :value="websiteConfig.config.channels.instagram"
-        :url="'https://www.instagram.com/' + websiteConfig.config.channels.instagram"
+        :url="
+          'https://www.instagram.com/' + websiteConfig.config.channels.instagram
+        "
         link
         compact
       />

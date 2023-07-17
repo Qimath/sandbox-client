@@ -2,8 +2,8 @@
 
 <template>
   <div class="card">
-      <slot name="card"></slot>
-    </div>
+    <slot name="card"></slot>
+  </div>
 </template>
 
 <style>
@@ -31,7 +31,7 @@
 }
 
 .card + .card::before {
-  content: '';
+  content: "";
   top: -0.5rem;
   height: 0.5rem;
   width: calc(100% + 2px);

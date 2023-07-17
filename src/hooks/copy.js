@@ -1,348 +1,393 @@
-const TIME_THRESHOLD = 3000
-const COPY_A = 'web copy'
-const COPY_B = 'npm copy'
+const TIME_THRESHOLD = 3000;
+const COPY_A = "web copy";
+const COPY_B = "npm copy";
 
 const functionStates = {
   copyNickname: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyEmail: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyPhone: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyCompany: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyAvatar: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyData: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copySegment: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyEvent: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyTrigger: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copySendMessage: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyShowMessage: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyShowChatbox: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyHideChatbox: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyOpenChatbox: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyCloseChatbox: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copySwapLeft: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copySwapRight: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyMute: {
     lastClickTime: null,
-    useAlternateCopy: false
+    useAlternateCopy: false,
   },
   copyUnmute: {
     lastClickTime: null,
-    useAlternateCopy: false
-  }
-}
+    useAlternateCopy: false,
+  },
+};
 
 function getCopyType(funcName) {
-  const currentTime = performance.now()
-  const functionState = functionStates[funcName]
+  const currentTime = performance.now();
+  const functionState = functionStates[funcName];
 
   if (functionState.lastClickTime !== null) {
     if (currentTime - functionState.lastClickTime < TIME_THRESHOLD) {
-      functionState.useAlternateCopy = !functionState.useAlternateCopy
+      functionState.useAlternateCopy = !functionState.useAlternateCopy;
     } else {
-      functionState.useAlternateCopy = false
+      functionState.useAlternateCopy = false;
     }
   }
 
-  functionState.lastClickTime = currentTime
-  return functionState.useAlternateCopy ? COPY_B : COPY_A
+  functionState.lastClickTime = currentTime;
+  return functionState.useAlternateCopy ? COPY_B : COPY_A;
 }
 
-function copyNickname(value = '') {
-  value = value || 'Keyser Söze'
-  const copyType = getCopyType('copyNickname')
-
-  switch (copyType) {
-    case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "user:nickname", ["${value}"]])` }
-    case COPY_B:
-      return { copyType, copyValue: `Crisp.user.setNickname("${value}")` }
-  }
-}
-
-function copyEmail(value = '') {
-  value = value || 'marty.mcfly@gmail.com'
-  const copyType = getCopyType('copyEmail')
-
-  switch (copyType) {
-    case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "user:email", ["${value}"]]);` }
-    case COPY_B:
-      return { copyType, copyValue: `Crisp.user.setEmail("${value}")` }
-  }
-}
-
-function copyPhone(value = '') {
-  value = value || '+33652435325'
-  const copyType = getCopyType('copyPhone')
-
-  switch (copyType) {
-    case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "user:phone", ["${value}"]])` }
-    case COPY_B:
-      return { copyType, copyValue: `Crisp.user.setPhone("${value}")` }
-  }
-}
-
-function copyCompany(value = '') {
-  value = value || 'Capsule Corp'
-  const copyType = getCopyType('copyCompany')
-
-  switch (copyType) {
-    case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "user:company", ["${value}"]])` }
-    case COPY_B:
-      return { copyType, copyValue: `Crisp.user.setCompany("${value}")` }
-  }
-}
-
-function copyAvatar(value = '') {
-  value = value || 'https://chrisp-sandbox.herokuapp.com/mcfly_pup.png'
-  const copyType = getCopyType('copyAvatar')
-
-  switch (copyType) {
-    case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "user:avatar", ["${value}"]])` }
-    case COPY_B:
-      return { copyType, copyValue: `Crisp.user.setAvatar("${value}")` }
-  }
-}
-
-function copyData({ dataKey = '', dataValue = '' } = {}) {
-  dataKey = dataKey || 'instrument'
-  dataValue = dataValue || 'ocarina'
-  const copyType = getCopyType('copyData')
+function copyNickname(value = "") {
+  value = value || "Keyser Söze";
+  const copyType = getCopyType("copyNickname");
 
   switch (copyType) {
     case COPY_A:
       return {
         copyType,
-        copyValue: `$crisp.push(["set", "session:data", ["${dataKey}", "${dataValue}"]])`
-      }
+        copyValue: `$crisp.push(["set", "user:nickname", ["${value}"]])`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.session.setData({${dataKey}: "${dataValue}"})` }
+      return { copyType, copyValue: `Crisp.user.setNickname("${value}")` };
   }
 }
 
-function copySegment(value = '') {
-  value = value || 'appaloosa'
-  const copyType = getCopyType('copySegment')
+function copyEmail(value = "") {
+  value = value || "marty.mcfly@gmail.com";
+  const copyType = getCopyType("copyEmail");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "session:segments", ["${value}"]])` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "user:email", ["${value}"]]);`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.session.setSegments(["${value}"])` }
+      return { copyType, copyValue: `Crisp.user.setEmail("${value}")` };
   }
 }
 
-function copyEvent(value = '') {
-  value = value || 'event:mushroom'
-  const copyType = getCopyType('copyEvent')
+function copyPhone(value = "") {
+  value = value || "+33652435325";
+  const copyType = getCopyType("copyPhone");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["set", "session:event", ["${value}"]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "user:phone", ["${value}"]])`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.session.pushEvent("${value}")` }
+      return { copyType, copyValue: `Crisp.user.setPhone("${value}")` };
   }
 }
 
-function copyTrigger(value = '') {
-  value = value || 'welcome-donkey'
-  const copyType = getCopyType('copyTrigger')
+function copyCompany(value = "") {
+  value = value || "Capsule Corp";
+  const copyType = getCopyType("copyCompany");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "trigger:run", ["${value}"]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "user:company", ["${value}"]])`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.trigger.run("${value}")` }
+      return { copyType, copyValue: `Crisp.user.setCompany("${value}")` };
   }
 }
 
-function copySendMessage(value = '') {
-  value = (value || 'Hello world').replace(/\r?\n|\r/g, ' ')
-  const copyType = getCopyType('copySendMessage')
+function copyAvatar(value = "") {
+  value = value || "https://chrisp-sandbox.herokuapp.com/mcfly_pup.png";
+  const copyType = getCopyType("copyAvatar");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "message:send", ["text", "${value}"]])` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "user:avatar", ["${value}"]])`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.message.sendText("${value}")` }
+      return { copyType, copyValue: `Crisp.user.setAvatar("${value}")` };
   }
 }
 
-function copyShowMessage(value = '') {
-  value = (value || 'Show me the money').replace(/\r?\n|\r/g, ' ')
-  const copyType = getCopyType('copyShowMessage')
+function copyData({ dataKey = "", dataValue = "" } = {}) {
+  dataKey = dataKey || "instrument";
+  dataValue = dataValue || "ocarina";
+  const copyType = getCopyType("copyData");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "message:show", ["text", "${value}"]])` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "session:data", ["${dataKey}", "${dataValue}"]])`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.message.show("text", "${value}")` }
+      return {
+        copyType,
+        copyValue: `Crisp.session.setData({${dataKey}: "${dataValue}"})`,
+      };
+  }
+}
+
+function copySegment(value = "") {
+  value = value || "appaloosa";
+  const copyType = getCopyType("copySegment");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "session:segments", ["${value}"]])`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.session.setSegments(["${value}"])` };
+  }
+}
+
+function copyEvent(value = "") {
+  value = value || "event:mushroom";
+  const copyType = getCopyType("copyEvent");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["set", "session:event", ["${value}"]]);`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.session.pushEvent("${value}")` };
+  }
+}
+
+function copyTrigger(value = "") {
+  value = value || "welcome-donkey";
+  const copyType = getCopyType("copyTrigger");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["do", "trigger:run", ["${value}"]]);`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.trigger.run("${value}")` };
+  }
+}
+
+function copySendMessage(value = "") {
+  value = (value || "Hello world").replace(/\r?\n|\r/g, " ");
+  const copyType = getCopyType("copySendMessage");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["do", "message:send", ["text", "${value}"]])`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.message.sendText("${value}")` };
+  }
+}
+
+function copyShowMessage(value = "") {
+  value = (value || "Show me the money").replace(/\r?\n|\r/g, " ");
+  const copyType = getCopyType("copyShowMessage");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["do", "message:show", ["text", "${value}"]])`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.message.show("text", "${value}")` };
   }
 }
 
 function copyShowChatbox() {
-  const copyType = getCopyType('copyShowChatbox')
+  const copyType = getCopyType("copyShowChatbox");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "chat:show"]);` }
+      return { copyType, copyValue: `$crisp.push(["do", "chat:show"]);` };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.chat.show();` }
+      return { copyType, copyValue: `Crisp.chat.show();` };
   }
 }
 
 function copyHideChatbox() {
-  const copyType = getCopyType('copyHideChatbox')
+  const copyType = getCopyType("copyHideChatbox");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "chat:hide"]);` }
+      return { copyType, copyValue: `$crisp.push(["do", "chat:hide"]);` };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.chat.hide();` }
+      return { copyType, copyValue: `Crisp.chat.hide();` };
   }
 }
 
 function copyOpenChatbox() {
-  const copyType = getCopyType('copyOpenChatbox')
+  const copyType = getCopyType("copyOpenChatbox");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "chat:open"]);` }
+      return { copyType, copyValue: `$crisp.push(["do", "chat:open"]);` };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.chat.open();` }
+      return { copyType, copyValue: `Crisp.chat.open();` };
   }
 }
 
 function copyCloseChatbox() {
-  const copyType = getCopyType('copyCloseChatbox')
+  const copyType = getCopyType("copyCloseChatbox");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["do", "chat:close"]);` }
+      return { copyType, copyValue: `$crisp.push(["do", "chat:close"]);` };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.chat.close();` }
+      return { copyType, copyValue: `Crisp.chat.close();` };
   }
 }
 
 function copySwapLeft() {
-  const copyType = getCopyType('copySwapLeft')
+  const copyType = getCopyType("copySwapLeft");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["config", "position:reverse", [true]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["config", "position:reverse", [true]]);`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.setPosition("left");` }
+      return { copyType, copyValue: `Crisp.setPosition("left");` };
   }
 }
 
 function copySwapRight() {
-  const copyType = getCopyType('copySwapRight')
+  const copyType = getCopyType("copySwapRight");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["config", "position:reverse", [false]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["config", "position:reverse", [false]]);`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.setPosition("right");` }
+      return { copyType, copyValue: `Crisp.setPosition("right");` };
   }
 }
 
 function copyMute() {
-  const copyType = getCopyType('copyMute')
+  const copyType = getCopyType("copyMute");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["config", "sound:mute", [true]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["config", "sound:mute", [true]]);`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.muteSound(true);` }
+      return { copyType, copyValue: `Crisp.muteSound(true);` };
   }
 }
 
 function copyUnmute() {
-  const copyType = getCopyType('copyUnmute')
+  const copyType = getCopyType("copyUnmute");
 
   switch (copyType) {
     case COPY_A:
-      return { copyType, copyValue: `$crisp.push(["config", "sound:mute", [false]]);` }
+      return {
+        copyType,
+        copyValue: `$crisp.push(["config", "sound:mute", [false]]);`,
+      };
     case COPY_B:
-      return { copyType, copyValue: `Crisp.muteSound(false);` }
+      return { copyType, copyValue: `Crisp.muteSound(false);` };
   }
 }
 
 export default function useMethodCopier(id, value) {
   const copiers = {
-    'session-nickname': () => copyNickname(value),
-    'session-email': () => copyEmail(value),
-    'session-phone': () => copyPhone(value),
-    'session-company': () => copyCompany(value),
-    'session-avatar': () => copyAvatar(value),
-    'session-data': () => copyData(value),
-    'session-segment': () => copySegment(value),
+    "session-nickname": () => copyNickname(value),
+    "session-email": () => copyEmail(value),
+    "session-phone": () => copyPhone(value),
+    "session-company": () => copyCompany(value),
+    "session-avatar": () => copyAvatar(value),
+    "session-data": () => copyData(value),
+    "session-segment": () => copySegment(value),
     event: () => copyEvent(value),
     trigger: () => copyTrigger(value),
-    'send-message': () => copySendMessage(value),
-    'show-message': () => copyShowMessage(value),
-    'show-chatbox': () => copyShowChatbox(),
-    'hide-chatbox': () => copyHideChatbox(),
-    'open-chatbox': () => copyOpenChatbox(),
-    'close-chatbox': () => copyCloseChatbox(),
-    'swap-left': () => copySwapLeft(),
-    'swap-right': () => copySwapRight(),
+    "send-message": () => copySendMessage(value),
+    "show-message": () => copyShowMessage(value),
+    "show-chatbox": () => copyShowChatbox(),
+    "hide-chatbox": () => copyHideChatbox(),
+    "open-chatbox": () => copyOpenChatbox(),
+    "close-chatbox": () => copyCloseChatbox(),
+    "swap-left": () => copySwapLeft(),
+    "swap-right": () => copySwapRight(),
     mute: () => copyMute(),
-    unmute: () => copyUnmute()
-  }
+    unmute: () => copyUnmute(),
+  };
 
-  return copiers[id] ? copiers[id]() : null
+  return copiers[id] ? copiers[id]() : null;
 }

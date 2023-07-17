@@ -1,46 +1,48 @@
 <script setup>
-import IconLogo from '../../assets/IconLogo.vue'
+import IconLogo from "@/assets/images/general/IconLogo.vue";
 
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 function resolveRouteTitle(routeName) {
-  const targetRoute = router.options.routes.find((route) => route.name === routeName)
-  return targetRoute.meta.title
+  const targetRoute = router.options.routes.find(
+    (route) => route.name === routeName
+  );
+  return targetRoute.meta.title;
 }
 
 const homeTitle = computed(() => {
-  return "'" + resolveRouteTitle('home') + "'"
-})
+  return "'" + resolveRouteTitle("home") + "'";
+});
 
 const debuggingTitle = computed(() => {
-  return "'" + resolveRouteTitle('debugging') + "'"
-})
+  return "'" + resolveRouteTitle("debugging") + "'";
+});
 
 const methodsTitle = computed(() => {
-  return "'" + resolveRouteTitle('methods') + "'"
-})
+  return "'" + resolveRouteTitle("methods") + "'";
+});
 
 const ticketTitle = computed(() => {
-  return "'" + resolveRouteTitle('ticket') + "'"
-})
+  return "'" + resolveRouteTitle("ticket") + "'";
+});
 
 const contactTitle = computed(() => {
-  return "'" + resolveRouteTitle('contact') + "'"
-})
+  return "'" + resolveRouteTitle("contact") + "'";
+});
 
 const laboratoryTitle = computed(() => {
-  return "'" + resolveRouteTitle('laboratory') + "'"
-})
+  return "'" + resolveRouteTitle("laboratory") + "'";
+});
 
 const accountTitle = computed(() => {
-  return "'" + resolveRouteTitle('account') + "'"
-})
+  return "'" + resolveRouteTitle("account") + "'";
+});
 
 const settingsTitle = computed(() => {
-  return "'" + resolveRouteTitle('settings') + "'"
-})
+  return "'" + resolveRouteTitle("settings") + "'";
+});
 </script>
 
 <template>
@@ -54,13 +56,17 @@ const settingsTitle = computed(() => {
 
       <section class="pages">
         <router-link to="/methods" class="methods"
-          ><span class="material-symbols-outlined">code_blocks</span></router-link
+          ><span class="material-symbols-outlined"
+            >code_blocks</span
+          ></router-link
         >
         <router-link to="/debug" class="debugging"
           ><span class="material-symbols-outlined">adb</span></router-link
         >
         <router-link to="/ticket" class="ticket"
-          ><span class="material-symbols-outlined">confirmation_number</span></router-link
+          ><span class="material-symbols-outlined"
+            >confirmation_number</span
+          ></router-link
         >
         <router-link to="/contact" class="contact"
           ><span class="material-symbols-outlined">chat</span></router-link
@@ -72,7 +78,9 @@ const settingsTitle = computed(() => {
 
       <section class="/dashboard">
         <router-link to="account" class="account"
-          ><span class="material-symbols-outlined">account_circle</span></router-link
+          ><span class="material-symbols-outlined"
+            >account_circle</span
+          ></router-link
         >
         <router-link to="/settings" class="settings"
           ><span class="material-symbols-outlined">settings</span></router-link
@@ -202,7 +210,7 @@ aside nav section a.settings::before {
 aside nav section a::after {
   display: none;
   opacity: 0;
-  content: '';
+  content: "";
   z-index: 1000;
 }
 

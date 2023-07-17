@@ -1,11 +1,11 @@
 <script setup>
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import TicketHandler from '../components/widgets/TicketHandler.vue'
-import WebsiteHandler from '../components/widgets/WebsiteHandler.vue'
-import SessionHandler from '../components/widgets/SessionHandler.vue'
-import GetHandler from '../components/widgets/GetHandler.vue'
-import WebsitePreview from '../components/widgets/WebsitePreview.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import TicketHandler from "@/components/widgets/TicketHandler.vue";
+import WebsiteHandler from "@/components/widgets/WebsiteHandler.vue";
+import SessionHandler from "@/components/widgets/SessionHandler.vue";
+import GetHandler from "@/components/widgets/GetHandler.vue";
+import WebsitePreview from "@/components/widgets/WebsitePreview.vue";
 </script>
 
 <template>

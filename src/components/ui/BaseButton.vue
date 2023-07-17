@@ -1,35 +1,35 @@
 <script setup>
-const emits = defineEmits(['generate', 'copy'])
+const emits = defineEmits(["generate", "copy"]);
 const props = defineProps({
   button: {
     type: Boolean,
-    default: false
+    default: false,
   },
   color: {
     type: String,
-    default: ''
+    default: "",
   },
   value: {
     type: String,
-    default: ''
+    default: "",
   },
   id: {
     type: String,
-    default: ''
+    default: "",
   },
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   copy: {
     type: Boolean,
-    default: false
+    default: false,
   },
   copyType: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 </script>
 
 <template>
@@ -52,7 +52,10 @@ const props = defineProps({
     <input v-else :id="id" :value="value" :class="color" type="submit" />
 
     <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
-    <span v-if="copy" class="simple material-symbols-outlined" @click.stop="$emit('copy')"
+    <span
+      v-if="copy"
+      class="simple material-symbols-outlined"
+      @click.stop="$emit('copy')"
       >content_copy</span
     >
   </div>
@@ -210,7 +213,7 @@ span.copy-type {
 }
 
 span.copy-type::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 0;

@@ -1,49 +1,62 @@
 <script setup>
-import { computed, onMounted, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 
-import { useUserStore } from '../../stores/user.js'
+import { useUserStore } from "@/stores/user.js";
 
-const userStore = useUserStore()
-const userThemeDetect = computed(() => userStore.getSettingById('preference-theme').value)
-const userThemeSelected = computed(() => userStore.getSettingById('selected-theme').value)
+const userStore = useUserStore();
+const userThemeDetect = computed(
+  () => userStore.getSettingById("preference-theme").value
+);
+const userThemeSelected = computed(
+  () => userStore.getSettingById("selected-theme").value
+);
 
-const route = useRoute()
+const route = useRoute();
 const pageTitle = computed(() => {
-  return route.meta.title
-})
+  return route.meta.title;
+});
 
 onMounted(() => {
-  applyTheme()
-})
+  applyTheme();
+});
 
 watchEffect(() => {
-  applyTheme()
-})
+  applyTheme();
+});
 
 function applyTheme() {
   if (userThemeDetect.value) {
     // Use prefers-color-scheme media feature to detect theme
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
-    
+    const isDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDarkMode ? "dark" : "light"
+    );
+
     // Update the user's selected theme according to the detected theme
-    userStore.updateSettingValue('selected-theme', isDarkMode ? 'dark' : 'light')
+    userStore.updateSettingValue(
+      "selected-theme",
+      isDarkMode ? "dark" : "light"
+    );
   } else {
     // Use the user-selected theme
-    document.documentElement.setAttribute('data-theme', userThemeSelected.value)
+    document.documentElement.setAttribute(
+      "data-theme",
+      userThemeSelected.value
+    );
   }
 }
 
-
-
 function toggleTheme(theme) {
-  userStore.updateSettingValue('preference-theme', false)
+  userStore.updateSettingValue("preference-theme", false);
 
-  if (theme === 'light') {
-    userStore.updateSettingValue('selected-theme', 'light')
+  if (theme === "light") {
+    userStore.updateSettingValue("selected-theme", "light");
   } else {
-    userStore.updateSettingValue('selected-theme', 'dark')
+    userStore.updateSettingValue("selected-theme", "dark");
   }
 }
 </script>
@@ -58,8 +71,18 @@ function toggleTheme(theme) {
         <h2>{{ pageTitle }}</h2>
       </section>
       <section>
-        <span v-if="userThemeSelected === 'light'" class="go-dark material-symbols-outlined" @click="toggleTheme('dark')">dark_mode</span>
-        <span v-else class="go-light material-symbols-outlined" @click="toggleTheme('light')">light_mode</span>
+        <span
+          v-if="userThemeSelected === 'light'"
+          class="go-dark material-symbols-outlined"
+          @click="toggleTheme('dark')"
+          >dark_mode</span
+        >
+        <span
+          v-else
+          class="go-light material-symbols-outlined"
+          @click="toggleTheme('light')"
+          >light_mode</span
+        >
       </section>
     </nav>
   </header>
@@ -130,6 +153,6 @@ span.go-dark {
 }
 
 span:hover {
-  transform: scale(1.25)
+  transform: scale(1.25);
 }
 </style>

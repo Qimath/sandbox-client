@@ -1,13 +1,13 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { useMethodsStore } from '../../stores/methods.js'
+import { computed, reactive, ref } from "vue";
+import { useMethodsStore } from "@/stores/methods.js";
 
-import useMethodPusher from '../../hooks/push.js'
-import useMethodCopier from '../../hooks/copy.js'
+import useMethodPusher from "@/hooks/push.js";
+import useMethodCopier from "@/hooks/copy.js";
 
-import BaseButton from '../ui/BaseButton.vue'
+import BaseButton from "@/components/ui/BaseButton.vue";
 
-const methodsStore = useMethodsStore()
+const methodsStore = useMethodsStore();
 
 const doMethods = computed(() => ({
   showChatbox: methodsStore.showChatbox,
@@ -17,50 +17,49 @@ const doMethods = computed(() => ({
   swapLeft: methodsStore.swapLeft,
   swapRight: methodsStore.swapRight,
   mute: methodsStore.mute,
-  unmute: methodsStore.unmute
-}))
+  unmute: methodsStore.unmute,
+}));
 
-const copyResults = reactive({})
-const successTimeoutIds = reactive({})
-
+const copyResults = reactive({});
+const successTimeoutIds = reactive({});
 
 async function copyMethod(id) {
   if (!copyResults[id]) {
-    copyResults[id] = reactive({ copyType: '' })
+    copyResults[id] = reactive({ copyType: "" });
   }
 
   try {
-    const result = await useMethodCopier(id)
+    const result = await useMethodCopier(id);
     if (result) {
       setTimeout(() => {
-        Object.assign(copyResults[id], result)
-        navigator.clipboard.writeText(copyResults[id].copyValue)
-      }, 1)
+        Object.assign(copyResults[id], result);
+        navigator.clipboard.writeText(copyResults[id].copyValue);
+      }, 1);
 
       if (successTimeoutIds[id]) {
-        clearTimeout(successTimeoutIds[id])
+        clearTimeout(successTimeoutIds[id]);
       }
 
       successTimeoutIds[id] = ref(
         setTimeout(() => {
-          copyResults[id].copyType = ''
+          copyResults[id].copyType = "";
         }, 1000)
-      )
+      );
     }
   } catch (error) {
-    console.error('An app error occurred:', error)
+    console.error("An app error occurred:", error);
   }
 }
 
 async function pushMethod(id) {
   try {
-    const result = await useMethodPusher(id)
+    const result = await useMethodPusher(id);
 
     if (result) {
-      return
+      return;
     }
   } catch (error) {
-    console.error('An app error occurred:', error)
+    console.error("An app error occurred:", error);
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <script setup>
-import SideContent from './components//layout/SideContent.vue'
-import MainContent from './components/layout/MainContent.vue'
+import SideContent from "@/components//layout/SideContent.vue";
+import MainContent from "@/components/layout/MainContent.vue";
 </script>
 
 <template>
@@ -8,5 +8,4 @@ import MainContent from './components/layout/MainContent.vue'
   <MainContent />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

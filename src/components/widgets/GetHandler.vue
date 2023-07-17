@@ -1,74 +1,74 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { useSessionStore } from '../../stores/session.js'
-import { useMethodsStore } from '../../stores/methods.js'
+import { computed, reactive, ref } from "vue";
+import { useSessionStore } from "@/stores/session.js";
+import { useMethodsStore } from "@/stores/methods.js";
 
-import useMethodGetter from '../../hooks/get.js'
+import useMethodGetter from "@/hooks/get.js";
 
-import BaseButton from '../ui/BaseButton.vue'
-import BaseOutput from '../ui/BaseOutput.vue'
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseOutput from "@/components/ui/BaseOutput.vue";
 
-const sessionStore = useSessionStore()
-const sessionContent = computed(() => sessionStore.session.content)
+const sessionStore = useSessionStore();
+const sessionContent = computed(() => sessionStore.session.content);
 
-const methodsStore = useMethodsStore()
+const methodsStore = useMethodsStore();
 
 const refreshResult = reactive({
-  'session-nickname': {
-    success: '',
-    error: ''
+  "session-nickname": {
+    success: "",
+    error: "",
   },
-  'session-email': {
-    success: '',
-    error: ''
+  "session-email": {
+    success: "",
+    error: "",
   },
-  'session-phone': {
-    success: '',
-    error: ''
+  "session-phone": {
+    success: "",
+    error: "",
   },
-  'session-company': {
-    success: '',
-    error: ''
+  "session-company": {
+    success: "",
+    error: "",
   },
-  'session-avatar': {
-    success: '',
-    error: ''
+  "session-avatar": {
+    success: "",
+    error: "",
   },
-  'session-data': {
-    success: '',
-    error: ''
-  }
-})
+  "session-data": {
+    success: "",
+    error: "",
+  },
+});
 
 async function sessionContentRefresh(id) {
-  refreshResult[id].success = ''
-  refreshResult[id].error = ''
+  refreshResult[id].success = "";
+  refreshResult[id].error = "";
 
   try {
-    const result = await useMethodGetter(id)
+    const result = await useMethodGetter(id);
 
     if (result) {
-      if (result.error && result.error !== '') {
+      if (result.error && result.error !== "") {
         setTimeout(() => {
-          refreshResult[id].error = result.error
-        }, 1)
+          refreshResult[id].error = result.error;
+        }, 1);
       }
 
-      if (result.success && result.success !== '') {
+      if (result.success && result.success !== "") {
         if (sessionContentRefresh.successTimeoutId) {
-          clearTimeout(sessionContentRefresh.successTimeoutId.value)
+          clearTimeout(sessionContentRefresh.successTimeoutId.value);
         }
-        refreshResult[id].success = result.success
+        refreshResult[id].success = result.success;
         sessionContentRefresh.successTimeoutId = ref(
           setTimeout(() => {
-            refreshResult[id].success = ''
+            refreshResult[id].success = "";
           }, 500)
-        )
+        );
       }
     }
   } catch (error) {
-    console.error('An app error occurred:', error)
-    refreshResult[id].error = 'App error: Get'
+    console.error("An app error occurred:", error);
+    refreshResult[id].error = "App error: Get";
   }
 }
 
@@ -79,18 +79,17 @@ async function sessionContentRefreshAll() {
     methodsStore.phone.id,
     methodsStore.company.id,
     methodsStore.avatar.id,
-    methodsStore.data.id
+    methodsStore.data.id,
   ];
 
   ids.forEach(sessionContentRefresh);
 
   setTimeout(() => {
-    ids.forEach(id => {
-      refreshResult[id].success = '';
+    ids.forEach((id) => {
+      refreshResult[id].success = "";
     });
   }, 500);
 }
-
 </script>
 
 <template>
@@ -152,7 +151,12 @@ async function sessionContentRefreshAll() {
         @refresh="sessionContentRefresh(methodsStore.data.id)"
         refresh
       />
-      <BaseButton id="get-session-refresh" color="blue" value="refresh all" @click="sessionContentRefreshAll" />
+      <BaseButton
+        id="get-session-refresh"
+        color="blue"
+        value="refresh all"
+        @click="sessionContentRefreshAll"
+      />
     </form>
   </div>
 </template>

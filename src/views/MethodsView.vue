@@ -1,11 +1,11 @@
 <script setup>
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import PushHandler from '../components/widgets/PushHandler.vue'
-import DoHandler from '../components/widgets/DoHandler.vue'
-import WebsiteHandler from '../components/widgets/WebsiteHandler.vue'
-import SessionHandler from '../components/widgets/SessionHandler.vue'
-import GetHandler from '../components/widgets/GetHandler.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import PushHandler from "@/components/widgets/PushHandler.vue";
+import DoHandler from "@/components/widgets/DoHandler.vue";
+import WebsiteHandler from "@/components/widgets/WebsiteHandler.vue";
+import SessionHandler from "@/components/widgets/SessionHandler.vue";
+import GetHandler from "@/components/widgets/GetHandler.vue";
 </script>
 
 <template>
@@ -60,5 +60,4 @@ import GetHandler from '../components/widgets/GetHandler.vue'
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

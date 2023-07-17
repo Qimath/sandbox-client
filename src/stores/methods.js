@@ -1,110 +1,109 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
 export const useMethodsStore = defineStore({
-  id: 'methods',
+  id: "methods",
   state: () => ({
     nickname: {
-      id: 'session-nickname',
-      label: 'Nickname',
-      icon: 'badge'
+      id: "session-nickname",
+      label: "Nickname",
+      icon: "badge",
     },
     email: {
-      id: 'session-email',
-      label: 'Email address',
-      icon: 'mail'
+      id: "session-email",
+      label: "Email address",
+      icon: "mail",
     },
     phone: {
-      id: 'session-phone',
-      label: 'Phone number',
-      icon: 'call'
+      id: "session-phone",
+      label: "Phone number",
+      icon: "call",
     },
     company: {
-      id: 'session-company',
-      label: 'Company',
-      icon: 'work'
+      id: "session-company",
+      label: "Company",
+      icon: "work",
     },
     avatar: {
-      id: 'session-avatar',
-      label: 'Avatar',
-      icon: 'landscape'
+      id: "session-avatar",
+      label: "Avatar",
+      icon: "landscape",
     },
     data: {
-      id: 'session-data',
-      label: 'Custom data',
+      id: "session-data",
+      label: "Custom data",
       dataKey: {
-        label: 'Data key',
-        icon: 'join_left'
+        label: "Data key",
+        icon: "join_left",
       },
       dataValue: {
-        label: 'Data value',
-        icon: 'join_right'
-      }
+        label: "Data value",
+        icon: "join_right",
+      },
     },
     segment: {
-      id: 'session-segment',
-      label: 'Segment',
-      icon: 'sell'
+      id: "session-segment",
+      label: "Segment",
+      icon: "sell",
     },
     event: {
-      id: 'event',
-      label: 'Event',
-      icon: 'celebration'
+      id: "event",
+      label: "Event",
+      icon: "celebration",
     },
     trigger: {
-      id: 'trigger',
-      label: 'Trigger',
-      icon: 'notifications'
+      id: "trigger",
+      label: "Trigger",
+      icon: "notifications",
     },
     sendMessage: {
-      id: 'send-message',
-      label: 'Send message',
-      icon: 'send'
+      id: "send-message",
+      label: "Send message",
+      icon: "send",
     },
     showMessage: {
-      id: 'show-message',
-      label: 'Show message',
-      icon: 'mark_as_unread'
-    }
-    ,
+      id: "show-message",
+      label: "Show message",
+      icon: "mark_as_unread",
+    },
     showChatbox: {
-      id: 'show-chatbox',
-      label: 'Show chatbox'
+      id: "show-chatbox",
+      label: "Show chatbox",
     },
     hideChatbox: {
-      id: 'hide-chatbox',
-      label: 'Hide chatbox'
+      id: "hide-chatbox",
+      label: "Hide chatbox",
     },
     openChatbox: {
-      id: 'open-chatbox',
-      label: 'Open chatbox'
+      id: "open-chatbox",
+      label: "Open chatbox",
     },
     closeChatbox: {
-      id: 'close-chatbox',
-      label: 'Close chatbox'
+      id: "close-chatbox",
+      label: "Close chatbox",
     },
     swapLeft: {
-      id: 'swap-left',
-      label: 'Swap left'
+      id: "swap-left",
+      label: "Swap left",
     },
     swapRight: {
-      id: 'swap-right',
-      label: 'Swap right'
+      id: "swap-right",
+      label: "Swap right",
     },
     mute: {
-      id: 'mute',
-      label: 'Mute'
+      id: "mute",
+      label: "Mute",
     },
     unmute: {
-      id: 'unmute',
-      label: 'Unmute'
-    }
+      id: "unmute",
+      label: "Unmute",
+    },
   }),
 
   getters: {
     getMethodById: (state) => (id) => {
-      return Object.values(state).find((method) => method.id === id)
-    }
+      return Object.values(state).find((method) => method.id === id);
+    },
   },
 
-  actions: {}
-})
+  actions: {},
+});

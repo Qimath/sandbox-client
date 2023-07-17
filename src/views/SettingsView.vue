@@ -1,76 +1,77 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 
-import BaseContainer from '../components/ui/BaseContainer.vue'
-import BaseCard from '../components/ui/BaseCard.vue'
-import BaseBanner from '../components/ui/BaseBanner.vue'
-import SettingsHandler from '../components/widgets/SettingsHandler.vue'
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import BaseCard from "@/components/ui/BaseCard.vue";
+import BaseBanner from "@/components/ui/BaseBanner.vue";
+import SettingsHandler from "@/components/widgets/SettingsHandler.vue";
 
-import { useBanner } from '../hooks/banner.js'
+import { useBanner } from "@/hooks/banner.js";
 
-const { bannerOptions, displayBanner, closeBanner } = useBanner()
+const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
 function settingsResultHandler(value) {
-  let currentStatus = ''
+  let currentStatus = "";
 
-  if (value.error && value.error !== '') {
-    currentStatus = 'error'
-  } else if (value.error === '' && value.success && value.success !== '') {
-    currentStatus = 'success'
+  if (value.error && value.error !== "") {
+    currentStatus = "error";
+  } else if (value.error === "" && value.success && value.success !== "") {
+    currentStatus = "success";
   }
 
-  if (currentStatus === 'error') {
+  if (currentStatus === "error") {
     displayBanner({
-      message: 'There was an error saving these settings: ' + value.error,
-      type: 'error',
-      animate: true
-    })
-  } else if (currentStatus === 'success') {
+      message: "There was an error saving these settings: " + value.error,
+      type: "error",
+      animate: true,
+    });
+  } else if (currentStatus === "success") {
     displayBanner({
-      message: 'Settings saved successfully! Some changes require the app to be restarted.',
-      type: 'info',
-      action: 'reload',
-      animate: false
-    })
+      message:
+        "Settings saved successfully! Some changes require the app to be restarted.",
+      type: "info",
+      action: "reload",
+      animate: false,
+    });
   }
 }
 
 function handleBannerAction(action) {
-  if (action === 'reload') {
-    window.sessionStorage.setItem('settingsSaved', 'true')
-    window.location.reload()
+  if (action === "reload") {
+    window.sessionStorage.setItem("settingsSaved", "true");
+    window.location.reload();
   }
 }
 
 function resetSettings() {
-  localStorage.removeItem('user')
+  localStorage.removeItem("user");
 
-  window.sessionStorage.removeItem('settingsSaved')
-  window.sessionStorage.setItem('settingsReset', 'true')
-  window.location.reload()
+  window.sessionStorage.removeItem("settingsSaved");
+  window.sessionStorage.setItem("settingsReset", "true");
+  window.location.reload();
 }
 
 onMounted(() => {
-  if (window.sessionStorage.getItem('settingsSaved')) {
+  if (window.sessionStorage.getItem("settingsSaved")) {
     displayBanner({
-      message: 'Settings have been applied and loaded successfully!',
-      type: 'success',
-      animate: true
-    })
+      message: "Settings have been applied and loaded successfully!",
+      type: "success",
+      animate: true,
+    });
 
-    window.sessionStorage.removeItem('settingsSaved')
+    window.sessionStorage.removeItem("settingsSaved");
   }
 
-  if (window.sessionStorage.getItem('settingsReset')) {
+  if (window.sessionStorage.getItem("settingsReset")) {
     displayBanner({
-      message: 'Default settings have been restored.',
-      type: 'warning',
-      animate: true
-    })
+      message: "Default settings have been restored.",
+      type: "warning",
+      animate: true,
+    });
 
-    window.sessionStorage.removeItem('settingsReset')
+    window.sessionStorage.removeItem("settingsReset");
   }
-})
+});
 </script>
 
 <template>
@@ -87,12 +88,18 @@ onMounted(() => {
               setting-id="preference-storage"
               @settingsResult="settingsResultHandler"
             />
-            <SettingsHandler setting-id="preference-gtm" @settingsResult="settingsResultHandler" />
+            <SettingsHandler
+              setting-id="preference-gtm"
+              @settingsResult="settingsResultHandler"
+            />
           </template>
         </BaseCard>
         <BaseCard>
           <template #card>
-            <SettingsHandler setting-id="setting-merge" @settingsResult="settingsResultHandler" />
+            <SettingsHandler
+              setting-id="setting-merge"
+              @settingsResult="settingsResultHandler"
+            />
             <SettingsHandler
               setting-id="setting-maximized"
               @settingsResult="settingsResultHandler"
@@ -105,13 +112,22 @@ onMounted(() => {
               setting-id="setting-safemode"
               @settingsResult="settingsResultHandler"
             />
-            <SettingsHandler setting-id="setting-cookie" @settingsResult="settingsResultHandler" />
-            <SettingsHandler setting-id="setting-locale" @settingsResult="settingsResultHandler" />
+            <SettingsHandler
+              setting-id="setting-cookie"
+              @settingsResult="settingsResultHandler"
+            />
+            <SettingsHandler
+              setting-id="setting-locale"
+              @settingsResult="settingsResultHandler"
+            />
           </template>
         </BaseCard>
         <BaseCard>
           <template #card>
-            <SettingsHandler setting-id="reset-settings" @resetSettings="resetSettings" />
+            <SettingsHandler
+              setting-id="reset-settings"
+              @resetSettings="resetSettings"
+            />
           </template>
         </BaseCard>
       </template>

@@ -1,97 +1,97 @@
 <script setup>
-import { ref, watch, toRaw, reactive, onMounted } from 'vue'
+import { ref, watch, toRaw, reactive, onMounted } from "vue";
 
-defineEmits(['refresh'])
+defineEmits(["refresh"]);
 
 const props = defineProps({
   refresh: {
     type: Boolean,
-    default: false
+    default: false,
   },
   link: {
     type: Boolean,
-    default: false
+    default: false,
   },
   url: {
     type: String,
-    default: ''
+    default: "",
   },
   label: {
     type: String,
-    default: ''
+    default: "",
   },
   id: {
     type: String,
-    default: ''
+    default: "",
   },
   value: {
     type: [String, Object],
-    default: ''
+    default: "",
   },
   success: {
     type: String,
-    default: ''
+    default: "",
   },
   error: {
     type: String,
-    default: ''
+    default: "",
   },
   compact: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const previousValue = ref(props.value)
-const refreshSuccess = reactive({})
-const holdInit = ref(true)
+const previousValue = ref(props.value);
+const refreshSuccess = reactive({});
+const holdInit = ref(true);
 
 onMounted(() => {
   setTimeout(() => {
-    holdInit.value = false
-  }, 1000)
-})
+    holdInit.value = false;
+  }, 1000);
+});
 
 watch(
   () => props.value,
-  (newValue, oldValue) => {
-    if (typeof newValue === 'string') {
+  (newValue) => {
+    if (typeof newValue === "string") {
       Object.keys(refreshSuccess).forEach((key) => {
-        delete refreshSuccess[key]
-      })
+        delete refreshSuccess[key];
+      });
 
       if (previousValue.value !== newValue) {
-        refreshSuccess['_'] = true
+        refreshSuccess["_"] = true;
         setTimeout(() => {
-          refreshSuccess['_'] = false
-        }, 500)
+          refreshSuccess["_"] = false;
+        }, 500);
       }
     } else {
-      const newRefreshSuccess = {}
+      const newRefreshSuccess = {};
 
       for (const key in newValue) {
         if (previousValue.value[key] !== newValue[key]) {
-          newRefreshSuccess[key] = true
+          newRefreshSuccess[key] = true;
         } else {
-          newRefreshSuccess[key] = refreshSuccess[key] || false
+          newRefreshSuccess[key] = refreshSuccess[key] || false;
         }
       }
 
-      Object.assign(refreshSuccess, newRefreshSuccess)
+      Object.assign(refreshSuccess, newRefreshSuccess);
 
       for (const key in newValue) {
         if (refreshSuccess[key] === true) {
           setTimeout(() => {
-            refreshSuccess[key] = false
-          }, 500)
+            refreshSuccess[key] = false;
+          }, 500);
         }
       }
     }
 
-    previousValue.value = toRaw(newValue)
+    previousValue.value = toRaw(newValue);
   },
   { deep: true }
-)
+);
 </script>
 
 <template>
@@ -101,7 +101,7 @@ watch(
       compact: compact,
       hold: holdInit,
       error: !!error,
-      success: !!success || refreshSuccess['_']
+      success: !!success || refreshSuccess['_'],
     }"
   >
     <span class="label">{{ label }}</span>
@@ -111,20 +111,31 @@ watch(
       :key="index"
       :id="`${id}_${index + 1}`"
       :class="{ success: !!refreshSuccess[pair[0]] }"
-      v-if="typeof value === 'object' && value !== null && Object.keys(value).length > 0"
+      v-if="
+        typeof value === 'object' &&
+        value !== null &&
+        Object.keys(value).length > 0
+      "
     >
       <pre class="key">{{ pair[0] }}</pre>
       <pre class="value">{{ pair[1] }}</pre>
     </div>
 
     <pre v-else-if="typeof value === 'string' && !link">{{ value }}</pre>
-    <pre v-else-if="typeof value === 'string' && link && value !== '' && value !== 'N/A'">
+    <pre
+      v-else-if="
+        typeof value === 'string' && link && value !== '' && value !== 'N/A'
+      "
+    >
       <a :href="url" target="_blank"><span>{{ value }}</span><span class="external-url material-symbols-outlined">link</span></a></pre>
     <pre v-else>N/A</pre>
-    <span v-if="refresh" class="refresh material-symbols-outlined" @click="$emit('refresh')"
+    <span
+      v-if="refresh"
+      class="refresh material-symbols-outlined"
+      @click="$emit('refresh')"
       >refresh</span
     >
-    </section>
+  </section>
 </template>
 
 <style scoped>
@@ -180,7 +191,7 @@ span.refresh {
   z-index: 1;
   user-select: none;
   -webkit-user-select: none;
-  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 48;
 }
 
 span.refresh:hover {
@@ -239,7 +250,8 @@ div.double pre + pre {
   width: 100%;
 }
 
-section.success pre {
+section.success pre,
+div.success pre {
   animation: flashSuccess 0.5s infinite;
 }
 
@@ -289,7 +301,7 @@ a:hover span:not(.external-url) {
 span.external-url {
   margin-left: 0.5rem;
   font-size: 1.375rem;
-  font-variation-settings: 'wght' 400;
+  font-variation-settings: "wght" 400;
 }
 
 @keyframes flashSuccess {

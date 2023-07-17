@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue'
-import { useConfigStore } from '../../stores/config.js'
+import { computed } from "vue";
+import { useConfigStore } from "@/stores/config.js";
 
-import BasePreview from '../ui/BasePreview.vue'
+import BasePreview from "@/components/ui/BasePreview.vue";
 
-const configStore = useConfigStore()
-const websiteConfig = computed(() => configStore.website)
+const configStore = useConfigStore();
+const websiteConfig = computed(() => configStore.website);
 </script>
 
 <template>
