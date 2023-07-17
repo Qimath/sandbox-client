@@ -1,17 +1,17 @@
-const { Configuration, OpenAIApi } = require('openai')
-const openAI_SECRET_KEY = process.env.OPENAI_SECRET_KEY
+const { Configuration, OpenAIApi } = require("openai");
+const openAI_SECRET_KEY = process.env.OPENAI_SECRET_KEY;
 
 const configuration = new Configuration({
-  apiKey: openAI_SECRET_KEY
-})
+  apiKey: openAI_SECRET_KEY,
+});
 
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAIApi(configuration);
 
 async function sendPrompt(input) {
-  const model = 'gpt-3.5-turbo'
+  const model = "gpt-3.5-turbo";
   const messages = [
     {
-      role: 'system',
+      role: "system",
       content: `
     You are an assistant that supports the Crisp technical support team. You are tasked with analyzing data and determining whether the Crisp chatbox is visible or not. Here are the rules you need to follow:
 
@@ -35,10 +35,10 @@ async function sendPrompt(input) {
     Also make sure to use similar formatting to the ones provided in the examples you will find.
 
     Lastly, remember to carefully compare each point with pre-existing scenarios and these rules to provide an accurate diagnostic.
-  `
+  `,
     },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug
       website settings:
@@ -53,10 +53,10 @@ async function sendPrompt(input) {
       blocked_countries: ,
       blocked_locales: ,
       blocked_ips: 
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>Given your current settings, the chatbox should be visible on your current page (http://localhost:5173/debug).</p>
       <p>
@@ -72,10 +72,10 @@ async function sendPrompt(input) {
       <p>
       Apart from these specific conditions, the chatbox should be visible to users. If you have any other queries or need further assistance, don't hesitate to ask.
       </p>
-      `
-    },    
+      `,
+    },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug?
       website settings:
@@ -90,10 +90,10 @@ async function sendPrompt(input) {
       blocked_countries: ,
       blocked_locales: EN,
       blocked_ips: 
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>Due to the "Hide on vacation" setting being enabled, the chatbox won't be visible anywhere. It's like the chatbox is on a permanent holiday!</p>
       <p>
@@ -102,10 +102,10 @@ async function sendPrompt(input) {
       <p>
       No other restrictions apply here, so aside from these, we're good to go. Now, if you'll excuse me, I have a cup of digital tea waiting.
       </p>
-      `
+      `,
     },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug?
       website settings:
@@ -120,19 +120,19 @@ async function sendPrompt(input) {
       blocked_countries: ,
       blocked_locales: ,
       blocked_ips: 
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>Currently, the chatbox isn't visible on your page, but it should appear just fine on the gimini.com domain.</p>
       <p>
       It's due to the "Lock Domain" setting being on. With this, the chatbox only shows up on the set domain, which is gimini.com in this case. So, if anyone tells you they can't see the chatbox, be sure they're on the right website!
       </p>
-      `
-    },    
+      `,
+    },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug?
       website settings:
@@ -147,10 +147,10 @@ async function sendPrompt(input) {
       blocked_countries: FR, UK,
       blocked_locales: ,
       blocked_ips: 
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>With "Hide on away" enabled and the team currently offline, the chatbox is enjoying some downtime and won't be visible.</p>
       <p>
@@ -168,10 +168,10 @@ async function sendPrompt(input) {
       <p>
       That's it from my end. Keep an eye on this one, looks like they love to shake things up. I'm off for a quick coffee break.
       </p>
-      `
+      `,
     },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug?
       website settings:
@@ -186,10 +186,10 @@ async function sendPrompt(input) {
       blocked_countries: ,
       blocked_locales: ,
       blocked_ips: ,
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>The chatbox won't make an appearance on your Sandbox because of the enabled locked-domain option. However, it should be rocking on the client's website: https://theenergycompany.com</p>
       <p>
@@ -202,10 +202,10 @@ async function sendPrompt(input) {
       <p>
       No other restrictions on countries, locales, or IPs for this one. Let me know when you've got more curveballs to throw my way!
       </p>
-      `
-    },    
+      `,
+    },
     {
-      role: 'user',
+      role: "user",
       content: `
       current page: http://localhost:5173/debug?
       website settings:
@@ -220,10 +220,10 @@ async function sendPrompt(input) {
       blocked_countries: IT, USA,
       blocked_locales: de,
       blocked_ips: ,
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>As it stands, the chatbox won't be visible because the website is offline.</p>
       <p>
@@ -241,58 +241,59 @@ async function sendPrompt(input) {
       <p>
       That covers the settings for this one. Give me a shout if you have more cases that need tackling.
       </p>
-      `
+      `,
     },
     {
-      role: 'user',
+      role: "user",
       content: `
       <p>Unfortunately your last response was wrong. Even if 'online' is false, the chatbox remains visible unless 'hide_on_away' is enabled, which is not the case here.</p>
       <p>Therefore, in this case the chatbox was visible. <br>
       You need to pay attention to how settings interact between each others.</p>
-      `
+      `,
     },
     {
-      role: 'assistant',
+      role: "assistant",
       content: `
       <p>Thank you for the correction. <br>
       If 'online' is true, the chatbox will be visible regardless if 'hide_on_away' is set to true or not. <br>
       If 'online' is false (support is offline), the chatbox will still be visible, unless 'hide_on_away' is true, and only if it is true.</p>
       <p>You are indeed correct, and the chatbox was visible in this case, especially as Vacation mode was disabled and there was no other restrictions present.</p>
-      `
+      `,
     },
     {
-      role: 'user',
-      content: input
-    }
-  ]
+      role: "user",
+      content: input,
+    },
+  ];
 
   const completion = await openai.createChatCompletion({
     model,
-    messages
-  })
-  console.log(completion.data.choices)
-  return completion.data.choices
+    messages,
+  });
+  console.log(completion.data.choices);
+  return completion.data.choices;
 }
 
 exports.handler = async function (event, context) {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' }
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const { prompt } = JSON.parse(event.body)
-  const answer = await sendPrompt(prompt)
+  const { prompt } = JSON.parse(event.body);
+  const answer = await sendPrompt(prompt);
 
   const headers = {
-    'Access-Control-Allow-Origin': 'http://localhost:5173',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+    "Access-Control-Allow-Headers": "Content-Type",
   };
 
   return {
     statusCode: 200,
     headers,
     body: JSON.stringify({
-      message: answer
-    })
-  }
-}
+      message: answer,
+    }),
+  };
+};
+
