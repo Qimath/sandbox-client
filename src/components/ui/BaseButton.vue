@@ -62,14 +62,14 @@ const props = defineProps({
 </template>
 
 <style scoped>
-div {
+div.btn-container {
   margin-top: 0.75rem;
   width: 100%;
   border-radius: 0.25rem;
   overflow: hidden;
 }
 
-div:first-child {
+div.btn-container:first-child {
   margin-top: 0;
 }
 

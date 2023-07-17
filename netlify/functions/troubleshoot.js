@@ -282,8 +282,15 @@ exports.handler = async function (event, context) {
   const { prompt } = JSON.parse(event.body)
   const answer = await sendPrompt(prompt)
 
+  const headers = {
+    'Access-Control-Allow-Origin': 'http://localhost:5173',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
   return {
     statusCode: 200,
+    headers,
     body: JSON.stringify({
       message: answer
     })
