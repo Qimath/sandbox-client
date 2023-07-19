@@ -9,6 +9,7 @@ const websiteConfig = computed(() => configStore.website.config);
 
 const isLoading = ref(false);
 const gptResponse = ref("");
+const gptError = ref("");
 
 function formatSettings(settings) {
   return Object.entries(settings)
@@ -18,6 +19,8 @@ function formatSettings(settings) {
 
 async function debugChatbox() {
   if (isLoading.value) return;
+
+  gptError.value = "";
 
   try {
     isLoading.value = true;
@@ -57,7 +60,10 @@ async function debugChatbox() {
     gptResponse.value = response.message[0].message.content;
     gptResponse.value = gptResponse.value.replace(/\n/g, "<br/>");
   } catch (error) {
-    console.error("Error during fetch response: ", error);
+    gptError.value =
+      "Error: " +
+      error.message +
+      "<br>Try again, it might very well just work. Nobody knows how any of this works anyways.";
   } finally {
     isLoading.value = false;
   }
@@ -69,14 +75,21 @@ async function debugChatbox() {
     <div class="form">
       <BaseButton
         id="debugging-start"
-        value="troubleshoot chatbox"
         color="green"
         button
         @click="debugChatbox"
         :loading="isLoading"
-      />
-      <div v-if="!isLoading && gptResponse !== ''" class="debugging-result">
+      >
+        <template #button>troubleshoot chatbox</template>
+      </BaseButton>
+      <div
+        v-if="!isLoading && !gptError && gptResponse !== ''"
+        class="debugging-result"
+      >
         <pre v-html="gptResponse"></pre>
+      </div>
+      <div v-if="!isLoading && gptError !== ''" class="debugging-error">
+        <pre v-html="gptError"></pre>
       </div>
     </div>
   </div>
@@ -86,14 +99,27 @@ async function debugChatbox() {
 .debugging-result {
   margin-top: 0.75rem;
   border: 1px solid var(--container-border);
+  border-radius: 0.25rem;
   background: var(--main-bg-pri);
   width: 100%;
   max-height: 20rem;
   overflow-y: scroll;
 }
+
+.debugging-error {
+  margin-top: 0.75rem;
+  border: 1px solid var(--container-border);
+  border-radius: 0.25rem;
+  background: var(--main-bg-pri);
+  width: 100%;
+  max-height: 20rem;
+  overflow-y: scroll;
+  color: var(--error-text);
+}
+
 pre {
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem;
   font-size: 1rem;
   word-wrap: break-word;
   overflow-wrap: break-word;

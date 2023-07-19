@@ -1,20 +1,12 @@
 <script setup>
 import { ref, watch, onMounted, nextTick } from "vue";
 
-defineEmits(["update:value", "copy", "secret"]);
+defineEmits(["update:value", "action"]);
 
 const props = defineProps({
   textarea: {
     type: Boolean,
     default: false,
-  },
-  secret: {
-    type: Boolean,
-    default: false,
-  },
-  copy: {
-    type: Boolean,
-    default: true,
   },
   copyType: {
     type: String,
@@ -47,6 +39,18 @@ const props = defineProps({
   number: {
     type: Boolean,
     default: false,
+  },
+  action: {
+    type: Boolean,
+    default: false,
+  },
+  actionType: {
+    type: String,
+    default: "",
+  },
+  actionLabel: {
+    type: String,
+    default: "",
   },
 });
 
@@ -107,18 +111,13 @@ onMounted(() => {
       <span class="material-symbols-outlined">{{ icon }}</span>
       {{ error || success || label }}
     </label>
-    <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
+    <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
     <span
-      v-if="copy"
-      class="simple material-symbols-outlined"
-      @click="$emit('copy')"
-      >content_copy</span
-    >
-    <span
-      v-if="secret"
-      class="large material-symbols-outlined"
-      @click="$emit('secret')"
-      >key</span
+      v-if="action"
+      class="material-symbols-outlined"
+      :class="actionType"
+      @click="$emit('action')"
+      >{{ actionLabel }}</span
     >
   </div>
 </template>

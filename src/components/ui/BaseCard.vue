@@ -41,14 +41,12 @@
 
 .card form {
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
 dialog form {
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -56,7 +54,6 @@ dialog form {
 .card .form,
 .card .table {
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
 }

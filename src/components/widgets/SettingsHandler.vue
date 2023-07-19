@@ -133,16 +133,16 @@ watch(
               updateSetting(selectedSetting.id, selectedSetting.value)
             "
             number
-            :copy="false"
           />
           <BaseButton
             v-else-if="isSetResetSettings"
             :id="selectedSetting.id"
             :color="selectedSetting.color"
-            :value="selectedSetting.value"
             @click="$emit('reset-settings')"
             button
-          />
+          >
+            <template #button>{{ selectedSetting.value }}</template>
+          </BaseButton>
           <BaseCheck
             v-else
             :id="selectedSetting.id"

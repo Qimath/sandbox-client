@@ -6,7 +6,7 @@ import AccountHandler from "@/components/widgets/AccountHandler.vue";
 
 <template>
   <div class="view-wrapper">
-    <BaseContainer grow full>
+    <BaseContainer full grow>
       <template #container>
         <BaseCard>
           <template #card>
@@ -18,4 +18,12 @@ import AccountHandler from "@/components/widgets/AccountHandler.vue";
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+html[data-theme="light"] .container {
+  background-image: url("@/assets/images/general/pattern-light-alt.png");
+}
+
+html[data-theme="dark"] .container {
+  background-image: url("@/assets/images/general/pattern-dark-alt.png");
+}
+</style>

@@ -148,17 +148,15 @@ watch(
         icon="public"
         v-model:value="websiteIdValue"
         :copy="false"
-        secret
-        @secret="modalOpen"
+        action
+        @action="modalOpen"
+        action-type="large"
+        action-label="key"
       />
       <BaseButton id="website-submit" color="default" value="submit" />
-      <BaseButton
-        id="website-staging"
-        color="blue"
-        value="staging"
-        button
-        @click="loadStaging"
-      />
+      <BaseButton id="website-staging" color="blue" button @click="loadStaging">
+        <template #button>staging</template>
+      </BaseButton>
       <BaseOutput
         id="get-website-id"
         label="Website ID"

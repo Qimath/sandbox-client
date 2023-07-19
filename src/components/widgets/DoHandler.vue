@@ -71,14 +71,15 @@ async function pushMethod(id) {
         v-for="(method, key) in doMethods"
         :key="key"
         :id="method.id"
-        :value="method.label"
         color="orange"
         button
         @click="pushMethod(method.id)"
         copy
         :copyType="copyResults[method.id]?.copyType"
         @copy="copyMethod(method.id)"
-      />
+      >
+        <template #button>{{ method.label }}</template>
+      </BaseButton>
     </form>
   </div>
 </template>

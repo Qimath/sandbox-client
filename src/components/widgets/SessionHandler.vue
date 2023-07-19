@@ -58,7 +58,6 @@ function clearSession() {
         label="Session ID"
         icon="face"
         v-model:value="sessionIdValue"
-        :copy="false"
       />
       <BaseButton id="session-submit" color="default" value="submit" />
       <BaseOutput id="get-session_id" label="Session ID" :value="sessionId" />
@@ -67,13 +66,9 @@ function clearSession() {
         label="Token ID"
         :value="sessionToken"
       />
-      <BaseButton
-        id="session-clear"
-        color="red"
-        value="reset"
-        @click="clearSession"
-        button
-      />
+      <BaseButton id="session-clear" color="red" @click="clearSession" button>
+        <template #button>reset</template>
+      </BaseButton>
     </form>
   </div>
 </template>

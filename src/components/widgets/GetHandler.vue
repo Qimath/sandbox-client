@@ -94,7 +94,7 @@ async function sessionContentRefreshAll() {
 
 <template>
   <div class="element">
-    <form @submit.prevent="" name="get-session">
+    <div class="form">
       <BaseOutput
         :id="'get' + methodsStore.nickname.id"
         :label="methodsStore.nickname.label"
@@ -156,8 +156,10 @@ async function sessionContentRefreshAll() {
         color="blue"
         value="refresh all"
         @click="sessionContentRefreshAll"
-      />
-    </form>
+      >
+        <template #button>refresh all</template>
+      </BaseButton>
+    </div>
   </div>
 </template>
 

@@ -45,7 +45,7 @@ const props = defineProps({
         </div>
       </span>
       <span v-else>
-        {{ value }}
+        <slot name="button"></slot>
       </span>
     </button>
 

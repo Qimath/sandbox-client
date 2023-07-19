@@ -145,8 +145,11 @@ async function pushMethod() {
           :success="selectedMethod.success"
           :icon="selectedMethod.dataKey.icon"
           v-model:value="selectedMethod.value.dataKey"
-          :copyType="copyResult.copyType"
-          @copy="copyMethod"
+          :copy-type="copyResult.copyType"
+          @action="copyMethod"
+          action
+          action-type="simple"
+          action-label="content_copy"
         />
         <BaseInput
           :id="'push-' + selectedMethod.dataValue.id + '_value'"
@@ -155,8 +158,11 @@ async function pushMethod() {
           :success="selectedMethod.success"
           :icon="selectedMethod.dataValue.icon"
           v-model:value="selectedMethod.value.dataValue"
-          :copyType="copyResult.copyType"
-          @copy="copyMethod"
+          :copy-type="copyResult.copyType"
+          @action="copyMethod"
+          action
+          action-type="simple"
+          action-label="content_copy"
         />
       </div>
       <BaseInput
@@ -168,8 +174,11 @@ async function pushMethod() {
         :icon="selectedMethod.icon"
         v-model:value="selectedMethod.value"
         :textarea="isTextArea"
-        :copyType="copyResult.copyType"
-        @copy="copyMethod"
+        :copy-type="copyResult.copyType"
+        @action="copyMethod"
+        action
+        action-type="simple"
+        action-label="content_copy"
       />
       <BaseButton
         :id="'submit-push-' + selectedMethod.id"
@@ -179,10 +188,11 @@ async function pushMethod() {
       <BaseButton
         :id="'generate-' + selectedMethod.id"
         color="blue"
-        value="generate"
         button
         @click="generateMethod"
-      />
+      >
+        <template #button>generate</template>
+      </BaseButton>
     </form>
   </div>
 </template>
