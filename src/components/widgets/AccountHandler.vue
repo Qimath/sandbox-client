@@ -9,7 +9,7 @@ import {
   loginWithGoogle,
   loginWithGithub,
   requestPasswordRecovery,
-  getCurrentUser
+  getCurrentUser,
 } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
@@ -118,13 +118,14 @@ watch(
   }
 );
 
-// handle auth   callback for social login/signup
+// handle auth callback for social login/signup
 onMounted(async () => {
   const result = await getCurrentUser();
+  console.log("mounted");
 
   if (result && result.success !== "") {
     userStore.setUserAccount(result.success);
-    console.log("socially logged in")
+    console.log("socially logged in");
   }
 });
 
@@ -266,7 +267,8 @@ async function userSignup() {
     } else {
       authWindow = ref("login");
       userLoginCredentials.email.value = userSignupCredentials.email.value;
-      userLoginCredentials.password.value = userSignupCredentials.password.value;
+      userLoginCredentials.password.value =
+        userSignupCredentials.password.value;
       displayBanner({
         message: "Your account was successfully created!",
         type: "info",
