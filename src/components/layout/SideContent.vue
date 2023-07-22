@@ -82,7 +82,7 @@ const settingsTitle = computed(() => {
 
       <section class="user">
         <router-link to="account" class="account">
-          <div v-if="!userStore.account.login" class="is-logged-in"></div>
+          <div v-if="userStore.account.login" class="is-logged-in"></div>
           <span class="material-symbols-outlined"
             >account_circle</span
           ></router-link

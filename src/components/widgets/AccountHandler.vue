@@ -125,7 +125,6 @@ onMounted(async () => {
 
   if (result && result.success !== "") {
     userStore.setUserAccount(result.success);
-    console.log("socially logged in");
   }
 });
 
@@ -183,15 +182,13 @@ async function userLogin() {
         result.success.user_metadata.full_name ||
         result.success.user_metadata.nickname;
       displayBanner({
-        message: "You are now logged in as" + userNickname,
+        message: `You are now logged in as <strong>${userNickname}</strong>`,
         type: "success",
         animate: true,
       });
     }
-
-    console.log("login: ", userLoginCredentials.result);
   } catch (error) {
-    console.log("App error: Login");
+    console.error("App error => Login: ", error);
   }
 }
 
@@ -265,21 +262,18 @@ async function userSignup() {
         animate: true,
       });
     } else {
-      authWindow = ref("login");
+      authWindow.value = "login";
       userLoginCredentials.email.value = userSignupCredentials.email.value;
       userLoginCredentials.password.value =
         userSignupCredentials.password.value;
       displayBanner({
-        message: "Your account was successfully created!",
-        type: "info",
-        action: "login",
+        message: "Your account was successfully created! You can now login",
+        type: "success",
         animate: true,
       });
     }
-
-    console.log("signup: ", userSignupCredentials.result);
   } catch (error) {
-    console.log("An app error occurred:", error);
+    console.error("An app error occurred:", error);
   }
 }
 
@@ -322,7 +316,7 @@ async function passwordRecovery() {
 
     console.log("recovery: ", userRecoveryCredentials.result);
   } catch (error) {
-    console.log("An app error occurred:", error);
+    console.error("An app error occurred:", error);
   }
 }
 
@@ -345,7 +339,7 @@ function userLogout() {
       }
     }
   } catch (error) {
-    console.log("An app error occurred:", error);
+    console.error("An app error occurred:", error);
   }
 }
 
@@ -354,12 +348,6 @@ const authWindow = ref("login");
 
 function authSwap(value) {
   authWindow.value = value;
-}
-
-function handleBannerAction(action) {
-  if (action === "login") {
-    authWindow.value = "login";
-  }
 }
 </script>
 
@@ -530,7 +518,6 @@ function handleBannerAction(action) {
       <BaseBanner
         v-if="bannerOptions.visibility"
         @bannerClose="closeBanner"
-        @bannerAction="handleBannerAction"
         :message="bannerOptions.message"
         :action="bannerOptions.action"
         :animate="bannerOptions.animate"

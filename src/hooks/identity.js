@@ -51,7 +51,7 @@ export function signup(email, password, nickname) {
   ).then((response) => {
     if (response.success) {
       // Return user data upon successful signup
-      return { success: response.success.user, error: "" };
+      return { success: response.success, error: "" };
     } else {
       return response;
     }
@@ -62,7 +62,7 @@ export function login(email, password) {
   return handleAuthPromise(auth.login(email, password)).then((response) => {
     if (response.success) {
       // Return user data upon successful login
-      return { success: response.success.user, error: "" };
+      return { success: response.success, error: "" };
     } else {
       return response;
     }

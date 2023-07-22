@@ -202,6 +202,12 @@ export const useUserStore = defineStore({
         userData.user_metadata.full_name || userData.user_metadata.nickname;
       this.account.email = userData.email;
     },
+    clearUserAccount() {
+      this.account.login = false;
+      this.account.id = "";
+      this.account.nickname = "";
+      this.account.email = "";
+    },
     updateSettingValue(id, value) {
       for (let key in this.preferences) {
         if (this.preferences[key].id === id) {
