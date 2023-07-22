@@ -6,9 +6,6 @@ const auth = new GoTrue({
   setCookie: true,
 });
 
-const AUTH_URL =
-  "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=";
-
 function parseErrorMessage(error) {
   if (error.message) {
     if (
@@ -22,17 +19,18 @@ function parseErrorMessage(error) {
     if (error.message.includes("User not found")) {
       return "No account matching this email address was found";
     }
-  }
 
-  if (
-    error.message.includes(
-      "A user with this email address has already been registered"
-    )
-  ) {
-    return "An account with this email address already exists";
+    if (
+      error.message.includes(
+        "A user with this email address has already been registered"
+      )
+    ) {
+      return "An account with this email address already exists";
+    }
   }
   return "Unknown error";
 }
+
 
 function handleAuthPromise(promise) {
   return promise
@@ -49,14 +47,7 @@ function handleAuthPromise(promise) {
 export function signup(email, password, nickname) {
   return handleAuthPromise(
     auth.signup(email, password, { nickname: nickname })
-  ).then((response) => {
-    if (response.success) {
-      // Return user data upon successful signup
-      return { success: response.success, error: "" };
-    } else {
-      return response;
-    }
-  });
+  );
 }
 
 export function login(email, password) {
@@ -64,47 +55,45 @@ export function login(email, password) {
     (response) => {
       if (response.success) {
         startUserSession();
-        // Return user data upon successful login
-        return { success: response.success, error: "" };
-      } else {
-        return response;
       }
+      return response;
     }
   );
 }
 
-export function logout() {
+export async function logout() {
   const userStore = useUserStore();
 
   const currentUser = auth.currentUser();
   if (!currentUser) {
-    return Promise.resolve({ success: "", error: "No user is logged in" });
+    return { success: "", error: "No user is logged in" };
   }
 
-  return currentUser
-    .logout()
-    .then((response) => {
-      console.log("User logged out", response);
-      try {
-        userStore.clearUserAccount();
-      } catch (error) {
-        console.error("An error occurred while clearing user data", error);
-        return { success: "", error: parseErrorMessage(error) };
-      }
-      return { success: response, error: "" };
-    })
-    .catch((error) => {
-      console.log("Logout error", error);
+  try {
+    const response = await currentUser.logout();
+    console.log("User logged out", response);
+
+    try {
+      userStore.clearUserAccount();
+    } catch (error) {
+      console.error("An error occurred while clearing user data", error);
       return { success: "", error: parseErrorMessage(error) };
-    });
+    }
+
+    return { success: response, error: "" };
+  } catch (error) {
+    console.log("Logout error", error);
+    return { success: "", error: parseErrorMessage(error) };
+  }
 }
-  
+
+
 export function loginWithGoogle() {
-  window.location.href = `${AUTH_URL}google`;
+  window.location.href = "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=google";
 }
 
 export function loginWithGithub() {
-  window.location.href = `${AUTH_URL}github`;
+  window.location.href = "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=github";
 }
 
 export function requestPasswordRecovery(email) {
@@ -128,4 +117,23 @@ export function startUserSession() {
   if (userSession && userSession.success !== "") {
     userStore.setUserAccount(userSession.success);
   }
+}
+
+export function initializeUserSession() {
+  const token = getHashParams().access_token;
+
+  if (token) {
+    localStorage.setItem('gotrue.token', JSON.stringify({access_token: token, token_type: 'bearer'}));
+    startUserSession();
+  }
+}
+
+function getHashParams() {
+  var hashParams = {};
+  var e, r = /([^&;=]+)=?([^&;]*)/g,
+      q = window.location.hash.substring(1);
+  while ( e = r.exec(q)) {
+     hashParams[e[1]] = decodeURIComponent(e[2]);
+  }
+  return hashParams;
 }

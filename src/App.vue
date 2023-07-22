@@ -4,13 +4,19 @@ import { onMounted } from "vue";
 import SideContent from "@/components//layout/SideContent.vue";
 import MainContent from "@/components/layout/MainContent.vue";
 
-import { startUserSession, getCurrentUser } from "@/hooks/identity.js";
+import {
+  startUserSession,
+  getCurrentUser,
+  initializeUserSession,
+} from "@/hooks/identity.js";
 
 onMounted(async () => {
-  const isLoggedIn = await getCurrentUser();
-  console.log(isLoggedIn);
+  await initializeUserSession();
 
-  if (isLoggedIn && isLoggedIn.success !== "") {
+  const { success: user } = await getCurrentUser();
+  console.log(user);
+
+  if (user) {
     startUserSession();
   }
 });
