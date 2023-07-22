@@ -4,8 +4,10 @@ export const useUserStore = defineStore({
   id: "user",
   state: () => ({
     account: {
+      login: false,
+      id: "",
+      nickname: "",
       email: "",
-      appToken: "",
     },
     preferences: {
       themeDetect: {
@@ -193,6 +195,13 @@ export const useUserStore = defineStore({
   },
 
   actions: {
+    setUserAccount(userData) {
+      this.account.login = true;
+      this.account.id = userData.id;
+      this.account.nickname =
+        userData.user_metadata.full_name || userData.user_metadata.nickname;
+      this.account.email = userData.email;
+    },
     updateSettingValue(id, value) {
       for (let key in this.preferences) {
         if (this.preferences[key].id === id) {

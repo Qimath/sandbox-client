@@ -1,5 +1,6 @@
 <script setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
+import { useUserStore } from "@/stores/user.js";
 
 import {
   login,
@@ -7,14 +8,24 @@ import {
   logout,
   loginWithGoogle,
   loginWithGithub,
+  requestPasswordRecovery,
+  handleOAuthCallback
 } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseBanner from "@/components/ui/BaseBanner.vue";
+
 import IconGoogle from "@/assets/images/general/IconGoogle.vue";
 import IconGithub from "@/assets/images/general/IconGithub.vue";
 
-const userCredentials = reactive({
+import { useBanner } from "@/hooks/banner.js";
+
+const { bannerOptions, displayBanner, closeBanner } = useBanner();
+
+const userStore = useUserStore();
+
+const userSignupCredentials = reactive({
   email: {
     value: "",
     error: "",
@@ -36,114 +47,317 @@ const userCredentials = reactive({
     success: "",
   },
   successTimeoutId: null,
+  result: null,
 });
 
+const userLoginCredentials = reactive({
+  email: {
+    value: "",
+    error: "",
+    success: "",
+  },
+  password: {
+    value: "",
+    error: "",
+    success: "",
+  },
+  successTimeoutId: null,
+  result: null,
+});
+
+const userRecoveryCredentials = reactive({
+  email: {
+    value: "",
+    error: "",
+    success: "",
+  },
+  successTimeoutId: null,
+  result: null,
+});
+
+// resetting errors on user input
 watch(
-  () => [userCredentials.email.value, userCredentials.password.value],
-  (newValues, oldValues) => {
-    if (userCredentials.email.error && userCredentials.email.value !== "") {
-      userCredentials.email.error = "";
+  () => [
+    userLoginCredentials.email.value,
+    userLoginCredentials.password.value,
+    userSignupCredentials.email.value,
+    userSignupCredentials.password.value,
+    userRecoveryCredentials.email.value,
+  ],
+  () => {
+    if (
+      userLoginCredentials.email.error &&
+      userLoginCredentials.email.value !== ""
+    ) {
+      userLoginCredentials.email.error = "";
     }
     if (
-      userCredentials.password.error &&
-      userCredentials.password.value !== ""
+      userLoginCredentials.password.error &&
+      userLoginCredentials.password.value !== ""
     ) {
-      userCredentials.password.error = "";
+      userLoginCredentials.password.error = "";
+    }
+    if (
+      userSignupCredentials.email.error &&
+      userSignupCredentials.email.value !== ""
+    ) {
+      userSignupCredentials.email.error = "";
+    }
+    if (
+      userSignupCredentials.password.error &&
+      userSignupCredentials.password.value !== ""
+    ) {
+      userSignupCredentials.password.error = "";
+    }
+    if (
+      userRecoveryCredentials.email.error &&
+      userRecoveryCredentials.email.value !== ""
+    ) {
+      userRecoveryCredentials.email.error = "";
     }
   }
 );
 
+// handle auth   callback for social login/signup
+onMounted(() => {
+  const result = handleOAuthCallback();
+
+  if (result && result.success !== "") {
+    userStore.setUserAccount(result.success);
+    console.log("socially logged in")
+  }
+});
+
+// login handler
 async function userLogin() {
-  userCredentials.success = "";
-  userCredentials.error = "";
+  userLoginCredentials.result = null;
+
+  userLoginCredentials.email.error = "";
+  userLoginCredentials.password.error = "";
+
+  userLoginCredentials.email.success = "";
+  userLoginCredentials.password.success = "";
+
+  const password = userLoginCredentials.password.value;
+  const email = userLoginCredentials.email.value;
+
+  // validating user inputs
+  let hasError = false;
+
+  if (password.length < 8 || password.length > 64) {
+    setTimeout(() => {
+      userLoginCredentials.password.error = "Password invalid";
+    }, 1);
+    hasError = true;
+  }
+
+  if (
+    !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email) ||
+    email.length > 64
+  ) {
+    setTimeout(() => {
+      userLoginCredentials.email.error = "Email address invalid";
+    }, 1);
+    hasError = true;
+  }
+
+  if (hasError) return;
 
   try {
     const result = await login(
-      userCredentials.email.value,
-      userCredentials.password.value
+      userLoginCredentials.email.value,
+      userLoginCredentials.password.value
     );
 
+    // handling login result
     if (result.error && result.error !== "") {
-      userCredentials.error = result.error;
+      displayBanner({
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      userStore.setUserAccount(result.success);
+      const userNickname =
+        result.success.user_metadata.full_name ||
+        result.success.user_metadata.nickname;
+      displayBanner({
+        message: "You are now logged in as" + userNickname,
+        type: "success",
+        animate: true,
+      });
     }
 
-    if (result.success && result.success !== "") {
-      if (userCredentials.successTimeoutId) {
-        clearTimeout(userCredentials.successTimeoutId.value);
-      }
-
-      userCredentials.success = result.success;
-      userCredentials.successTimeoutId = ref(
-        setTimeout(() => {
-          userCredentials.success = "";
-        }, 1000)
-      );
-    }
+    console.log("login: ", userLoginCredentials.result);
   } catch (error) {
-    console.error("An app error occurred:", error);
-    userCredentials.error = "App error: Signup";
+    console.error("App error: Login");
   }
 }
 
+// signup handler
 async function userSignup() {
-  userCredentials.success = "";
-  userCredentials.error = "";
+  userSignupCredentials.result = null;
+
+  userSignupCredentials.nickname.error = "";
+  userSignupCredentials.email.error = "";
+  userSignupCredentials.password.error = "";
+  userSignupCredentials.confirmPassword.error = "";
+
+  userSignupCredentials.nickname.success = "";
+  userSignupCredentials.email.success = "";
+  userSignupCredentials.password.success = "";
+  userSignupCredentials.confirmPassword.success = "";
+
+  const nickname = userSignupCredentials.nickname.value;
+  const password = userSignupCredentials.password.value;
+  const confirmPassword = userSignupCredentials.confirmPassword.value;
+  const email = userSignupCredentials.email.value;
+
+  // validating user inputs
+  let hasError = false;
 
   if (
-    userCredentials.password.value !== userCredentials.confirmPassword.value
+    nickname.length < 2 ||
+    nickname.length > 24 ||
+    !/^[\w\s]+$/.test(nickname)
   ) {
-    userCredentials.confirmPassword.error = "Passwords do not match.";
+    setTimeout(() => {
+      userSignupCredentials.nickname.error = "Nickname invalid";
+    }, 1);
+    hasError = true;
+  }
+
+  if (password.length < 8 || password.length > 64) {
+    setTimeout(() => {
+      userSignupCredentials.password.error = "Invalid password length";
+    }, 1);
+    hasError = true;
+  }
+
+  if (confirmPassword !== password || confirmPassword === "") {
+    setTimeout(() => {
+      userSignupCredentials.confirmPassword.error = "Passwords do not match";
+    }, 1);
+    hasError = true;
+  }
+
+  if (
+    !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email) ||
+    email.length > 64
+  ) {
+    setTimeout(() => {
+      userSignupCredentials.email.error = "Email address invalid";
+    }, 1);
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  try {
+    const result = await signup(email, password, nickname);
+
+    // handling signup result
+    if (result.error && result.error !== "") {
+      displayBanner({
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      authWindow = ref("login");
+      userLoginCredentials.email.value = userSignupCredentials.email.value;
+      userLoginCredentials.password.value = userSignupCredentials.password.value;
+      displayBanner({
+        message: "Your account was successfully created!",
+        type: "info",
+        action: "login",
+        animate: true,
+      });
+    }
+
+    console.log("signup: ", userSignupCredentials.result);
+  } catch (error) {
+    console.error("An app error occurred:", error);
+  }
+}
+
+// password recovery handler
+async function passwordRecovery() {
+  userRecoveryCredentials.result = null;
+
+  userRecoveryCredentials.email.error = "";
+  userRecoveryCredentials.email.success = "";
+
+  const email = userRecoveryCredentials.email.value;
+
+  // validating user inputs
+  if (
+    !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email) ||
+    email.length > 64
+  ) {
+    userRecoveryCredentials.email.error = "Email address invalid";
     return;
   }
 
   try {
-    const result = await signup(
-      userCredentials.email.value,
-      userCredentials.password.value,
-      userCredentials.nickname.value
-    );
+    const result = await requestPasswordRecovery(email);
 
+    // handling password recovery result
     if (result.error && result.error !== "") {
-      userCredentials.error = result.error;
+      displayBanner({
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      displayBanner({
+        message: "A recovery link was sent to your email address",
+        type: "info",
+        action: "login",
+        animate: true,
+      });
     }
 
-    if (result.success && result.success !== "") {
-      if (userCredentials.successTimeoutId) {
-        clearTimeout(userCredentials.successTimeoutId.value);
-      }
-
-      userCredentials.success = result.success;
-      userCredentials.successTimeoutId = ref(
-        setTimeout(() => {
-          userCredentials.success = "";
-        }, 1000)
-      );
-    }
+    console.log("recovery: ", userRecoveryCredentials.result);
   } catch (error) {
     console.error("An app error occurred:", error);
-    userCredentials.error = "App error: Login";
   }
 }
 
+// logout handler
 function userLogout() {
   try {
     logout();
-    userCredentials.email.value = "";
-    userCredentials.password.value = "";
-    userCredentials.success = "Logged out successfully";
-    userCredentials.error = "";
+
+    for (const creds of [
+      userLoginCredentials,
+      userSignupCredentials,
+      userRecoveryCredentials,
+    ]) {
+      for (const key of Object.keys(creds)) {
+        if (key !== "successTimeoutId") {
+          creds[key].value = "";
+          creds[key].error = "";
+          creds[key].success = "";
+        }
+      }
+    }
   } catch (error) {
     console.error("An app error occurred:", error);
-    userCredentials.error = "App error: Logout";
   }
 }
 
-function passwordRecovery() {}
-
+// authentication window (login, signup, password recovery)
 const authWindow = ref("login");
 
 function authSwap(value) {
   authWindow.value = value;
+}
+
+function handleBannerAction(action) {
+  if (action === "login") {
+    authWindow.value = "login";
+  }
 }
 </script>
 
@@ -157,18 +371,18 @@ function authSwap(value) {
             <BaseInput
               id="user-email"
               label="Email address"
-              :error="userCredentials.email.error"
-              :success="userCredentials.email.success"
+              :error="userLoginCredentials.email.error"
+              :success="userLoginCredentials.email.success"
               icon="email"
-              v-model:value="userCredentials.email.value"
+              v-model:value="userLoginCredentials.email.value"
             />
             <BaseInput
               id="user-password"
               label="Password"
-              :error="userCredentials.password.error"
-              :success="userCredentials.password.success"
+              :error="userLoginCredentials.password.error"
+              :success="userLoginCredentials.password.success"
               icon="lock"
-              v-model:value="userCredentials.password.value"
+              v-model:value="userLoginCredentials.password.value"
               action
               @action="authSwap('recovery')"
               action-type="large"
@@ -215,34 +429,34 @@ function authSwap(value) {
             <BaseInput
               id="user-nickname"
               label="Nickname"
-              :error="userCredentials.nickname.error"
-              :success="userCredentials.nickname.success"
+              :error="userSignupCredentials.nickname.error"
+              :success="userSignupCredentials.nickname.success"
               icon="people"
-              v-model:value="userCredentials.nickname.value"
+              v-model:value="userSignupCredentials.nickname.value"
             />
             <BaseInput
               id="user-email"
               label="Email address"
-              :error="userCredentials.email.error"
-              :success="userCredentials.email.success"
+              :error="userSignupCredentials.email.error"
+              :success="userSignupCredentials.email.success"
               icon="email"
-              v-model:value="userCredentials.email.value"
+              v-model:value="userSignupCredentials.email.value"
             />
             <BaseInput
               id="user-password"
               label="Password"
-              :error="userCredentials.password.error"
-              :success="userCredentials.password.success"
+              :error="userSignupCredentials.password.error"
+              :success="userSignupCredentials.password.success"
               icon="lock"
-              v-model:value="userCredentials.password.value"
+              v-model:value="userSignupCredentials.password.value"
             />
             <BaseInput
               id="user-password-confirm"
               label="Confirm password"
-              :error="userCredentials.confirmPassword.error"
-              :success="userCredentials.confirmPassword.success"
+              :error="userSignupCredentials.confirmPassword.error"
+              :success="userSignupCredentials.confirmPassword.success"
               icon="lock"
-              v-model:value="userCredentials.confirmPassword.value"
+              v-model:value="userSignupCredentials.confirmPassword.value"
             />
             <BaseButton id="signup-submit" color="orange" value="sign up" />
             <div class="or-separator"><span>or</span></div>
@@ -273,16 +487,33 @@ function authSwap(value) {
             <BaseInput
               id="user-email-recovery"
               label="Email address"
-              :error="userCredentials.email.error"
-              :success="userCredentials.email.success"
+              :error="userRecoveryCredentials.email.error"
+              :success="userRecoveryCredentials.email.success"
               icon="email"
-              v-model:value="userCredentials.email.value"
+              v-model:value="userRecoveryCredentials.email.value"
             />
             <BaseButton
               id="recovery-submit"
-              color="green"
+              color="orange"
               value="recover password"
             />
+            <div class="or-separator"><span>or</span></div>
+            <BaseButton
+              id="recovery-google"
+              color="blue"
+              button
+              @click.prevent="loginWithGoogle"
+            >
+              <template #button>recover with google</template>
+            </BaseButton>
+            <BaseButton
+              id="recovery-github"
+              color="blue"
+              button
+              @click.prevent="loginWithGithub"
+            >
+              <template #button>recover with github</template>
+            </BaseButton>
             <span class="auth-option go-login" @click="authSwap('login')"
               >I'm no longer a pleb and I'm ready to login</span
             >
@@ -291,6 +522,20 @@ function authSwap(value) {
       </transition>
     </div>
   </div>
+
+  <teleport to="#app">
+    <transition name="banner" mode="out-in">
+      <BaseBanner
+        v-if="bannerOptions.visibility"
+        @bannerClose="closeBanner"
+        @bannerAction="handleBannerAction"
+        :message="bannerOptions.message"
+        :action="bannerOptions.action"
+        :animate="bannerOptions.animate"
+        :type="bannerOptions.type"
+      />
+    </transition>
+  </teleport>
 </template>
 
 <style scoped>
@@ -319,7 +564,6 @@ h3 {
   margin-bottom: 1.5rem;
   font-size: 1.125rem;
   color: var(--label-pri);
-  text-transform: uppercase;
   font-weight: 600;
   user-select: none;
 }

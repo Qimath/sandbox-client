@@ -58,6 +58,12 @@ const router = createRouter({
       meta: { title: "Account" },
     },
     {
+      path: "/account/dashboard",
+      name: "dashboard",
+      component: () => import("@/views/DashBoardView.vue"),
+      meta: { title: "Dashboard" },
+    },
+    {
       path: "/settings",
       name: "settings",
       component: () => import("@/views/SettingsView.vue"),

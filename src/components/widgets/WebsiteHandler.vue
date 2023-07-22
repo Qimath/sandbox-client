@@ -185,23 +185,22 @@ watch(
             label="Email verification"
             icon="key"
             v-model:value="emailSecretInput"
-            :copy="false"
           />
           <BaseInput
             id="set-website-ticket_secret"
             label="Ticket center"
             icon="key"
             v-model:value="ticketSecretInput"
-            :copy="false"
           />
           <BaseButton id="secrets-save" color="default" value="save & apply" />
           <BaseButton
             id="secrets-clear"
             color="orange"
-            value="clear memorized secrets"
             button
             @click="clearSecrets()"
-          />
+          >
+            <template #button>clear memorized secrets</template>
+          </BaseButton>
         </form>
       </template>
     </BaseModal>
