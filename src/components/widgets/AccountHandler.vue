@@ -191,7 +191,7 @@ async function userLogin() {
 
     console.log("login: ", userLoginCredentials.result);
   } catch (error) {
-    console.error("App error: Login");
+    console.log("App error: Login");
   }
 }
 
@@ -279,7 +279,7 @@ async function userSignup() {
 
     console.log("signup: ", userSignupCredentials.result);
   } catch (error) {
-    console.error("An app error occurred:", error);
+    console.log("An app error occurred:", error);
   }
 }
 
@@ -322,7 +322,7 @@ async function passwordRecovery() {
 
     console.log("recovery: ", userRecoveryCredentials.result);
   } catch (error) {
-    console.error("An app error occurred:", error);
+    console.log("An app error occurred:", error);
   }
 }
 
@@ -345,7 +345,7 @@ function userLogout() {
       }
     }
   } catch (error) {
-    console.error("An app error occurred:", error);
+    console.log("An app error occurred:", error);
   }
 }
 
