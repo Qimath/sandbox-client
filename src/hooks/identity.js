@@ -6,10 +6,6 @@ const auth = new GoTrue({
   setCookie: true,
 });
 
-auth.on('login', () => {
-  startUserSession();
-});
-
 function parseErrorMessage(error) {
   if (error.message) {
     if (
