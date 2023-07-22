@@ -6,6 +6,10 @@ const auth = new GoTrue({
   setCookie: true,
 });
 
+auth.on('login', () => {
+  startUserSession();
+});
+
 function parseErrorMessage(error) {
   if (error.message) {
     if (
@@ -87,13 +91,25 @@ export async function logout() {
 }
 
 export function loginWithGoogle() {
-  window.location.href =
-    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=google";
+  return handleAuthPromise(auth.loginExternal('google')).then(
+    (response) => {
+      if (response.success) {
+        startUserSession();
+      }
+      return response;
+    }
+  );
 }
 
 export function loginWithGithub() {
-  window.location.href =
-    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=github";
+  return handleAuthPromise(auth.loginExternal('github')).then(
+    (response) => {
+      if (response.success) {
+        startUserSession();
+      }
+      return response;
+    }
+  );
 }
 
 export function requestPasswordRecovery(email) {
@@ -116,20 +132,5 @@ export function startUserSession() {
 
   if (userSession && userSession.success !== "") {
     userStore.setUserAccount(userSession.success);
-  }
-}
-
-export async function initializeUserSession() {
-  const params = new URLSearchParams(window.location.hash.slice(1));
-  const accessToken = params.get("access_token");
-
-  if (accessToken) {
-    const user = await auth.confirm(accessToken);
-
-    // Fetch and store user data
-    const userStore = useUserStore();
-    userStore.setUserAccount(user);
-
-    window.history.replaceState(null, document.title, ".");
   }
 }
