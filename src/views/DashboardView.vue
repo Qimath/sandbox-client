@@ -68,7 +68,6 @@ onMounted(() => {
       type: "warning",
       animate: true,
     });
-
     window.sessionStorage.removeItem("settingsReset");
   }
 });
