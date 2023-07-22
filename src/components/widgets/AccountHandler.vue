@@ -1,6 +1,5 @@
 <script setup>
 import { ref, reactive, watch, onMounted } from "vue";
-import { useUserStore } from "@/stores/user.js";
 
 import {
   login,
@@ -9,7 +8,7 @@ import {
   loginWithGoogle,
   loginWithGithub,
   requestPasswordRecovery,
-  getCurrentUser,
+  startUserSession,
 } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
@@ -22,8 +21,6 @@ import IconGithub from "@/assets/images/general/IconGithub.vue";
 import { useBanner } from "@/hooks/banner.js";
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
-
-const userStore = useUserStore();
 
 const userSignupCredentials = reactive({
   email: {
@@ -119,13 +116,8 @@ watch(
 );
 
 // handle auth callback for social login/signup
-onMounted(async () => {
-  const result = await getCurrentUser();
-  console.log("mounted");
-
-  if (result && result.success !== "") {
-    userStore.setUserAccount(result.success);
-  }
+onMounted( () => {
+  startUserSession()
 });
 
 // login handler
@@ -177,7 +169,6 @@ async function userLogin() {
         animate: true,
       });
     } else {
-      userStore.setUserAccount(result.success);
       const userNickname =
         result.success.user_metadata.full_name ||
         result.success.user_metadata.nickname;
@@ -324,20 +315,6 @@ async function passwordRecovery() {
 function userLogout() {
   try {
     logout();
-
-    for (const creds of [
-      userLoginCredentials,
-      userSignupCredentials,
-      userRecoveryCredentials,
-    ]) {
-      for (const key of Object.keys(creds)) {
-        if (key !== "successTimeoutId") {
-          creds[key].value = "";
-          creds[key].error = "";
-          creds[key].success = "";
-        }
-      }
-    }
   } catch (error) {
     console.error("An app error occurred:", error);
   }

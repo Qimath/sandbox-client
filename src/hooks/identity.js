@@ -1,3 +1,4 @@
+import { useUserStore } from "@/stores/user.js";
 import GoTrue from "gotrue-js";
 
 const auth = new GoTrue({
@@ -59,24 +60,45 @@ export function signup(email, password, nickname) {
 }
 
 export function login(email, password) {
-  return handleAuthPromise(auth.login(email, password)).then((response) => {
-    if (response.success) {
-      // Return user data upon successful login
-      return { success: response.success, error: "" };
-    } else {
-      return response;
+  return handleAuthPromise(auth.login(email, password, true)).then(
+    (response) => {
+      if (response.success) {
+        startUserSession();
+        // Return user data upon successful login
+        return { success: response.success, error: "" };
+      } else {
+        return response;
+      }
     }
-  });
+  );
 }
 
 export function logout() {
-  auth
-    .currentUser()
-    ?.logout()
-    .then((response) => console.log("User logged out", response))
-    .catch((error) => console.log("Logout error", error));
-}
+  const userStore = useUserStore();
 
+  const currentUser = auth.currentUser();
+  if (!currentUser) {
+    return Promise.resolve({ success: "", error: "No user is logged in" });
+  }
+
+  return currentUser
+    .logout()
+    .then((response) => {
+      console.log("User logged out", response);
+      try {
+        userStore.clearUserAccount();
+      } catch (error) {
+        console.error("An error occurred while clearing user data", error);
+        return { success: "", error: parseErrorMessage(error) };
+      }
+      return { success: response, error: "" };
+    })
+    .catch((error) => {
+      console.log("Logout error", error);
+      return { success: "", error: parseErrorMessage(error) };
+    });
+}
+  
 export function loginWithGoogle() {
   window.location.href = `${AUTH_URL}google`;
 }
@@ -96,5 +118,14 @@ export function getCurrentUser() {
     return { success: user, error: "" };
   } else {
     return { success: "", error: "Not logged in" };
+  }
+}
+
+export function startUserSession() {
+  const userStore = useUserStore();
+  const userSession = getCurrentUser();
+
+  if (userSession && userSession.success !== "") {
+    userStore.setUserAccount(userSession.success);
   }
 }
