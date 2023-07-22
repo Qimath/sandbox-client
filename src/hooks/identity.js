@@ -119,14 +119,26 @@ export function startUserSession() {
   }
 }
 
-export function initializeUserSession() {
-  const token = getHashParams().access_token;
+export async function initializeUserSession() {
+  const params = new URLSearchParams(window.location.hash.slice(1));
+  const accessToken = params.get('access_token');
+  const tokenType = params.get('token_type');
+  const expiresIn = params.get('expires_in');
+  const refreshToken = params.get('refresh_token');
 
-  if (token) {
-    localStorage.setItem('gotrue.token', JSON.stringify({access_token: token, token_type: 'bearer'}));
-    startUserSession();
+  if (accessToken) {
+    const expires_at = expiresIn * 1000 + new Date().getTime();
+    auth.setUser({ token: { access_token: accessToken, token_type: tokenType, expires_in: expiresIn, refresh_token: refreshToken, expires_at: expires_at } });
+
+    // Fetch and store user data
+    const user = await auth.refreshUser();
+    const userStore = useUserStore();
+    userStore.setUserAccount(user);
+
+    window.history.replaceState(null, document.title, ".");
   }
 }
+
 
 function getHashParams() {
   var hashParams = {};
