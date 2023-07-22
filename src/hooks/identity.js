@@ -91,6 +91,7 @@ export function requestPasswordRecovery(email) {
 
 export function getCurrentUser() {
   const user = auth.currentUser();
+  console.log(user);
   if (user) {
     return { success: user, error: "" };
   } else {
