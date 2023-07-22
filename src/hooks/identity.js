@@ -31,7 +31,6 @@ function parseErrorMessage(error) {
   return "Unknown error";
 }
 
-
 function handleAuthPromise(promise) {
   return promise
     .then((response) => {
@@ -87,13 +86,14 @@ export async function logout() {
   }
 }
 
-
 export function loginWithGoogle() {
-  window.location.href = "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=google";
+  window.location.href =
+    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=google";
 }
 
 export function loginWithGithub() {
-  window.location.href = "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=github";
+  window.location.href =
+    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=github";
 }
 
 export function requestPasswordRecovery(email) {
@@ -121,31 +121,15 @@ export function startUserSession() {
 
 export async function initializeUserSession() {
   const params = new URLSearchParams(window.location.hash.slice(1));
-  const accessToken = params.get('access_token');
-  const tokenType = params.get('token_type');
-  const expiresIn = params.get('expires_in');
-  const refreshToken = params.get('refresh_token');
+  const accessToken = params.get("access_token");
 
   if (accessToken) {
-    const expires_at = expiresIn * 1000 + new Date().getTime();
-    auth.setUser({ token: { access_token: accessToken, token_type: tokenType, expires_in: expiresIn, refresh_token: refreshToken, expires_at: expires_at } });
+    const user = await auth.confirm(accessToken);
 
     // Fetch and store user data
-    const user = await auth.refreshUser();
     const userStore = useUserStore();
     userStore.setUserAccount(user);
 
     window.history.replaceState(null, document.title, ".");
   }
-}
-
-
-function getHashParams() {
-  var hashParams = {};
-  var e, r = /([^&;=]+)=?([^&;]*)/g,
-      q = window.location.hash.substring(1);
-  while ( e = r.exec(q)) {
-     hashParams[e[1]] = decodeURIComponent(e[2]);
-  }
-  return hashParams;
 }
