@@ -3,6 +3,10 @@ import IconLogo from "@/assets/images/general/IconLogo.vue";
 
 import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user.js";
+
+const userStore = useUserStore();
+
 const router = useRouter();
 
 function resolveRouteTitle(routeName) {
@@ -76,9 +80,11 @@ const settingsTitle = computed(() => {
         >
       </section>
 
-      <section class="/dashboard">
+      <section class="user">
         <router-link to="account" class="account"
-          ><span class="material-symbols-outlined"
+          >
+          <div v-if="!userStore.account.login" class="is-logged-in"></div>
+          <span class="material-symbols-outlined"
             >account_circle</span
           ></router-link
         >
@@ -245,6 +251,16 @@ aside nav section a:hover span svg {
 
 aside nav section a.router-link-exact-active span svg {
   fill: currentColor;
+}
+
+aside .is-logged-in {
+  position: absolute;
+  height: 0.5rem;
+  width: 0.5rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  border-radius: 50%;
+  background: var(--green-pri);
 }
 
 @keyframes labelDelay {

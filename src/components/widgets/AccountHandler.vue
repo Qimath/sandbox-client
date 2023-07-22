@@ -9,7 +9,7 @@ import {
   loginWithGoogle,
   loginWithGithub,
   requestPasswordRecovery,
-  handleOAuthCallback
+  getCurrentUser
 } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
@@ -119,8 +119,8 @@ watch(
 );
 
 // handle auth   callback for social login/signup
-onMounted(() => {
-  const result = handleOAuthCallback();
+onMounted(async () => {
+  const result = await getCurrentUser();
 
   if (result && result.success !== "") {
     userStore.setUserAccount(result.success);

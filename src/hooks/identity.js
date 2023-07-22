@@ -89,37 +89,6 @@ export function requestPasswordRecovery(email) {
   return handleAuthPromise(auth.requestPasswordRecovery(email));
 }
 
-export function handleOAuthCallback() {
-  // Get the hash part of the current URL
-  const hashParams = new URLSearchParams(window.location.hash.substr(1));
-
-  // If there's no access token, just return
-  if (!hashParams.has("access_token")) {
-    return;
-  }
-
-  // Get the access token and other information from the URL
-  const accessToken = hashParams.get("access_token");
-  const expiresIn = Number(hashParams.get("expires_in"));
-  const tokenType = hashParams.get("token_type");
-
-  // You have to use the access token to fetch the user's JWT
-  // Check the GoTrue-js documentation to know how to do this
-  const promise = auth.currentUser().jwt(true);
-
-  // We can use your existing handleAuthPromise function to handle this promise
-  handleAuthPromise(promise).then((response) => {
-    if (response.success) {
-      // Handle the successful OAuth login here
-      console.log("OAuth login successful", response.success.user);
-      return { success: response.success.user, error: "" };
-    } else {
-      console.log("OAuth login failed", response.error);
-      return response;
-    }
-  });
-}
-
 export function getCurrentUser() {
   const user = auth.currentUser();
   if (user) {
