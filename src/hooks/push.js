@@ -21,7 +21,10 @@ function pushNickname(value) {
 
 function pushEmail(value) {
   const configStore = useConfigStore();
-  const emailSecret = computed(() => configStore.website.emailSecret);
+  const websiteId = computed(() => configStore.getWebsiteId);
+  const emailSecret = computed(
+    () => configStore.getCachedSecrets(websiteId.value)?.email
+  );
 
   const computedHmac = computed(() => {
     if (value && emailSecret.value) {

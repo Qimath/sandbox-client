@@ -44,7 +44,7 @@ section div {
 
 section :deep(p) {
   font-size: 1.125rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0.25rem 0;
   transition: all 0.3s linear;
   cursor: default;

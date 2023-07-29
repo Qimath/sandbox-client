@@ -1,5 +1,7 @@
 <script setup>
-const emits = defineEmits(["generate", "copy"]);
+import { computed } from "vue";
+
+const emits = defineEmits(["generate", "action", "select", "website-remove"]);
 const props = defineProps({
   button: {
     type: Boolean,
@@ -21,56 +23,95 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  copy: {
-    type: Boolean,
-    default: false,
-  },
   copyType: {
     type: String,
     default: "",
   },
+  action: {
+    type: Boolean,
+    default: false,
+  },
+  actionLabel: {
+    type: String,
+    default: "",
+  },
+  dropdown: {
+    type: Boolean,
+    default: false,
+  },
+  dropdownItems: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+const isDropdownEmpty = computed(() => {
+  return props.dropdownItems.length === 0;
 });
 </script>
 
 <template>
-  <div class="btn-container">
-    <button v-if="button" :id="id" :class="color" type="button">
-      <span v-if="loading">
-        ‎
-        <div class="ellipsis">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </span>
-      <span v-else>
-        <slot name="button"></slot>
-      </span>
-    </button>
+  <div class="btn-wrapper">
+    <div class="btn-container">
+      <button v-if="button" :id="id" :class="color" type="button">
+        <span v-if="loading">
+          <div class="ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </span>
+        <span v-else>
+          <slot name="button"></slot>
+        </span>
+      </button>
 
-    <input v-else :id="id" :value="value" :class="color" type="submit" />
+      <input v-else :id="id" :value="value" :class="color" type="submit" />
 
-    <span v-if="copy && copyType" class="copy-type">{{ copyType }}</span>
-    <span
-      v-if="copy"
-      class="simple material-symbols-outlined"
-      @click.stop="$emit('copy')"
-      >content_copy</span
-    >
+      <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
+      <span
+        v-if="action"
+        class="simple material-symbols-outlined"
+        @click.stop="$emit('action')"
+        >{{ actionLabel }}</span
+      >
+    </div>
+    <transition name="dropdown">
+      <div v-if="dropdown && !isDropdownEmpty" class="dropdown" :class="color">
+        <ul>
+          <li
+            v-for="item in dropdownItems"
+            :key="item.key"
+            @click.stop="$emit('select', item.key)"
+          >
+            <p>{{ item.label }}</p>
+            <span
+              @click.stop="$emit('website-remove', item.key)"
+              class="close material-symbols-outlined"
+              >close</span
+            >
+          </li>
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 
 <style scoped>
-div.btn-container {
+div.btn-wrapper {
   margin-top: 0.75rem;
+  width: 100%;
+}
+
+div.btn-wrapper:first-child {
+  margin-top: 0;
+}
+
+div.btn-container {
   width: 100%;
   border-radius: 0.25rem;
   overflow: hidden;
-}
-
-div.btn-container:first-child {
-  margin-top: 0;
 }
 
 input,
@@ -104,17 +145,23 @@ button.default:active {
 }
 
 input.blue,
-button.blue {
+button.blue,
+input.blue + span.simple,
+button.blue + span.simple {
   background: var(--blue-duo);
 }
 
 input.blue:hover,
-button.blue:hover {
+button.blue:hover,
+input.blue + span.simple:hover,
+button.blue + span.simple:hover {
   background: var(--blue-pri);
 }
 
 input.blue:active,
-button.blue:active {
+button.blue:active,
+input.blue + span.simple:active,
+button.blue + span.simple:active {
   background: var(--blue-tri);
 }
 
@@ -205,7 +252,7 @@ span.copy-type {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   z-index: 100;
   width: calc(100% - 3.25rem + 1px);
   height: 100%;
@@ -281,5 +328,80 @@ span.copy-type::after {
   100% {
     transform: translate(1.5rem, 0);
   }
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 0px);
+  width: 100%;
+  border-radius: 0.25rem;
+  color: var(--main-text-reverse);
+  transform-origin: 0 0;
+}
+
+.dropdown ul {
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  user-select: none;
+}
+
+.dropdown li {
+  width: 100%;
+  padding: 1.375rem;
+  justify-content: center;
+}
+
+.dropdown li:first-child {
+  border-top: none;
+}
+
+.dropdown li:hover {
+  cursor: pointer;
+}
+
+.dropdown .close {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0 1rem;
+  font-size: 1.25rem;
+  width: 3.25rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.1s linear;
+}
+
+.dropdown .close:hover {
+  background: var(--blue-tri);
+}
+
+.dropdown.blue {
+  background: var(--blue-pri);
+  border-top: 1px solid var(--blue-tri);
+}
+
+.dropdown.blue li {
+  border-top: 1px solid var(--blue-duo);
+}
+
+.dropdown.blue li:hover {
+  background: var(--blue-duo);
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  transform: scaleY(0);
 }
 </style>

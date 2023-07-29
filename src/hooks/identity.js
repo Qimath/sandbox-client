@@ -44,17 +44,23 @@ function handleAuthPromise(promise) {
 }
 
 export function signup(email, password, nickname) {
+  const userStore = useUserStore();
+
   return handleAuthPromise(
-    auth.signup(email, password, { nickname: nickname })
+    auth.signup(email, password, {
+      account: {
+        nickname: nickname,
+      },
+      preferences: userStore.getPreferences(),
+      options: userStore.getOptions(),
+      callbacks: userStore.getCallbacks(),
+    })
   );
 }
 
 export function login(email, password) {
   return handleAuthPromise(auth.login(email, password, true)).then(
     (response) => {
-      if (response.success) {
-        startUserSession();
-      }
       return response;
     }
   );
@@ -70,15 +76,6 @@ export async function logout() {
 
   try {
     const response = await currentUser.logout();
-    console.log("User logged out", response);
-
-    try {
-      userStore.clearUserAccount();
-    } catch (error) {
-      console.error("An error occurred while clearing user data", error);
-      return { success: "", error: parseErrorMessage(error) };
-    }
-
     return { success: response, error: "" };
   } catch (error) {
     console.log("Logout error", error);
@@ -86,47 +83,51 @@ export async function logout() {
   }
 }
 
-export function loginWithGoogle() {
-  return handleAuthPromise(auth.loginExternal('google')).then(
-    (response) => {
-      if (response.success) {
-        startUserSession();
-      }
-      return response;
-    }
-  );
+export function authGoogle() {
+  window.location.href =
+    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=google";
 }
 
-export function loginWithGithub() {
-  return handleAuthPromise(auth.loginExternal('github')).then(
-    (response) => {
-      if (response.success) {
-        startUserSession();
-      }
-      return response;
-    }
-  );
+export function authGithub() {
+  window.location.href =
+    "https://crisp-sandbox.netlify.app/.netlify/identity/authorize?provider=github";
 }
 
-export function requestPasswordRecovery(email) {
+export function recovery(email) {
   return handleAuthPromise(auth.requestPasswordRecovery(email));
 }
 
-export function getCurrentUser() {
+export function getUser() {
   const user = auth.currentUser();
-  console.log(user);
-  if (user) {
-    return { success: user, error: "" };
-  } else {
-    return { success: "", error: "Not logged in" };
-  }
+  return user ? user : false;
 }
 
-export function startUserSession() {
+export async function syncUserSettings() {
   const userStore = useUserStore();
-  const userSession = getCurrentUser();
 
-  if (userSession && userSession.success !== "") {
-    userStore.setUserAccount(userSession.success);
+  const newMeta = {
+    preferences: userStore.getPreferences(),
+    options: userStore.getOptions(),
+    callbacks: userStore.getCallbacks(),
+  };
+
+  return updateMeta(newMeta);
+}
+
+export async function updateMeta(newMeta) {
+  const user = auth.currentUser();
+
+  if (user) {
+    try {
+      const oldMeta = user.user_metadata?.data || {};
+      const mergedMeta = { ...oldMeta, ...newMeta };
+
+      const response = await user.update({ data: mergedMeta });
+      console.log(response);
+      return { success: response, error: "" };
+    } catch (error) {
+      console.error("App error [Identity => updateMeta]: ", error);
+      return { success: "", error: parseErrorMessage(error) };
+    }
   }
 }

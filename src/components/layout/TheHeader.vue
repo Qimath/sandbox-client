@@ -5,12 +5,8 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
 
 const userStore = useUserStore();
-const userThemeDetect = computed(
-  () => userStore.getSettingById("preference-theme").value
-);
-const userThemeSelected = computed(
-  () => userStore.getSettingById("selected-theme").value
-);
+const userThemeDetect = computed(() => userStore.getSetting("themeDetect"));
+const userThemeSelected = computed(() => userStore.getSetting("themeSelected"));
 
 const route = useRoute();
 const pageTitle = computed(() => {
@@ -37,10 +33,7 @@ function applyTheme() {
     );
 
     // Update the user's selected theme according to the detected theme
-    userStore.updateSettingValue(
-      "selected-theme",
-      isDarkMode ? "dark" : "light"
-    );
+    userStore.setSetting("themeSelected", isDarkMode ? "dark" : "light");
   } else {
     // Use the user-selected theme
     document.documentElement.setAttribute(
@@ -51,12 +44,12 @@ function applyTheme() {
 }
 
 function toggleTheme(theme) {
-  userStore.updateSettingValue("preference-theme", false);
+  userStore.setSetting("themeDetect", false);
 
   if (theme === "light") {
-    userStore.updateSettingValue("selected-theme", "light");
+    userStore.setSetting("themeSelected", "light");
   } else {
-    userStore.updateSettingValue("selected-theme", "dark");
+    userStore.setSetting("themeSelected", "dark");
   }
 }
 </script>
@@ -126,14 +119,13 @@ h1 {
   color: var(--header-sandbox);
   font-size: 1.5rem;
   text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.05rem;
+  font-weight: 900;
 }
 
 h2 {
   color: var(--header-title);
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 span {

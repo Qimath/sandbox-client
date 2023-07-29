@@ -74,9 +74,10 @@ async function pushMethod(id) {
         color="orange"
         button
         @click="pushMethod(method.id)"
-        copy
-        :copyType="copyResults[method.id]?.copyType"
-        @copy="copyMethod(method.id)"
+        action
+        action-label="content_copy"
+        :copy-type="copyResults[method.id]?.copyType"
+        @action="copyMethod(method.id)"
       >
         <template #button>{{ method.label }}</template>
       </BaseButton>

@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useConfigStore } from "@/stores/config.js";
 
 const configStore = useConfigStore();
-const websiteId = computed(() => configStore.website.id);
+const websiteId = computed(() => configStore.getWebsiteId);
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useConfigStore } from "@/stores/config.js";
+import { useUserStore } from "@/stores/user.js";
 
 import { useBanner } from "@/hooks/banner.js";
 
@@ -86,10 +87,31 @@ router.beforeEach((to, from, next) => {
 
   if (websiteId) {
     const configStore = useConfigStore();
-    configStore.setWebsiteIdAndSecrets(websiteId);
+    configStore.setWebsiteId(websiteId);
   }
 
   next();
+});
+
+// Navigation Guard to handle route restrictions based on user authentication and permissions
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+
+  const isLoggedIn = userStore.getAccount().login;
+  const authenticatedRoutes = ["dashboard", "settings"];
+
+  if (to.name === "account" && isLoggedIn) {
+    // redirect to the dashboard page
+    next({ name: "dashboard" });
+  } else if (authenticatedRoutes.includes(to.name) && !isLoggedIn) {
+    // redirect to the account page
+    next({ name: "account" });
+  } else if (to.name === "settings" && !isLoggedIn) {
+    // redirect to the account page
+    next({ name: "account" });
+  } else {
+    next();
+  }
 });
 
 export default router;

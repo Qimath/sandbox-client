@@ -52,6 +52,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  type: {
+    type: String,
+    default: "text",
+  },
 });
 
 const rows = ref(5);
@@ -88,20 +92,10 @@ onMounted(() => {
       @input="$emit('update:value', $event.target.value)"
     ></textarea>
     <input
-      v-else-if="number"
-      :id="id"
-      placeholder=" "
-      type="number"
-      :value="value"
-      @input="$emit('update:value', $event.target.value)"
-      auto-complete="nope"
-      data-1p-ignore
-    />
-    <input
       v-else
       :id="id"
       placeholder=" "
-      type="text"
+      :type="type"
       :value="value"
       @input="$emit('update:value', $event.target.value)"
       auto-complete="nope"
@@ -254,7 +248,7 @@ div > span.copy-type {
   padding: 0.625rem 1.25rem 0.875rem 1.25rem;
   border-radius: 0.25rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   z-index: 100;
   box-shadow: var(--main-shadow) 0 0 0.5rem, var(--main-shadow) 0 0 0.5rem;
 }

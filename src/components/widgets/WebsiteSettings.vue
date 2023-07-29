@@ -6,8 +6,7 @@ import BaseTable from "@/components/ui/BaseTable.vue";
 
 const configStore = useConfigStore();
 const websiteConfig = computed(() => {
-  const config = configStore.website.config;
-
+  const config = configStore.getConfig;
   const customizationSettings =
     config?.plugins?.["urn:crisp.im:customization:0"]?.settings || null;
   const triggersSettings =

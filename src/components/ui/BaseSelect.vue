@@ -15,7 +15,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  name: {
+  label: {
     type: String,
     default: "",
   },
@@ -26,6 +26,14 @@ const selected = ref(props.value);
 watch(selected, (newVal) => {
   emits("update:value", newVal);
 });
+
+watch(
+  () => props.value,
+  (newValue) => {
+    selected.value = newValue;
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -35,7 +43,7 @@ watch(selected, (newVal) => {
         {{ key }}
       </option>
     </select>
-    <label :for="id">{{ name }}</label>
+    <label :for="id">{{ label }}</label>
   </div>
 </template>
 

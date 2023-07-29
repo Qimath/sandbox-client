@@ -1,8 +1,8 @@
 <script setup>
-import { reactive, computed, onMounted, watch } from "vue";
+import { ref, reactive, computed, onMounted, watch, nextTick } from "vue";
 import { useUserStore } from "@/stores/user.js";
-
-import userSettingsUpdater from "@/hooks/settings.js";
+import { useConfigStore } from "@/stores/config.js";
+import { useSettingsStore } from "@/stores/settings.js";
 
 import BaseCheck from "@/components/ui/BaseCheck.vue";
 import BaseSelect from "@/components/ui/BaseSelect.vue";
@@ -12,136 +12,184 @@ import BaseInput from "@/components/ui/BaseInput.vue";
 const emit = defineEmits(["settings-result", "reset-settings"]);
 
 const props = defineProps({
-  settingId: {
+  setting: {
     type: String,
     default: "",
   },
+  reset: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const settingsStore = useSettingsStore();
 const userStore = useUserStore();
+const configStore = useConfigStore();
+
 const selectedSetting = reactive({
   value: "",
   error: "",
   success: "",
 });
 
-onMounted(() => {
-  if (props.settingId === "reset-settings") {
-    Object.assign(selectedSetting, {
-      id: "reset-settings",
-      color: "red",
-      value: "reset settings",
-      label: "Restore default settings",
-    });
-  } else {
-    Object.assign(selectedSetting, userStore.getSettingById(props.settingId));
+const websiteId = computed(() => configStore.getWebsiteId);
+const websiteName = computed(() => configStore.getConfig.website);
+const websiteValidity = computed(() => configStore.getWebsiteValidity());
+
+const cookieExpireSetting = computed(() => props.setting === "cookieExpire");
+const localeSetting = computed(() => props.setting === "locale");
+const gtmIdSetting = computed(() => props.setting === "gtmId");
+const mainWebsiteSetting = computed(() => props.setting === "mainWebsite");
+
+const dataInit = ref(false);
+
+// Assign the selected setting object on component mounted
+onMounted(async () => {
+  if (!props.reset) {
+    const value = userStore.getSetting(props.setting);
+    const name = props.setting;
+    Object.assign(
+      selectedSetting,
+      { value, name },
+      settingsStore.getSetting(props.setting)
+    );
   }
+  await nextTick();
+  dataInit.value = true;
 });
 
-const isSetCookieSetting = computed(
-  () => selectedSetting.id === "setting-cookie"
-);
-const isSetLocaleSetting = computed(
-  () => selectedSetting.id === "setting-locale"
-);
-const isSetResetSettings = computed(
-  () => selectedSetting.id === "reset-settings"
-);
+// Handle the mainWebsite setting
+function mainWebsiteHandler() {
+  if (!websiteValidity.value) {
+    selectedSetting.error = `Website ID <strong>${websiteId.value}</strong> is not valid. Cannot be set as main website.`;
+    emit("settings-result", selectedSetting);
+  } else {
+    selectedSetting.value = {
+      id: websiteId,
+      name: websiteName,
+    };
+    updateSetting(selectedSetting.name, selectedSetting.value);
+  }
+}
 
-async function updateSetting(id, value) {
+// Update the user setting & emits the result
+async function updateSetting(setting, value) {
+  if (!dataInit.value) return;
+
   selectedSetting.success = "";
   selectedSetting.error = "";
 
   try {
-    const result = await userSettingsUpdater(id, value);
-
-    if (result) {
-      if (result.error && result.error !== "") {
-        setTimeout(() => {
-          selectedSetting.error = result.error;
-          emit("settings-result", selectedSetting);
-        }, 1);
-      }
-
-      if (result.success && result.success !== "") {
-        selectedSetting.success = result.success;
-        emit("settings-result", selectedSetting);
-      }
-    }
+    await userStore.setSetting(setting, value);
+    selectedSetting.success = `Setting ${setting} updated successfully!`;
   } catch (error) {
-    console.error("An app error occurred:", error);
-    selectedSetting.error = "App error: Settings";
+    selectedSetting.error = error.message;
+  } finally {
     emit("settings-result", selectedSetting);
   }
 }
 
-// Watch for changes in lockMaximized and update lockFullview accordingly
+// Update the selected setting value when the setting in the store changes
 watch(
-  () => userStore.settings.lockMaximized.value,
-  (newVal) => {
-    if (newVal) {
-      updateSetting(userStore.settings.lockFullview.id, false);
-    }
-    Object.assign(selectedSetting, userStore.getSettingById(props.settingId));
-  }
-);
-
-// Watch for changes in lockFullview and update lockMaximized accordingly
-watch(
-  () => userStore.settings.lockFullview.value,
-  (newVal) => {
-    if (newVal) {
-      updateSetting(userStore.settings.lockMaximized.id, false);
-    }
-    Object.assign(selectedSetting, userStore.getSettingById(props.settingId));
-  }
-);
-
-// Watch for changes for theme detection preferences
-watch(
-  () => userStore.preferences.themeDetect.value,
   () => {
-    Object.assign(selectedSetting, userStore.getSettingById(props.settingId));
+    if (props.setting) {
+      return userStore.getSetting(props.setting);
+    }
+  },
+  (newValue) => {
+    if (newValue !== undefined) {
+      selectedSetting.value = newValue;
+    }
+  }
+);
+
+// Watches for changes in lockMaximized
+watch(
+  () => userStore.options.lockMaximized,
+  (newVal) => {
+    if (newVal) {
+      updateSetting("lockFullview", false);
+    }
+  }
+);
+
+// Watches for changes in lockFullview
+watch(
+  () => userStore.options.lockFullview,
+  (newVal) => {
+    if (newVal) {
+      updateSetting("lockMaximized", false);
+    }
   }
 );
 </script>
 
 <template>
-  <div class="element" v-if="selectedSetting.id">
+  <div class="element">
     <div class="form">
-      <div class="setting-container">
+      <div v-if="reset" class="setting-container">
         <div class="label">
-          <label :for="selectedSetting.id">{{ selectedSetting.label }}</label>
+          <label for="reset-settings">Restore default settings</label>
         </div>
         <div class="setting-item">
-          <BaseSelect
-            v-if="isSetLocaleSetting"
-            :id="selectedSetting.id"
-            v-model:value="selectedSetting.value"
-            :options="selectedSetting.options"
-            :name="selectedSetting.name"
-            @update:value="
-              updateSetting(selectedSetting.id, selectedSetting.value)
-            "
-          />
-          <BaseInput
-            v-else-if="isSetCookieSetting"
-            :id="selectedSetting.id"
-            :label="selectedSetting.name"
-            v-model:value="selectedSetting.value"
-            @update:value="
-              updateSetting(selectedSetting.id, selectedSetting.value)
-            "
-            number
-          />
           <BaseButton
-            v-else-if="isSetResetSettings"
-            :id="selectedSetting.id"
-            :color="selectedSetting.color"
+            id="reset-settings"
+            color="red"
             @click="$emit('reset-settings')"
             button
           >
-            <template #button>{{ selectedSetting.value }}</template>
+            <template #button>reset settings</template>
+          </BaseButton>
+        </div>
+      </div>
+      <div v-else class="setting-container">
+        <div class="label">
+          <label v-if="mainWebsiteSetting" :for="selectedSetting.id">
+            {{ selectedSetting.label }}
+            <strong>{{ selectedSetting.value.name }}</strong>
+          </label>
+          <label v-else :for="selectedSetting.id">{{
+            selectedSetting.label
+          }}</label>
+        </div>
+        <div class="setting-item">
+          <BaseSelect
+            v-if="localeSetting"
+            :id="selectedSetting.id"
+            v-model:value="selectedSetting.value"
+            :options="selectedSetting.languages"
+            :label="selectedSetting.desc"
+            @update:value="
+              updateSetting(selectedSetting.name, selectedSetting.value)
+            "
+          />
+          <BaseInput
+            v-else-if="cookieExpireSetting"
+            :id="selectedSetting.id"
+            :label="selectedSetting.desc"
+            v-model:value="selectedSetting.value"
+            @update:value="
+              updateSetting(selectedSetting.name, selectedSetting.value)
+            "
+            type="number"
+          />
+          <BaseInput
+            v-else-if="gtmIdSetting"
+            :id="selectedSetting.id"
+            :label="selectedSetting.desc"
+            v-model:value="selectedSetting.value"
+            @update:value="
+              updateSetting(selectedSetting.name, selectedSetting.value)
+            "
+          />
+          <BaseButton
+            v-else-if="mainWebsiteSetting"
+            :id="selectedSetting.id"
+            color="green"
+            @click="mainWebsiteHandler"
+            button
+          >
+            <template #button>set main website</template>
           </BaseButton>
           <BaseCheck
             v-else
@@ -149,7 +197,7 @@ watch(
             :label="selectedSetting.label"
             v-model:value="selectedSetting.value"
             @update:value="
-              updateSetting(selectedSetting.id, selectedSetting.value)
+              updateSetting(selectedSetting.name, selectedSetting.value)
             "
           />
         </div>

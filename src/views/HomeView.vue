@@ -11,6 +11,7 @@ import ImageSessionReset from "@/assets/images/tutorial/session_reset.png";
 import ImageTroubleshoot from "@/assets/images/tutorial/troubleshoot.png";
 import ImageWebsiteLoading from "@/assets/images/tutorial/website_loading.png";
 import ImageConfig from "@/assets/images/tutorial/config.png";
+import ImageAccount from "@/assets/images/tutorial/account.png";
 import ImageSettings from "@/assets/images/tutorial/settings.png";
 import ImageMore from "@/assets/images/tutorial/more.png";
 
@@ -47,7 +48,7 @@ const guides = reactive([
       <p>It is also possible to load any (initiated) conversation by using its Session ID.</p>`,
   },
   {
-    img: ImageWebsiteLoading,
+    img: ImageAccount,
     desc: `<p>Account creation and login currently serves only to test Token IDs.</p>
       <p>Settings can be applied to 'Merge conversations', as described in the SDK documentation.</p>`,
   },
@@ -121,14 +122,15 @@ const pause = (duration) =>
             </div>
             <div class="home-content">
               <transition-group name="home-content" tag="div">
-                <BaseGuide
-                  v-if="states.contentVisible"
-                  v-for="(guide, index) in guides"
-                  :key="index"
-                  :img="guide.img"
-                  :desc="guide.desc"
-                  :style="{ '--i': index, '--total': guides.length - 1 }"
-                />
+                <template v-if="states.contentVisible">
+                  <BaseGuide
+                    v-for="(guide, index) in guides"
+                    :key="index"
+                    :img="guide.img"
+                    :desc="guide.desc"
+                    :style="{ '--i': index, '--total': guides.length - 1 }"
+                  />
+                </template>
               </transition-group>
             </div>
           </template>
@@ -164,20 +166,20 @@ html[data-theme="dark"] .container {
 }
 
 .home-header h1 {
-  font-weight: 700;
+  font-weight: 900;
   font-size: 3rem;
   color: var(--header-title);
 }
 
 .home-header h2 {
-  font-weight: 600;
+  font-weight: 900;
   font-size: 1.75rem;
   color: var(--blue-pri);
 }
 
 .home-header a,
 .home-header span {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.375rem;
   margin: 1.5rem 0rem;
   padding: 0.5rem;
@@ -204,12 +206,12 @@ html[data-theme="dark"] .container {
   max-width: 72rem;
 }
 
-.home-content span.separator {
+.home-header span.separator {
   font-size: 2rem;
   user-select: none;
 }
 
-.home-content span:not(.separator) {
+.home-header span:not(.separator) {
   cursor: pointer;
 }
 

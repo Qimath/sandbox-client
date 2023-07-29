@@ -12,25 +12,15 @@ export default {
       // If website_id is set, this id will be loaded.
       await app.config.globalProperties.$router.isReady();
 
-      const userStore = useUserStore();
       const configStore = useConfigStore();
       const sessionStore = useSessionStore();
+      const userStore = useUserStore();
 
       // Fetch user settings and populate config store
-      const userSettings = userStore.settings;
-      configStore.setWebsiteOptions({
-        locale: userSettings.locale.value,
-        sessionMerge: userSettings.sessionMerge.value,
-        lockMaximized: userSettings.lockMaximized.value,
-        lockFullview: userSettings.lockFullview.value,
-        safeMode: userSettings.safeMode.value,
-        cookieExpire: userSettings.cookieExpire.value,
-      });
+      const websiteId = configStore.getWebsiteId;
+      const options = userStore.getOptions;
 
-      const websiteId = configStore.getWebsite.id;
-      const websiteOptions = configStore.getWebsite.options;
-
-      Crisp.configure(websiteId, websiteOptions);
+      Crisp.configure(websiteId, options);
 
       // Fetching and storing the callback file object.
       const CONFIG_URL = `https://client.crisp.chat/settings/website/${websiteId}`;
@@ -55,8 +45,16 @@ export default {
         console.error("Error updating config store:", error);
       }
 
+      // Caching the website if it is valid, and not already set as main website
+      const mainWebsite = userStore.getSetting("mainWebsite").id;
+      const websiteValidity = configStore.getWebsiteValidity;
+
+      if (websiteValidity && websiteId !== mainWebsite) {
+        configStore.setCachedWebsites();
+      }
+
       Crisp.session.onLoaded(async (sessionId) => {
-        if (userCallbacks.onSessionLoaded.value) {
+        if (callbacks.onSessionLoaded) {
           console.log("session loaded");
         }
 
@@ -82,45 +80,45 @@ export default {
       });
 
       // Initializing callback settings
-      const userCallbacks = userStore.callbacks;
+      const callbacks = userStore.getCallbacks();
 
       Crisp.chat.onChatInitiated(() => {
         // Executed once the chat was initiated from the user
-        if (userCallbacks.onChatInitiated.value) {
+        if (callbacks.onChatInitiated) {
           console.log("chat initiated");
         }
       });
 
       Crisp.chat.onChatOpened(() => {
         // Executed once the chat was opened
-        if (userCallbacks.onChatOpened.value) {
+        if (callbacks.onChatOpened) {
           console.log("chat opened");
         }
       });
 
-      Crisp.chat.onChatClose(() => {
+      Crisp.chat.onChatClosed(() => {
         // Executed once the chat was closed
-        if (userCallbacks.onChatClosed.value) {
+        if (callbacks.onChatClosed) {
           console.log("chat closed");
         }
       });
 
       Crisp.message.onMessageSent(() => {
         // Executed once a message is submitted by the visitor
-        if (userCallbacks.onMessageSent.value) {
+        if (callbacks.onMessageSent) {
           console.log("message sent");
         }
       });
 
       Crisp.message.onMessageReceived(() => {
         // Executed once a message is received by the visitor
-        if (userCallbacks.onMessageReceived.value) {
+        if (callbacks.onMessageReceived) {
           console.log("message received");
         }
       });
 
       Crisp.user.onNicknameChanged(() => {
-        if (userCallbacks.onNicknameChanged.value) {
+        if (callbacks.onNicknameChanged) {
           console.log("nickname changed");
         }
 
@@ -130,7 +128,7 @@ export default {
       });
 
       Crisp.user.onEmailChanged(() => {
-        if (userCallbacks.onEmailChanged.value) {
+        if (callbacks.onEmailChanged) {
           console.log("email changed");
         }
 
@@ -140,7 +138,7 @@ export default {
       });
 
       Crisp.user.onPhoneChanged(() => {
-        if (userCallbacks.onPhoneChanged.value) {
+        if (callbacks.onPhoneChanged) {
           console.log("phone changed");
         }
 
@@ -150,7 +148,7 @@ export default {
       });
 
       Crisp.user.onAvatarChanged(() => {
-        if (userCallbacks.onAvatarChanged.value) {
+        if (callbacks.onAvatarChanged) {
           console.log("avatar changed");
         }
 

@@ -7,6 +7,7 @@ import BaseBanner from "@/components/ui/BaseBanner.vue";
 import SettingsHandler from "@/components/widgets/SettingsHandler.vue";
 
 import { useBanner } from "@/hooks/banner.js";
+import { updateMeta } from "@/hooks/identity.js";
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
@@ -43,12 +44,31 @@ function handleBannerAction(action) {
   }
 }
 
-function resetSettings() {
-  localStorage.removeItem("user");
+async function resetSettings() {
+  const defaultMetaSettings = {
+    preferences: null,
+    options: null,
+    callbacks: null,
+  };
 
-  window.sessionStorage.removeItem("settingsSaved");
-  window.sessionStorage.setItem("settingsReset", "true");
-  window.location.reload();
+  try {
+    const result = await updateMeta(defaultMetaSettings);
+
+    // handling reset result
+    if (result.error && result.error !== "") {
+      displayBanner({
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      window.sessionStorage.removeItem("settingsSaved");
+      window.sessionStorage.setItem("settingsReset", "true");
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error("App error => Reset: ", error);
+  }
 }
 
 onMounted(() => {
@@ -81,43 +101,23 @@ onMounted(() => {
         <BaseCard>
           <template #card>
             <SettingsHandler
-              setting-id="preference-theme"
+              setting="themeDetect"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="preference-storage"
+              setting="localStorageClear"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="preference-gtm"
-              @settingsResult="settingsResultHandler"
-            />
-          </template>
-        </BaseCard>
-        <BaseCard>
-          <template #card>
-            <SettingsHandler
-              setting-id="setting-merge"
+              setting="gtmEnable"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="setting-maximized"
+              setting="gtmId"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="setting-fullview"
-              @settingsResult="settingsResultHandler"
-            />
-            <SettingsHandler
-              setting-id="setting-safemode"
-              @settingsResult="settingsResultHandler"
-            />
-            <SettingsHandler
-              setting-id="setting-cookie"
-              @settingsResult="settingsResultHandler"
-            />
-            <SettingsHandler
-              setting-id="setting-locale"
+              setting="mainWebsite"
               @settingsResult="settingsResultHandler"
             />
           </template>
@@ -125,9 +125,34 @@ onMounted(() => {
         <BaseCard>
           <template #card>
             <SettingsHandler
-              setting-id="reset-settings"
-              @resetSettings="resetSettings"
+              setting="sessionMerge"
+              @settingsResult="settingsResultHandler"
             />
+            <SettingsHandler
+              setting="lockMaximized"
+              @settingsResult="settingsResultHandler"
+            />
+            <SettingsHandler
+              setting="lockFullview"
+              @settingsResult="settingsResultHandler"
+            />
+            <SettingsHandler
+              setting="safeMode"
+              @settingsResult="settingsResultHandler"
+            />
+            <SettingsHandler
+              setting="cookieExpire"
+              @settingsResult="settingsResultHandler"
+            />
+            <SettingsHandler
+              setting="locale"
+              @settingsResult="settingsResultHandler"
+            />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <SettingsHandler reset @reset-settings="resetSettings" />
           </template>
         </BaseCard>
       </template>
@@ -138,43 +163,43 @@ onMounted(() => {
         <BaseCard>
           <template #card>
             <SettingsHandler
-              setting-id="callback-session-loaded"
+              setting="onSessionLoaded"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-chat-initiated"
+              setting="onChatInitiated"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-chat-opened"
+              setting="onChatOpened"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-chat-closed"
+              setting="onChatClosed"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-message-sent"
+              setting="onMessageSent"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-message-received"
+              setting="onMessageReceived"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-nickname-changed"
+              setting="onNicknameChanged"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-email-changed"
+              setting="onEmailChanged"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-phone-changed"
+              setting="onPhoneChanged"
               @settingsResult="settingsResultHandler"
             />
             <SettingsHandler
-              setting-id="callback-avatar-changed"
+              setting="onAvatarChanged"
               @settingsResult="settingsResultHandler"
             />
           </template>
@@ -182,7 +207,7 @@ onMounted(() => {
       </template>
     </BaseContainer>
 
-    <teleport to="#app">
+    <teleport to="body">
       <transition name="banner" mode="out-in">
         <BaseBanner
           v-if="bannerOptions.visibility"

@@ -16,7 +16,9 @@ const sessionId = computed(() => sessionStore.session.id);
 const sessionToken = computed(() => sessionStore.session.token);
 
 const userStore = useUserStore();
-const userPreferences = computed(() => userStore.preferences);
+const localStorageClear = computed(() =>
+  userStore.getPreferences("localStorageClear")
+);
 
 const sessionIdValue = ref("");
 
@@ -37,7 +39,7 @@ function clearSession() {
     })
     .then(() => {
       Crisp.session.reset();
-      if (userPreferences.value.localStorageClear.value) {
+      if (localStorageClear.value) {
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (key.includes("crisp")) {

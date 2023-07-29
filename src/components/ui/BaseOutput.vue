@@ -105,22 +105,24 @@ watch(
     }"
   >
     <span class="label">{{ label }}</span>
-    <div
-      class="double"
-      v-for="(pair, index) in Object.entries(value)"
-      :key="index"
-      :id="`${id}_${index + 1}`"
-      :class="{ success: !!refreshSuccess[pair[0]] }"
+    <template
       v-if="
         typeof value === 'object' &&
         value !== null &&
         Object.keys(value).length > 0
       "
     >
-      <pre class="key">{{ pair[0] }}</pre>
-      <pre class="value">{{ pair[1] }}</pre>
-    </div>
-
+      <div
+        class="double"
+        v-for="(pair, index) in Object.entries(value)"
+        :key="index"
+        :id="`${id}_${index + 1}`"
+        :class="{ success: !!refreshSuccess[pair[0]] }"
+      >
+        <pre class="key">{{ pair[0] }}</pre>
+        <pre class="value">{{ pair[1] }}</pre>
+      </div>
+    </template>
     <pre v-else-if="typeof value === 'string' && !link">{{ value }}</pre>
     <pre
       v-else-if="
@@ -159,7 +161,7 @@ span.label {
   border-right: 1px solid var(--output-border);
   border-top: 1px solid var(--output-border);
   pointer-events: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 pre {
@@ -275,11 +277,19 @@ section.compact:first-child {
   border-top-right-radius: 0.25rem;
 }
 
+section.compact:first-child .label {
+  border-top-right-radius: 0;
+}
+
 section.compact:last-child {
   flex-direction: row;
   border: none;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
+}
+
+section.compact:last-child pre {
+  border-bottom-left-radius: 0;
 }
 
 section.compact span.label {

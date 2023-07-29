@@ -5,7 +5,7 @@ import { useConfigStore } from "@/stores/config.js";
 import BaseButton from "@/components/ui/BaseButton.vue";
 
 const configStore = useConfigStore();
-const websiteConfig = computed(() => configStore.website.config);
+const websiteConfig = computed(() => configStore.getConfig);
 
 const isLoading = ref(false);
 const gptResponse = ref("");

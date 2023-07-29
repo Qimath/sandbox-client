@@ -559,7 +559,7 @@ function generateEvent() {
 
 function generateTrigger() {
   const configStore = useConfigStore();
-  const websiteConfig = computed(() => configStore.website.config).value;
+  const websiteConfig = computed(() => configStore.getConfig).value;
 
   if (
     websiteConfig &&

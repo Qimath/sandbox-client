@@ -17,7 +17,7 @@ footer {
   justify-content: center;
   align-items: center;
   color: var(--header-sandbox);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 a {

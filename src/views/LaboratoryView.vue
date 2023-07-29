@@ -29,7 +29,7 @@ onMounted(() => {
       </template>
     </BaseContainer>
 
-    <teleport to="#app">
+    <teleport to="body">
       <transition name="banner" mode="out-in">
         <BaseBanner
           v-if="bannerOptions.visibility"

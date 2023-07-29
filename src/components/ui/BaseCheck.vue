@@ -69,7 +69,7 @@ watch(checked, (newValue) => {
 
 .slider:before {
   background-color: var(--container-bg);
-  bottom: 4px;
+  bottom: 0.25rem;
   content: "";
   height: 1.5rem;
   left: 0.25rem;

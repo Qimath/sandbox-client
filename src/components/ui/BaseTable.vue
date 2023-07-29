@@ -122,7 +122,7 @@ div {
   justify-content: center;
   text-transform: capitalize;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 600;
   border-right: 1px solid var(--container-bg);
   overflow: hidden;
 }
@@ -151,7 +151,9 @@ div {
   color: var(--main-text-reverse);
   text-transform: uppercase;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  user-select: none;
   border-top: 0.25rem solid var(--container-bg);
 }
 

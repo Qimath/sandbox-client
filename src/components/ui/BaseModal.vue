@@ -69,7 +69,7 @@ header {
 }
 
 h3 {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.125rem;
 }
 
@@ -87,15 +87,52 @@ span {
   cursor: pointer;
 }
 
-.modal-enter-active,
-.modal-leave-active {
-  transition: all 0.5s ease;
+.modal-enter-active {
+  animation: modal-bounce-in 0.5s forwards;
 }
 
-.modal-enter-from,
-.modal-leave-to {
-  transform: translateY(25%);
+.modal-leave-active {
+  animation: modal-bounce-out 0.5s forwards;
+}
+
+.modal-enter-from {
+  transform: scale(0);
   opacity: 0;
+}
+
+.modal-leave-to {
+  transform: scale(1);
+  opacity: 1;
+}
+
+@keyframes modal-bounce-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
 }
 
 .backdrop-enter-active,

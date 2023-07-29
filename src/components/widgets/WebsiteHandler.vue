@@ -2,6 +2,7 @@
 import { computed, ref, onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
+import { useUserStore } from "@/stores/user.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -17,24 +18,48 @@ const router = useRouter();
 const route = useRoute();
 
 const configStore = useConfigStore();
+const userStore = useUserStore();
 
-const websiteId = computed(() => configStore.website.id);
-const websiteName = computed(() => configStore.website.config.website);
-const emailSecret = computed(() => configStore.website.emailSecret);
-const ticketSecret = computed(() => configStore.website.ticketSecret);
-const websiteValidity = computed(() => configStore.website.valid);
+const websiteValidity = computed(() => configStore.getWebsiteValidity);
+const websiteId = computed(() => configStore.getWebsiteId);
+const websiteName = computed(() => configStore.getConfig.website);
+
+const emailSecret = computed(
+  () => configStore.getCachedSecrets(websiteId.value)?.email
+);
+const ticketSecret = computed(
+  () => configStore.getCachedSecrets(websiteId.value)?.ticket
+);
+
+const mainWebsiteId = computed(() => userStore.getSetting("mainWebsite").id);
+const mainWebsiteName = computed(
+  () => userStore.getSetting("mainWebsite").name
+);
 
 const websiteIdValue = ref("");
 const emailSecretInput = ref("");
 const ticketSecretInput = ref("");
 
 const modalVisibility = ref(false);
+const dropdownVisibility = ref(false);
+
+const dropdownItems = computed(() => {
+  const cachedWebsites = configStore.getCachedWebsites();
+  return cachedWebsites.map((website) => ({
+    key: website.id,
+    label: website.name,
+  }));
+});
+
+function removeCachedWebsite(id) {
+  configStore.delCachedWebsite(id);
+}
 
 function loadStaging() {
   router
     .push({
       path: router.currentRoute.value.path,
-      query: { website_id: configStore.website.staging },
+      query: { website_id: mainWebsiteId.value },
     })
     .then(() => router.go());
 }
@@ -48,6 +73,10 @@ function loadWebsite(value) {
     .then(() => router.go());
 }
 
+function toggleDropdown() {
+  dropdownVisibility.value = !dropdownVisibility.value;
+}
+
 function modalOpen() {
   modalVisibility.value = true;
 }
@@ -58,7 +87,11 @@ function modalClose() {
 
 function setSecrets() {
   try {
-    configStore.updateSecrets(emailSecretInput.value, ticketSecretInput.value);
+    configStore.setSecrets(
+      websiteId.value,
+      emailSecretInput.value,
+      ticketSecretInput.value
+    );
     modalVisibility.value = false;
 
     displayBanner({
@@ -78,7 +111,7 @@ function setSecrets() {
 }
 
 function clearSecrets() {
-  localStorage.removeItem("secrets");
+  configStore.delSecrets();
   modalVisibility.value = false;
 
   displayBanner({
@@ -154,8 +187,20 @@ watch(
         action-label="key"
       />
       <BaseButton id="website-submit" color="default" value="submit" />
-      <BaseButton id="website-staging" color="blue" button @click="loadStaging">
-        <template #button>staging</template>
+      <BaseButton
+        id="website-staging"
+        color="blue"
+        button
+        @click="loadStaging"
+        @action="toggleDropdown"
+        :dropdown="dropdownVisibility"
+        action
+        action-label="visibility"
+        @select="loadWebsite"
+        :dropdown-items="dropdownItems"
+        @websiteRemove="removeCachedWebsite"
+      >
+        <template #button>{{ mainWebsiteName }}</template>
       </BaseButton>
       <BaseOutput
         id="get-website-id"
@@ -206,7 +251,7 @@ watch(
     </BaseModal>
   </teleport>
 
-  <teleport to="#app">
+  <teleport to="body">
     <transition name="banner" mode="out-in">
       <BaseBanner
         v-if="bannerOptions.visibility"

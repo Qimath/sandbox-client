@@ -4,8 +4,7 @@ import { createPinia } from "pinia";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "./stores/user.js";
 
-import VueCookies from "vue-cookies";
-
+import Gtm from "@/plugins/gtm.js";
 import Crisp from "@/plugins/crisp.js";
 
 import App from "@/App.vue";
@@ -17,7 +16,6 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
-app.use(VueCookies);
 
 const userStore = useUserStore();
 const configStore = useConfigStore();
@@ -25,6 +23,7 @@ const configStore = useConfigStore();
 userStore.initializeStore();
 configStore.initializeStore();
 
+app.use(Gtm);
 app.use(Crisp);
 
 app.mount("#app");

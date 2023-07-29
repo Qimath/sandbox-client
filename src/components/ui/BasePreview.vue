@@ -1,46 +1,58 @@
 <script setup>
 const props = defineProps({
-  config: {
-    type: Object,
-    default: {},
+  primary: {
+    type: String,
+    default: "",
+  },
+  secondary: {
+    type: String,
+    default: "",
+  },
+  picture: {
+    type: String,
+    default: "",
+  },
+  status: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>
 
 <template>
-  <div class="website-info">
-    <div class="website-logo">
-      <img :src="props.config.config.settings.logo" />
+  <div class="preview-info">
+    <div class="preview-picture">
+      <img :src="props.picture" />
       <span
-        class="website-availability"
-        :class="props.config.config.online ? 'online' : 'offline'"
+        class="preview-status"
+        :class="props.status ? 'online' : 'offline'"
       ></span>
     </div>
     <div>
-      <span class="website-name">{{ props.config.config.website }}</span>
-      <span class="website-id">{{ props.config.id }}</span>
+      <span class="preview-primary">{{ props.primary }}</span>
+      <span class="preview-secondary">{{ props.secondary }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.website-info {
+.preview-info {
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.website-info > div {
+.preview-info > div {
   flex-direction: column;
 }
 
-.website-name,
-.website-id {
+.preview-primary,
+.preview-secondary {
   padding: 0 1rem;
 }
 
-.website-logo {
+.preview-picture {
   height: 6rem;
   width: 6rem;
   border-radius: 50%;
@@ -50,12 +62,13 @@ const props = defineProps({
   -webkit-user-select: none;
 }
 
-.website-logo img {
+.preview-picture img {
   height: 100%;
+  width: 100%;
   border-radius: 50%;
 }
 
-.website-availability {
+.preview-status {
   position: absolute;
   top: 0;
   right: 0;
@@ -65,17 +78,21 @@ const props = defineProps({
   border: 0.375rem solid var(--container-bg);
 }
 
-.website-availability.online {
+.preview-status.online {
   background-color: var(--green-pri);
 }
 
-.website-availability.offline {
+.preview-status.offline {
   background-color: var(--red-pri);
 }
 
-.website-name {
+.preview-primary {
   font-size: 1.375rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--blue-pri);
+}
+
+.preview-secondary {
+  font-weight: 600;
 }
 </style>

@@ -9,6 +9,8 @@ const userStore = useUserStore();
 
 const router = useRouter();
 
+const isLoggedIn = computed(() => userStore.getAccount().login);
+
 function resolveRouteTitle(routeName) {
   const targetRoute = router.options.routes.find(
     (route) => route.name === routeName
@@ -81,13 +83,13 @@ const settingsTitle = computed(() => {
       </section>
 
       <section class="user">
-        <router-link to="account" class="account">
-          <div v-if="userStore.account.login" class="is-logged-in"></div>
+        <router-link to="/account" class="account">
+          <div v-if="isLoggedIn" class="is-logged-in"></div>
           <span class="material-symbols-outlined"
             >account_circle</span
           ></router-link
         >
-        <router-link to="/settings" class="settings"
+        <router-link v-if="isLoggedIn" to="/settings" class="settings"
           ><span class="material-symbols-outlined">settings</span></router-link
         >
       </section>
@@ -153,13 +155,13 @@ aside nav section a::before {
   justify-content: center;
   left: calc(4rem + 0.5rem);
   color: var(--main-text-reverse);
-  background: var(--orange-pri);
+  background: var(--orange-duo);
   padding: 1rem 2rem;
   box-shadow: var(--main-shadow) 0 4px 8px, var(--main-shadow) 4px 4px 4px;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   opacity: 0;
   animation: labelDelay 1s linear;
   z-index: 1000;
