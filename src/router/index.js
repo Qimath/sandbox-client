@@ -77,10 +77,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const { displayBanner } = useBanner();
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const hashParams = new URLSearchParams(window.location.hash.substr(1));
 
-  const recoveryToken = urlParams.get("recovery_token");
-  const callbackToken = urlParams.get("access_token");
+  const recoveryToken = hashParams.get("recovery_token");
+  const callbackToken = hashParams.get("access_token");
 
   if (callbackToken) {
     (async () => {
