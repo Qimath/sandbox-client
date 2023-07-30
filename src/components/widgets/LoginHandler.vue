@@ -1,8 +1,8 @@
 <script setup>
 import { reactive, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-import { login, authGoogle, authGithub } from "@/hooks/identity.js";
+import { login, authGoogle, authGithub, authCallback } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -13,7 +13,6 @@ import IconGithub from "@/assets/images/general/IconGithub.vue";
 const emits = defineEmits(["auth-window", "banner"]);
 
 const router = useRouter();
-const route = useRoute();
 
 const userLoginCredentials = reactive({
   email: {
@@ -24,6 +23,10 @@ const userLoginCredentials = reactive({
     value: "",
     error: "",
   },
+});
+
+onMounted(() => {
+  authCallback();
 });
 
 watch(

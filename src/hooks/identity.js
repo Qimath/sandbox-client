@@ -1,5 +1,6 @@
 import { useUserStore } from "@/stores/user.js";
 import GoTrue from "gotrue-js";
+import jwtDecode from 'jwt-decode';
 
 const auth = new GoTrue({
   APIUrl: "https://crisp-sandbox.netlify.app/.netlify/identity",
@@ -129,5 +130,20 @@ export async function updateMeta(newMeta) {
       console.error("App error [Identity => updateMeta]: ", error);
       return { success: "", error: parseErrorMessage(error) };
     }
+  }
+}
+
+export function authCallback() {
+  const hashParams = new URLSearchParams(window.location.hash.substr(1));
+  
+  if (hashParams.has('access_token')) {
+    const accessToken = hashParams.get('access_token');
+    localStorage.setItem('gotrue.user', accessToken);
+
+    // Decode the JWT and get user data
+    const userData = jwtDecode(accessToken);
+
+    // Replace the URL so the token isn't visible in the address bar
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }

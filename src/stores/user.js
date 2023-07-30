@@ -101,6 +101,10 @@ export const useUserStore = defineStore({
     async initializeStore() {
       const user = getUser();
 
+      const syncLocalStorage = (newTheme) => {
+        localStorage.setItem("theme", newTheme);
+      };
+
       if (user) {
         // populate store with identity storage when the app loads
         const user_metadata = user.user_metadata || {};
@@ -129,6 +133,17 @@ export const useUserStore = defineStore({
         watch(() => this.callbacks, syncUserSettings, { deep: true });
       } else {
         this.account.login = false;
+
+        // Pull themeSelected from localStorage if user isn't authenticated
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          this.preferences.themeSelected = storedTheme;
+        }
+
+        // Set themeSelected in localStorage whenever it is updated
+        watch(() => this.preferences.themeSelected, syncLocalStorage, {
+          deep: true,
+        });
       }
     },
   },
