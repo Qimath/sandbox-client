@@ -147,7 +147,7 @@ router.beforeEach((to, from, next) => {
             animate: true,
           });
         } else {
-          console.log(response)
+          console.log(result)
           // window.sessionStorage.setItem("loggedIn", "true");
           // router.push({ name: "dashboard" }).then(() => router.go());
         }
