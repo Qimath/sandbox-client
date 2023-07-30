@@ -161,3 +161,11 @@ export async function authCallback() {
 
   return userObject;
 }
+
+export function confirmRecovery(recoveryToken) {
+  return handleAuthPromise(auth.recover(recoveryToken)).then(
+    (response) => {
+      return response;
+    }
+  );
+}

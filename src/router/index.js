@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "@/stores/user.js";
 
-import { authCallback } from "@/hooks/identity.js";
+import { authCallback, confirmRecovery } from "@/hooks/identity.js";
 import { useBanner } from "@/hooks/banner.js";
 
 import HomeView from "@/views/HomeView.vue";
@@ -74,6 +74,36 @@ const router = createRouter({
   ],
 });
 
+// Navigation Guard to handle route restrictions based on user authentication and permissions
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+
+  const isLoggedIn = userStore.getAccount().login;
+  const authenticatedRoutes = ["dashboard", "settings"];
+
+  if (to.name === "account" && isLoggedIn) {
+    // redirect to the dashboard page
+    next({ name: "dashboard" });
+  } else if (authenticatedRoutes.includes(to.name) && !isLoggedIn) {
+    // redirect to the account page
+    next({ name: "account" });
+  } else if (to.name === "settings" && !isLoggedIn) {
+    // redirect to the account page
+    next({ name: "account" });
+  } else {
+    next();
+  }
+});
+
+// Navigation Guard to close the banner when navigating to a different view
+router.beforeEach((to, from, next) => {
+  const { closeBanner } = useBanner();
+  closeBanner();
+  next();
+});
+
+// Navigation Guard to handle authentication callbacks
+// check for url query parameters for password recovery and auth0 authentication
 router.beforeEach((to, from, next) => {
   const { displayBanner } = useBanner();
 
@@ -105,16 +135,27 @@ router.beforeEach((to, from, next) => {
   }
 
   if (recoveryToken) {
-    console.log("recover");
+    (async () => {
+      try {
+        const result = await confirmRecovery(recoveryToken);
+
+        // handling recovery result
+        if (result.error && result.error !== "") {
+          displayBanner({
+            message: result.error,
+            type: "error",
+            animate: true,
+          });
+        } else {
+          window.sessionStorage.setItem("loggedIn", "true");
+          router.push({ name: "dashboard" }).then(() => router.go());
+        }
+      } catch (error) {
+        console.error("App error => Recovery: ", error);
+      }
+    })();
   }
 
-  next();
-});
-
-// Navigation Guard to close the banner when navigating to a different view
-router.beforeEach((to, from, next) => {
-  const { closeBanner } = useBanner();
-  closeBanner();
   next();
 });
 
@@ -129,27 +170,6 @@ router.beforeEach((to, from, next) => {
   }
 
   next();
-});
-
-// Navigation Guard to handle route restrictions based on user authentication and permissions
-router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
-
-  const isLoggedIn = userStore.getAccount().login;
-  const authenticatedRoutes = ["dashboard", "settings"];
-
-  if (to.name === "account" && isLoggedIn) {
-    // redirect to the dashboard page
-    next({ name: "dashboard" });
-  } else if (authenticatedRoutes.includes(to.name) && !isLoggedIn) {
-    // redirect to the account page
-    next({ name: "account" });
-  } else if (to.name === "settings" && !isLoggedIn) {
-    // redirect to the account page
-    next({ name: "account" });
-  } else {
-    next();
-  }
 });
 
 export default router;
