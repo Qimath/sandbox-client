@@ -147,8 +147,9 @@ router.beforeEach((to, from, next) => {
             animate: true,
           });
         } else {
-          window.sessionStorage.setItem("loggedIn", "true");
-          router.push({ name: "dashboard" }).then(() => router.go());
+          console.log(response)
+          // window.sessionStorage.setItem("loggedIn", "true");
+          // router.push({ name: "dashboard" }).then(() => router.go());
         }
       } catch (error) {
         console.error("App error => Recovery: ", error);
