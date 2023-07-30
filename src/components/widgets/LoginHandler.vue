@@ -104,7 +104,7 @@ async function userLogin() {
 
 onMounted(() => {
   auth.value = new GoTrue({
-    APIUrl: 'https://<your-domain-name>/.netlify/identity',
+    APIUrl: 'https://crisp-sandbox.netlify.app/.netlify/identity',
     setCookie: true,
   });
 
