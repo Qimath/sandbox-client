@@ -1,20 +1,8 @@
 <script setup>
-import { reactive, watch, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { reactive, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-import GoTrue from "gotrue-js";
-
-const auth = new GoTrue({
-  APIUrl: "https://crisp-sandbox.netlify.app/.netlify/identity",
-  setCookie: true,
-});
-
-import {
-  login,
-  authGoogle,
-  authGithub,
-  authenticateUserWithToken,
-} from "@/hooks/identity.js";
+import { login, authGoogle, authGithub } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -25,6 +13,7 @@ import IconGithub from "@/assets/images/general/IconGithub.vue";
 const emits = defineEmits(["auth-window", "banner"]);
 
 const router = useRouter();
+const route = useRoute();
 
 const userLoginCredentials = reactive({
   email: {
@@ -101,25 +90,6 @@ async function userLogin() {
     console.error("App error => Login: ", error);
   }
 }
-
-onMounted(() => {
-  auth.value = new GoTrue({
-    APIUrl: 'https://crisp-sandbox.netlify.app/.netlify/identity',
-    setCookie: true,
-  });
-
-  const hash = window.location.hash.substring(1); // Remove the '#'
-  const params = new URLSearchParams(hash);
-
-  if (params.has('access_token')) {
-    const token = params.get('access_token');
-
-    // Authenticate user with token
-    auth.value.createUser({
-      access_token: token,
-    });
-  }
-});
 </script>
 
 <template>
