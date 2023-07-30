@@ -32,9 +32,9 @@ const userLoginCredentials = reactive({
 
 onMounted(async () => {
   // Check if URL contains "access_token" parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has("access_token")) {
-    console.log("mountedCheck")
+  const hashParams = new URLSearchParams(window.location.hash.substr(1));
+  if (hashParams.has("access_token")) {
+    console.log("mountedCheck");
     await userCallback();
   }
 });
