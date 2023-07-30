@@ -1,13 +1,8 @@
 <script setup>
-import { reactive, watch, onMounted } from "vue";
+import { reactive, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import {
-  login,
-  authGoogle,
-  authGithub,
-  authCallback,
-} from "@/hooks/identity.js";
+import { login, authGoogle, authGithub } from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -29,15 +24,6 @@ const userLoginCredentials = reactive({
     error: "",
   },
 });
-
-// onMounted(async () => {
-//   // Check if URL contains "access_token" parameter
-//   const hashParams = new URLSearchParams(window.location.hash.substr(1));
-//   if (hashParams.has("access_token")) {
-//     console.log("mountedCheck");
-//     await userCallback();
-//   }
-// });
 
 watch(
   () => [userLoginCredentials.email.value, userLoginCredentials.password.value],
@@ -103,26 +89,6 @@ async function userLogin() {
     console.error("App error => Login: ", error);
   }
 }
-
-// async function userCallback() {
-//   try {
-//     const result = await authCallback();
-
-//     // handling login result
-//     if (result.error && result.error !== "") {
-//       emits("banner", {
-//         message: result.error,
-//         type: "error",
-//         animate: true,
-//       });
-//     } else {
-//       window.sessionStorage.setItem("loggedIn", "true");
-//       router.push({ name: "dashboard" }).then(() => router.go());
-//     }
-//   } catch (error) {
-//     console.error("App error => Login: ", error);
-//   }
-// }
 </script>
 
 <template>
