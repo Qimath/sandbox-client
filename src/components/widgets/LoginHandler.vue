@@ -1,8 +1,13 @@
 <script setup>
-import { reactive, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { reactive, watch, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-import { login, authGoogle, authGithub } from "@/hooks/identity.js";
+import {
+  login,
+  authGoogle,
+  authGithub,
+  authenticateUserWithToken,
+} from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -13,7 +18,6 @@ import IconGithub from "@/assets/images/general/IconGithub.vue";
 const emits = defineEmits(["auth-window", "banner"]);
 
 const router = useRouter();
-const route = useRoute();
 
 const userLoginCredentials = reactive({
   email: {
@@ -90,6 +94,19 @@ async function userLogin() {
     console.error("App error => Login: ", error);
   }
 }
+
+onMounted(() => {
+  const hash = window.location.hash.substring(1); // Remove the '#'
+  const params = new URLSearchParams(hash);
+
+  if (params.has("access_token")) {
+    const token = params.get("access_token");
+
+    // Use the token to authenticate the user in your app
+    // You might need to call a function from `identity.js` to do this
+    authenticateUserWithToken(token);
+  }
+});
 </script>
 
 <template>

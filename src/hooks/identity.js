@@ -131,3 +131,13 @@ export async function updateMeta(newMeta) {
     }
   }
 }
+
+// In identity.js
+
+export function authenticateUserWithToken(token) {
+  auth._setSession({ access_token: token });
+
+  // This should now return the authenticated user
+  const user = auth.currentUser();
+  console.log(user);
+}
