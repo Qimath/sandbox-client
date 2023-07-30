@@ -114,8 +114,10 @@ router.beforeEach((to, from, next) => {
 
   if (callbackToken) {
     (async () => {
+      const accessToken = hashParams.get("access_token");
+
       try {
-        const result = await authCallback();
+        const result = await authCallback(accessToken);
 
         // handling callback result
         if (result.error && result.error !== "") {

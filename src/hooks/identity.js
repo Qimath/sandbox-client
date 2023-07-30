@@ -130,14 +130,7 @@ export async function updateMeta(newMeta) {
   }
 }
 
-export async function authCallback() {
-  const hashParams = new URLSearchParams(window.location.hash.substr(1));
-
-  if (!hashParams.has("access_token")) {
-    throw new Error("No access token found.");
-  }
-
-  const accessToken = hashParams.get("access_token");
+export async function authCallback(accessToken) {
   const userData = jwtDecode(accessToken);
 
   const userObject = {
@@ -163,9 +156,10 @@ export async function authCallback() {
 }
 
 export function confirmRecovery(recoveryToken) {
-  return handleAuthPromise(auth.recover(recoveryToken)).then(
-    (response) => {
-      return response;
+  return handleAuthPromise(auth.recover(recoveryToken)).then((response) => {
+    if (response.success) {
+      return authCallback(response.success.token.access_token);
     }
-  );
+    return response;
+  });
 }
