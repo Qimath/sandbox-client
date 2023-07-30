@@ -2,6 +2,13 @@
 import { reactive, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
+import GoTrue from "gotrue-js";
+
+const auth = new GoTrue({
+  APIUrl: "https://crisp-sandbox.netlify.app/.netlify/identity",
+  setCookie: true,
+});
+
 import {
   login,
   authGoogle,
@@ -96,15 +103,21 @@ async function userLogin() {
 }
 
 onMounted(() => {
+  auth.value = new GoTrue({
+    APIUrl: 'https://<your-domain-name>/.netlify/identity',
+    setCookie: true,
+  });
+
   const hash = window.location.hash.substring(1); // Remove the '#'
   const params = new URLSearchParams(hash);
 
-  if (params.has("access_token")) {
-    const token = params.get("access_token");
+  if (params.has('access_token')) {
+    const token = params.get('access_token');
 
-    // Use the token to authenticate the user in your app
-    // You might need to call a function from `identity.js` to do this
-    authenticateUserWithToken(token);
+    // Authenticate user with token
+    auth.value.createUser({
+      access_token: token,
+    });
   }
 });
 </script>
