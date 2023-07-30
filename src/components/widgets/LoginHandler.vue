@@ -30,26 +30,26 @@ const userLoginCredentials = reactive({
   },
 });
 
-onMounted(async () => {
-  // Check if URL contains "access_token" parameter
-  const hashParams = new URLSearchParams(window.location.hash.substr(1));
-  if (hashParams.has("access_token")) {
-    console.log("mountedCheck");
-    await userCallback();
-  }
-});
-
-// watch(
-//   () => [userLoginCredentials.email.value, userLoginCredentials.password.value],
-//   ([newEmail, newPassword], [oldEmail, oldPassword]) => {
-//     if (newEmail !== oldEmail && userLoginCredentials.email.error) {
-//       userLoginCredentials.email.error = "";
-//     }
-//     if (newPassword !== oldPassword && userLoginCredentials.password.error) {
-//       userLoginCredentials.password.error = "";
-//     }
+// onMounted(async () => {
+//   // Check if URL contains "access_token" parameter
+//   const hashParams = new URLSearchParams(window.location.hash.substr(1));
+//   if (hashParams.has("access_token")) {
+//     console.log("mountedCheck");
+//     await userCallback();
 //   }
-// );
+// });
+
+watch(
+  () => [userLoginCredentials.email.value, userLoginCredentials.password.value],
+  ([newEmail, newPassword], [oldEmail, oldPassword]) => {
+    if (newEmail !== oldEmail && userLoginCredentials.email.error) {
+      userLoginCredentials.email.error = "";
+    }
+    if (newPassword !== oldPassword && userLoginCredentials.password.error) {
+      userLoginCredentials.password.error = "";
+    }
+  }
+);
 
 async function userLogin() {
   userLoginCredentials.email.error = "";
