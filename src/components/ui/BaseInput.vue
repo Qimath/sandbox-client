@@ -56,6 +56,10 @@ const props = defineProps({
     type: String,
     default: "text",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const rows = ref(5);
@@ -90,6 +94,7 @@ onMounted(() => {
       :id="id"
       :value="value"
       @input="$emit('update:value', $event.target.value)"
+      :disabled="props.disabled"
     ></textarea>
     <input
       v-else
@@ -100,6 +105,7 @@ onMounted(() => {
       @input="$emit('update:value', $event.target.value)"
       auto-complete="nope"
       data-1p-ignore
+      :disabled="props.disabled"
     />
     <label :for="id">
       <span class="material-symbols-outlined">{{ icon }}</span>
@@ -192,6 +198,18 @@ input:placeholder-shown:focus + label,
 textarea:placeholder-shown:focus + label {
   padding-top: 0.375rem;
   font-size: 0.875rem;
+  color: var(--label-tri);
+}
+
+input:disabled,
+textarea:disabled {
+  background: var(--main-bg-tri);
+  border-bottom: 2px solid var(--liner-tri);
+  cursor: not-allowed;
+}
+
+input:disabled + label,
+textarea:disabled + label {
   color: var(--label-tri);
 }
 

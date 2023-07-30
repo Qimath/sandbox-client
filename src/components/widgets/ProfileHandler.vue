@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, reactive, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { useUserStore } from "@/stores/user.js";
@@ -7,6 +7,7 @@ import { logout } from "@/hooks/identity.js";
 
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BasePreview from "@/components/ui/BasePreview.vue";
+import BaseInput from "@/components/ui/BaseInput.vue";
 
 const emits = defineEmits(["auth-window", "banner"]);
 
@@ -18,6 +19,50 @@ const userName = computed(() => userStore.getAccount().nickname);
 const userEmail = computed(() => userStore.getAccount().email);
 const userAvatar = computed(() => userStore.getAccount().avatar);
 const userStatus = computed(() => userStore.getAccount().login);
+
+const userProvider = computed(() => userStore.getAccount().provider);
+let isEmailProvider = userProvider.value === "email" ? true : false;
+isEmailProvider = false;
+
+const userProfileCredentials = reactive({
+  email: {
+    value: userEmail,
+    error: "",
+  },
+  password: {
+    value: "",
+    error: "",
+  },
+  confirmPassword: {
+    value: "",
+    error: "",
+  },
+});
+
+watch(
+  () => [
+    userProfileCredentials.email.value,
+    userProfileCredentials.password.value,
+    userProfileCredentials.confirmPassword.value,
+  ],
+  (
+    [newEmail, newPassword, newConfirmPassword],
+    [oldEmail, oldPassword, oldConfirmPassword]
+  ) => {
+    if (newEmail !== oldEmail && userProfileCredentials.email.error) {
+      userProfileCredentials.email.error = "";
+    }
+    if (newPassword !== oldPassword && userProfileCredentials.password.error) {
+      userProfileCredentials.password.error = "";
+    }
+    if (
+      newConfirmPassword !== oldConfirmPassword &&
+      userProfileCredentials.confirmPassword.error
+    ) {
+      userProfileCredentials.confirmPassword.error = "";
+    }
+  }
+);
 
 async function authLogout() {
   try {
@@ -38,6 +83,71 @@ async function authLogout() {
     console.error("An app error occurred:", error);
   }
 }
+
+async function userUpdate() {
+  userProfileCredentials.result = null;
+
+  userProfileCredentials.email.error = "";
+  userProfileCredentials.password.error = "";
+  userProfileCredentials.confirmPassword.error = "";
+
+  const password = userProfileCredentials.password.value;
+  const confirmPassword = userProfileCredentials.confirmPassword.value;
+  const email = userProfileCredentials.email.value;
+
+  // validating user inputs
+  let hasError = false;
+
+  if (password.length < 8 || password.length > 64) {
+    setTimeout(() => {
+      userProfileCredentials.password.error = "Invalid password length";
+    }, 1);
+    hasError = true;
+  }
+
+  if (confirmPassword !== password || confirmPassword === "") {
+    setTimeout(() => {
+      userProfileCredentials.confirmPassword.error = "Passwords do not match";
+    }, 1);
+    hasError = true;
+  }
+
+  if (
+    !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      email
+    ) ||
+    email.length > 64
+  ) {
+    setTimeout(() => {
+      userProfileCredentials.email.error = "Email address invalid";
+    }, 1);
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  try {
+    const result = await logout(email, password);
+
+    // handling signup result
+    if (result.error && result.error !== "") {
+      emits("banner", {
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      emits("auth-window", "login");
+      emits("banner", {
+        message: "Your profile has been successfully updated!",
+        type: "success",
+        animate: true,
+      });
+    }
+  } catch (error) {
+    console.error("An app error occurred:", error);
+  }
+}
 </script>
 
 <template>
@@ -51,9 +161,50 @@ async function authLogout() {
           :picture="userAvatar"
           :status="userStatus"
         />
-        <BaseButton id="logout" color="red" button @click.prevent="authLogout">
+        <form @submit.prevent="">
+          <BaseInput
+            id="user-email"
+            label="Email address"
+            :error="userProfileCredentials.email.error"
+            :success="userProfileCredentials.email.success"
+            icon="email"
+            v-model:value="userProfileCredentials.email.value"
+            :disabled="!isEmailProvider"
+          />
+          <BaseInput
+            id="user-password"
+            label="Password"
+            :error="userProfileCredentials.password.error"
+            :success="userProfileCredentials.password.success"
+            icon="lock"
+            v-model:value="userProfileCredentials.password.value"
+            type="password"
+            :disabled="!isEmailProvider"
+          />
+          <BaseInput
+            id="user-password-confirm"
+            label="Confirm password"
+            :error="userProfileCredentials.confirmPassword.error"
+            :success="userProfileCredentials.confirmPassword.success"
+            icon="lock"
+            v-model:value="userProfileCredentials.confirmPassword.value"
+            type="password"
+            :disabled="!isEmailProvider"
+          />
+          <BaseButton id="profile-submit" color="blue" value="update & save" />
+        </form>
+        <div class="or-separator"><span>or</span></div>
+        <BaseButton
+          id="logout"
+          color="orange"
+          button
+          @click.prevent="authLogout"
+        >
           <template #button>logout</template>
         </BaseButton>
+        <router-link to="/settings" class="auth-option go-settings"
+          >Just take me to the Settings page</router-link
+        >
       </div>
     </div>
   </div>
@@ -132,6 +283,10 @@ button svg {
   fill: var(--main-text-reverse);
   height: 1.5rem;
   margin-right: 1.5rem;
+}
+
+.preview-info {
+  margin-bottom: 2rem;
 }
 
 .slide-fade-enter-active,
