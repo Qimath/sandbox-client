@@ -17,7 +17,7 @@ const route = useRoute();
 
 const userName = computed(() => userStore.getAccount().nickname);
 const userEmail = computed(() => userStore.getAccount().email);
-const userAvatar = window.location.origin + "/images/avatars/eole.png";
+const userAvatar = computed(() => userStore.getAccount().avatar);
 const userStatus = computed(() => userStore.getAccount().login);
 
 async function authLogout() {

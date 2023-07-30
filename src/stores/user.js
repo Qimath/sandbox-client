@@ -7,9 +7,11 @@ export const useUserStore = defineStore({
   state: () => ({
     account: {
       login: null,
+      provider: "",
       id: "N/A",
       nickname: "N/A",
       email: "N/A",
+      avatar: window.location.origin + "/images/avatars/profile.jpg",
     },
     options: {
       autoload: true,
@@ -110,12 +112,18 @@ export const useUserStore = defineStore({
         const user_metadata = user.user_metadata || {};
 
         this.account.login = true;
+        this.account.provider = user.app_metadata.provider;
         this.account.id = user.id;
         this.account.email = user.email;
         this.account.nickname =
           user_metadata.account && user_metadata.account.nickname
             ? user_metadata.account.nickname
+            : user_metadata.full_name
+            ? user_metadata.full_name
             : "N/A";
+        if (user_metadata.avatar_url) {
+          this.account.avatar = user_metadata.avatar_url;
+        }
 
         this.options = user_metadata.options
           ? { ...this.options, ...user_metadata.options }

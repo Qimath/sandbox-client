@@ -35,7 +35,6 @@ function parseErrorMessage(error) {
 function handleAuthPromise(promise) {
   return promise
     .then((response) => {
-      console.log("Success", response);
       return { success: response, error: "" };
     })
     .catch((error) => {
@@ -79,7 +78,6 @@ export async function logout() {
     const response = await currentUser.logout();
     return { success: response, error: "" };
   } catch (error) {
-    console.log("Logout error", error);
     return { success: "", error: parseErrorMessage(error) };
   }
 }
@@ -124,7 +122,6 @@ export async function updateMeta(newMeta) {
       const mergedMeta = { ...oldMeta, ...newMeta };
 
       const response = await user.update({ data: mergedMeta });
-      console.log(response);
       return { success: response, error: "" };
     } catch (error) {
       console.error("App error [Identity => updateMeta]: ", error);
@@ -136,7 +133,6 @@ export async function updateMeta(newMeta) {
 export async function authCallback() {
   const hashParams = new URLSearchParams(window.location.hash.substr(1));
 
-  // If no token present, throw an error
   if (!hashParams.has("access_token")) {
     throw new Error("No access token found.");
   }
