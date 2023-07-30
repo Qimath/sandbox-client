@@ -133,47 +133,35 @@ export async function updateMeta(newMeta) {
   }
 }
 
-export function authCallback() {
+export async function authCallback() {
   const hashParams = new URLSearchParams(window.location.hash.substr(1));
 
-  if (hashParams.has("access_token")) {
-    const accessToken = hashParams.get("access_token");
-
-    // Decode the JWT and get user data
-    const userData = jwtDecode(accessToken);
-
-    console.log("Decoded JWT:", userData);
-
-    // Create a user object that resembles what gotrue-js expects
-    const userObject = {
-      url: "https://crisp-sandbox.netlify.app/.netlify/identity",
-      token: {
-        access_token: accessToken,
-        token_type: "bearer",
-        expires_in: 3600, // You may need to adjust this value
-        expires_at: userData.exp * 1000, // convert exp to milliseconds
-      },
-      // Add other properties from the userData
-      // You may need to adjust these values based on your userData structure
-      id: userData.sub,
-      email: userData.email,
-      app_metadata: userData.app_metadata || {},
-      user_metadata: userData.user_metadata || {},
-      created_at: userData.iat, // You may need to adjust this value
-      updated_at: userData.iat, // You may need to adjust this value
-    };
-
-    console.log("User object to be stored in localStorage:", userObject);
-
-    // Store the user object in localStorage
-    localStorage.setItem("gotrue.user", JSON.stringify(userObject));
-
-    console.log(
-      "User object stored in localStorage:",
-      localStorage.getItem("gotrue.user")
-    );
-
-    // Replace the URL so the token isn't visible in the address bar
-    window.history.replaceState({}, document.title, window.location.pathname);
+  // If no token present, throw an error
+  if (!hashParams.has("access_token")) {
+    throw new Error("No access token found.");
   }
+
+  const accessToken = hashParams.get("access_token");
+  const userData = jwtDecode(accessToken);
+
+  const userObject = {
+    url: "https://crisp-sandbox.netlify.app/.netlify/identity",
+    token: {
+      access_token: accessToken,
+      token_type: "bearer",
+      expires_in: 3600,
+      expires_at: userData.exp * 1000,
+    },
+    id: userData.sub,
+    email: userData.email,
+    app_metadata: userData.app_metadata || {},
+    user_metadata: userData.user_metadata || {},
+    created_at: userData.iat,
+    updated_at: userData.iat,
+  };
+
+  localStorage.setItem("gotrue.user", JSON.stringify(userObject));
+  window.history.replaceState({}, document.title, window.location.pathname);
+
+  return userObject;
 }

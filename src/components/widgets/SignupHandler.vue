@@ -1,7 +1,12 @@
 <script setup>
-import { reactive, watch } from "vue";
+import { reactive, watch, onMounted } from "vue";
 
-import { signup, authGoogle, authGithub } from "@/hooks/identity.js";
+import {
+  signup,
+  authGoogle,
+  authGithub,
+  authCallback,
+} from "@/hooks/identity.js";
 
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -28,6 +33,14 @@ const userSignupCredentials = reactive({
     value: "",
     error: "",
   },
+});
+
+onMounted(async () => {
+  // Check if URL contains "access_token" parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("access_token")) {
+    await userCallback();
+  }
 });
 
 watch(
@@ -134,6 +147,26 @@ async function userSignup() {
     }
   } catch (error) {
     console.error("An app error occurred:", error);
+  }
+}
+
+async function userCallback() {
+  try {
+    const result = await authCallback();
+
+    // handling login result
+    if (result.error && result.error !== "") {
+      emits("banner", {
+        message: result.error,
+        type: "error",
+        animate: true,
+      });
+    } else {
+      window.sessionStorage.setItem("loggedIn", "true");
+      router.push({ name: "dashboard" }).then(() => router.go());
+    }
+  } catch (error) {
+    console.error("App error => Signup: ", error);
   }
 }
 </script>

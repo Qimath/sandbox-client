@@ -34,7 +34,7 @@ const selectedSetting = reactive({
 
 const websiteId = computed(() => configStore.getWebsiteId);
 const websiteName = computed(() => configStore.getConfig.website);
-const websiteValidity = computed(() => configStore.getWebsiteValidity());
+const websiteValidity = computed(() => configStore.getWebsiteValidity);
 
 const cookieExpireSetting = computed(() => props.setting === "cookieExpire");
 const localeSetting = computed(() => props.setting === "locale");
