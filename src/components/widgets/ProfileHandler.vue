@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { useUserStore } from "@/stores/user.js";
 import { logout } from "@/hooks/identity.js";
@@ -13,7 +13,6 @@ const emits = defineEmits(["auth-window", "banner"]);
 const userStore = useUserStore();
 
 const router = useRouter();
-const route = useRoute();
 
 const userName = computed(() => userStore.getAccount().nickname);
 const userEmail = computed(() => userStore.getAccount().email);

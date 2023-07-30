@@ -28,7 +28,7 @@ export const useUserStore = defineStore({
     preferences: {
       themeDetect: false,
       themeSelected: "light",
-      localStorageClear: true,
+      localStorageClear: false,
       gtmEnable: false,
       gtmId: "",
       mainWebsite: {

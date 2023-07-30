@@ -39,17 +39,17 @@ onMounted(async () => {
   }
 });
 
-watch(
-  () => [userLoginCredentials.email.value, userLoginCredentials.password.value],
-  ([newEmail, newPassword], [oldEmail, oldPassword]) => {
-    if (newEmail !== oldEmail && userLoginCredentials.email.error) {
-      userLoginCredentials.email.error = "";
-    }
-    if (newPassword !== oldPassword && userLoginCredentials.password.error) {
-      userLoginCredentials.password.error = "";
-    }
-  }
-);
+// watch(
+//   () => [userLoginCredentials.email.value, userLoginCredentials.password.value],
+//   ([newEmail, newPassword], [oldEmail, oldPassword]) => {
+//     if (newEmail !== oldEmail && userLoginCredentials.email.error) {
+//       userLoginCredentials.email.error = "";
+//     }
+//     if (newPassword !== oldPassword && userLoginCredentials.password.error) {
+//       userLoginCredentials.password.error = "";
+//     }
+//   }
+// );
 
 async function userLogin() {
   userLoginCredentials.email.error = "";
@@ -104,25 +104,25 @@ async function userLogin() {
   }
 }
 
-async function userCallback() {
-  try {
-    const result = await authCallback();
+// async function userCallback() {
+//   try {
+//     const result = await authCallback();
 
-    // handling login result
-    if (result.error && result.error !== "") {
-      emits("banner", {
-        message: result.error,
-        type: "error",
-        animate: true,
-      });
-    } else {
-      window.sessionStorage.setItem("loggedIn", "true");
-      router.push({ name: "dashboard" }).then(() => router.go());
-    }
-  } catch (error) {
-    console.error("App error => Login: ", error);
-  }
-}
+//     // handling login result
+//     if (result.error && result.error !== "") {
+//       emits("banner", {
+//         message: result.error,
+//         type: "error",
+//         animate: true,
+//       });
+//     } else {
+//       window.sessionStorage.setItem("loggedIn", "true");
+//       router.push({ name: "dashboard" }).then(() => router.go());
+//     }
+//   } catch (error) {
+//     console.error("App error => Login: ", error);
+//   }
+// }
 </script>
 
 <template>

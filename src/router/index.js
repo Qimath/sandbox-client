@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "@/stores/user.js";
 
+import { authCallback } from "@/hooks/identity.js";
 import { useBanner } from "@/hooks/banner.js";
 
 import HomeView from "@/views/HomeView.vue";
@@ -71,6 +72,43 @@ const router = createRouter({
       meta: { title: "Settings" },
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const { displayBanner } = useBanner();
+
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const recoveryToken = urlParams.get("recovery_token");
+  const callbackToken = urlParams.get("access_token");
+
+  if (callbackToken) {
+    (async () => {
+      try {
+        const result = await authCallback();
+
+        // handling callback result
+        if (result.error && result.error !== "") {
+          displayBanner({
+            message: result.error,
+            type: "error",
+            animate: true,
+          });
+        } else {
+          window.sessionStorage.setItem("loggedIn", "true");
+          router.push({ name: "dashboard" }).then(() => router.go());
+        }
+      } catch (error) {
+        console.error("App error => Signup: ", error);
+      }
+    })();
+  }
+
+  if (recoveryToken) {
+    console.log("recover");
+  }
+
+  next();
 });
 
 // Navigation Guard to close the banner when navigating to a different view

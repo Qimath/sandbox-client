@@ -35,13 +35,13 @@ const userSignupCredentials = reactive({
   },
 });
 
-onMounted(async () => {
-  // Check if URL contains "access_token" parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has("access_token")) {
-    await userCallback();
-  }
-});
+// onMounted(async () => {
+//   // Check if URL contains "access_token" parameter
+//   const urlParams = new URLSearchParams(window.location.search);
+//   if (urlParams.has("access_token")) {
+//     await userCallback();
+//   }
+// });
 
 watch(
   () => [
@@ -150,25 +150,25 @@ async function userSignup() {
   }
 }
 
-async function userCallback() {
-  try {
-    const result = await authCallback();
+// async function userCallback() {
+//   try {
+//     const result = await authCallback();
 
-    // handling login result
-    if (result.error && result.error !== "") {
-      emits("banner", {
-        message: result.error,
-        type: "error",
-        animate: true,
-      });
-    } else {
-      window.sessionStorage.setItem("loggedIn", "true");
-      router.push({ name: "dashboard" }).then(() => router.go());
-    }
-  } catch (error) {
-    console.error("App error => Signup: ", error);
-  }
-}
+//     // handling login result
+//     if (result.error && result.error !== "") {
+//       emits("banner", {
+//         message: result.error,
+//         type: "error",
+//         animate: true,
+//       });
+//     } else {
+//       window.sessionStorage.setItem("loggedIn", "true");
+//       router.push({ name: "dashboard" }).then(() => router.go());
+//     }
+//   } catch (error) {
+//     console.error("App error => Signup: ", error);
+//   }
+// }
 </script>
 
 <template>
