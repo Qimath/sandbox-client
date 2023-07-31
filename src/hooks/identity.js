@@ -200,13 +200,13 @@ export function confirmEmailChange(emailChangeToken) {
   ).then((response) => {
     if (response.success) {
       console.log(response.success);
-      const jwt = user.jwt(forceRefresh);
+      const jwt = user.jwt();
 
       console.log("dsdsdsd");
       console.log(jwt);
       setTimeout(() => {
-        return authCallback(response.success.token.access_token);
-      }, 600000);
+        return authCallback(jwt);
+      }, 20000);
     }
     return response;
   });
