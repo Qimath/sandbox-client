@@ -176,7 +176,7 @@ router.beforeEach((to, from, next) => {
           router.push({ name: "dashboard" }).then(() => router.go());
         }
       } catch (error) {
-        console.error("App error => Recovery: ", error);
+        console.error("App error => Email Change: ", error);
       }
     })();
   }

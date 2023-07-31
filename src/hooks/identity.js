@@ -193,7 +193,10 @@ export function confirmRecovery(recoveryToken) {
 }
 
 export function confirmEmailChange(emailChangeToken) {
-  return handleAuthPromise(user.update({ email_change_token: emailChangeToken })
+  const user = auth.currentUser();
+
+  return handleAuthPromise(
+    user.update({ email_change_token: emailChangeToken })
   ).then((response) => {
     if (response.success) {
       return authCallback(response.success.token.access_token);
@@ -201,4 +204,3 @@ export function confirmEmailChange(emailChangeToken) {
     return response;
   });
 }
-
