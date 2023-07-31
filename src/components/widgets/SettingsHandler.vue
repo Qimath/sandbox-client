@@ -79,6 +79,10 @@ async function updateSetting(setting, value) {
   selectedSetting.success = "";
   selectedSetting.error = "";
 
+  if (setting === "cookieExpire") {
+    value = Number(value);
+  }
+
   try {
     await userStore.setSetting(setting, value);
     selectedSetting.success = `Setting ${setting} updated successfully!`;

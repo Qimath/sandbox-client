@@ -114,7 +114,12 @@ export const useUserStore = defineStore({
         this.account.login = true;
         this.account.provider = user.app_metadata.provider;
         this.account.id = user.id;
-        this.account.email = user.email;
+        this.account.email = user.new_email
+          ? user.new_email
+          : user.email
+          ? user.email
+          : "N/A";
+
         this.account.nickname =
           user_metadata.account && user_metadata.account.nickname
             ? user_metadata.account.nickname

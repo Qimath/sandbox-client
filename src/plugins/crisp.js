@@ -18,7 +18,7 @@ export default {
 
       // Fetch user settings and populate config store
       const websiteId = configStore.getWebsiteId;
-      const options = userStore.getOptions;
+      const options = userStore.getOptions();
 
       Crisp.configure(websiteId, options);
 

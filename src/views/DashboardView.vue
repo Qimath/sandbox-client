@@ -15,6 +15,10 @@ const userEmail = computed(() => userStore.getAccount().email);
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
+function bannerHandler(context) {
+  displayBanner(context);
+}
+
 function handleBannerAction(action) {
   if (action === "login") {
     authWindowSwap(action);
@@ -41,7 +45,7 @@ onMounted(() => {
       <template #container>
         <BaseCard>
           <template #card>
-            <ProfileHandler />
+            <ProfileHandler @banner="bannerHandler" />
           </template>
         </BaseCard>
       </template>

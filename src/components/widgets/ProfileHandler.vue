@@ -3,13 +3,13 @@ import { computed, reactive, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { useUserStore } from "@/stores/user.js";
-import { logout } from "@/hooks/identity.js";
+import { logout, updateProfile } from "@/hooks/identity.js";
 
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BasePreview from "@/components/ui/BasePreview.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
 
-const emits = defineEmits(["auth-window", "banner"]);
+const emits = defineEmits(["banner"]);
 
 const userStore = useUserStore();
 
@@ -21,12 +21,11 @@ const userAvatar = computed(() => userStore.getAccount().avatar);
 const userStatus = computed(() => userStore.getAccount().login);
 
 const userProvider = computed(() => userStore.getAccount().provider);
-let isEmailProvider = userProvider.value === "email" ? true : false;
-isEmailProvider = false;
+const isEmailProvider = userProvider.value === "email" ? true : false;
 
 const userProfileCredentials = reactive({
   email: {
-    value: userEmail,
+    value: userEmail.value,
     error: "",
   },
   password: {
@@ -98,25 +97,13 @@ async function userUpdate() {
   // validating user inputs
   let hasError = false;
 
-  if (password.length < 8 || password.length > 64) {
-    setTimeout(() => {
-      userProfileCredentials.password.error = "Invalid password length";
-    }, 1);
-    hasError = true;
-  }
-
-  if (confirmPassword !== password || confirmPassword === "") {
-    setTimeout(() => {
-      userProfileCredentials.confirmPassword.error = "Passwords do not match";
-    }, 1);
-    hasError = true;
-  }
-
+  // Only validate the email if the field is not empty
   if (
-    !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+    email &&
+    (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
       email
     ) ||
-    email.length > 64
+      email.length > 64)
   ) {
     setTimeout(() => {
       userProfileCredentials.email.error = "Email address invalid";
@@ -124,10 +111,30 @@ async function userUpdate() {
     hasError = true;
   }
 
+  // Only validate the password if the field is not empty
+  if (password) {
+    // Password field is not empty, check the length
+    if (password.length < 8 || password.length > 64) {
+      setTimeout(() => {
+        userProfileCredentials.password.error = "Invalid password length";
+      }, 1);
+      hasError = true;
+    }
+
+    // If confirm password doesn't match password or is empty
+    if (confirmPassword !== password || confirmPassword === "") {
+      setTimeout(() => {
+        userProfileCredentials.confirmPassword.error = "Passwords do not match";
+      }, 1);
+      hasError = true;
+    }
+  }
+
   if (hasError) return;
 
   try {
-    const result = await logout(email, password);
+    const result = await updateProfile(email, password);
+    console.log(result)
 
     // handling signup result
     if (result.error && result.error !== "") {
@@ -137,7 +144,6 @@ async function userUpdate() {
         animate: true,
       });
     } else {
-      emits("auth-window", "login");
       emits("banner", {
         message: "Your profile has been successfully updated!",
         type: "success",
@@ -161,7 +167,7 @@ async function userUpdate() {
           :picture="userAvatar"
           :status="userStatus"
         />
-        <form @submit.prevent="">
+        <form @submit.prevent="userUpdate">
           <BaseInput
             id="user-email"
             label="Email address"

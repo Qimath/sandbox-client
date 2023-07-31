@@ -130,6 +130,34 @@ export async function updateMeta(newMeta) {
   }
 }
 
+export async function updateProfile(email, password) {
+  const user = auth.currentUser();
+
+  if (user) {
+    const updateObject = {};
+
+    if (email) {
+      updateObject.email = email;
+    }
+
+    if (password) {
+      updateObject.password = password;
+    }
+
+    // Check if there is any information to update
+    if (Object.keys(updateObject).length === 0) {
+      return { success: "", error: "There is nothing to update as this time." };
+    }
+
+    try {
+      const response = await user.update(updateObject);
+      return { success: response, error: "" };
+    } catch (error) {
+      return { success: "", error: parseErrorMessage(error) };
+    }
+  }
+}
+
 export async function authCallback(accessToken) {
   const userData = jwtDecode(accessToken);
 
