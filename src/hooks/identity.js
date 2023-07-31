@@ -199,7 +199,14 @@ export function confirmEmailChange(emailChangeToken) {
     user.update({ email_change_token: emailChangeToken })
   ).then((response) => {
     if (response.success) {
-      return authCallback(response.success.token.access_token);
+      console.log(response.success);
+      const jwt = user.jwt(forceRefresh);
+
+      console.log("dsdsdsd");
+      console.log(jwt);
+      setTimeout(() => {
+        return authCallback(response.success.token.access_token);
+      }, 600000);
     }
     return response;
   });
