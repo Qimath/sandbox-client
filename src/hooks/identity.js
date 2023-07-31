@@ -199,7 +199,7 @@ export function confirmEmailChange(emailChangeToken) {
     user.update({ email_change_token: emailChangeToken })
   ).then((response) => {
     if (response.success) {
-      const jwt = user.jwt();
+      //const jwt = user.jwt();
         // return authCallback(jwt);
     }
     return response;
