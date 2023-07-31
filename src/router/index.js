@@ -12,6 +12,7 @@ import DebuggingView from "@/views/DebuggingView.vue";
 import TicketView from "@/views/TicketView.vue";
 import ContactView from "@/views/ContactView.vue";
 import LaboratoryView from "@/views/LaboratoryView.vue";
+import AccountView from "@/views/AccountView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +57,7 @@ const router = createRouter({
     {
       path: "/account",
       name: "account",
-      component: () => import("@/views/AccountView.vue"),
+      component: AccountView,
       meta: { title: "Account" },
     },
     {

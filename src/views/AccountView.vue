@@ -63,12 +63,14 @@ onMounted(() => {
         <BaseCard>
           <template #card>
             <transition name="slide-fade" mode="out-in">
-              <component
-                :is="currentComponent"
-                :key="currentComponent"
-                @auth-window="authWindowSwap"
-                @banner="bannerHandler"
-              />
+              <keep-alive>
+                <component
+                  :is="currentComponent"
+                  :key="currentComponent"
+                  @auth-window="authWindowSwap"
+                  @banner="bannerHandler"
+                />
+              </keep-alive>
             </transition>
           </template>
         </BaseCard>

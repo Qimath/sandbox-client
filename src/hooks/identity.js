@@ -198,10 +198,6 @@ export function confirmEmailChange(emailChangeToken) {
   return handleAuthPromise(
     user.update({ email_change_token: emailChangeToken })
   ).then((response) => {
-    if (response.success) {
-      //const jwt = user.jwt();
-        // return authCallback(jwt);
-    }
     return response;
   });
 }

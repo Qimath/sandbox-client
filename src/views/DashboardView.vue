@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import BaseCard from "@/components/ui/BaseCard.vue";
 import BaseBanner from "@/components/ui/BaseBanner.vue";
-import ProfileHandler from "@/components/widgets/ProfileHandler.vue";
+import ProfileOverview from "@/components/widgets/ProfileOverview.vue";
+import ProfileEdition from "@/components/widgets/ProfileEdition.vue";
 
 import { useBanner } from "@/hooks/banner.js";
 import { useUserStore } from "@/stores/user.js";
@@ -14,6 +15,23 @@ const userStore = useUserStore();
 const userEmail = computed(() => userStore.getAccount().email);
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
+
+const authWindow = ref("overview");
+
+function authWindowSwap(value) {
+  authWindow.value = value;
+}
+
+const currentComponent = computed(() => {
+  switch (authWindow.value) {
+    case "overview":
+      return ProfileOverview;
+    case "edit":
+      return ProfileEdition;
+    default:
+      return LoginHandler;
+  }
+});
 
 function bannerHandler(context) {
   displayBanner(context);
@@ -55,7 +73,16 @@ onMounted(() => {
       <template #container>
         <BaseCard>
           <template #card>
-            <ProfileHandler @banner="bannerHandler" />
+            <transition name="slide-fade" mode="out-in">
+              <keep-alive>
+                <component
+                  :is="currentComponent"
+                  :key="currentComponent"
+                  @auth-window="authWindowSwap"
+                  @banner="bannerHandler"
+                />
+              </keep-alive>
+            </transition>
           </template>
         </BaseCard>
       </template>
@@ -84,5 +111,22 @@ html[data-theme="light"] .container {
 
 html[data-theme="dark"] .container {
   background-image: url("@/assets/images/general/pattern-dark-alt.png");
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(25%);
+  opacity: 0;
+}
+
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  transform: translateX(0);
+  opacity: 1;
 }
 </style>

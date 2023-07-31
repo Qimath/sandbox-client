@@ -1,19 +1,16 @@
 <script setup>
 import { computed, reactive, watch } from "vue";
-import { useRouter } from "vue-router";
 
 import { useUserStore } from "@/stores/user.js";
-import { logout, updateProfile } from "@/hooks/identity.js";
+import { updateProfile } from "@/hooks/identity.js";
 
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BasePreview from "@/components/ui/BasePreview.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
 
-const emits = defineEmits(["banner"]);
+const emits = defineEmits(["auth-window", "banner"]);
 
 const userStore = useUserStore();
-
-const router = useRouter();
 
 const userName = computed(() => userStore.getAccount().nickname);
 const userEmail = computed(() => userStore.getAccount().email);
@@ -62,26 +59,6 @@ watch(
     }
   }
 );
-
-async function authLogout() {
-  try {
-    const result = await logout();
-
-    // handling logout result
-    if (result.error && result.error !== "") {
-      emits("banner", {
-        message: result.error,
-        type: "error",
-        animate: true,
-      });
-    } else {
-      window.sessionStorage.setItem("loggedOut", "true");
-      router.push({ name: "account" }).then(() => router.go());
-    }
-  } catch (error) {
-    console.error("An app error occurred:", error);
-  }
-}
 
 async function userUpdate() {
   userProfileCredentials.result = null;
@@ -134,7 +111,7 @@ async function userUpdate() {
 
   try {
     const result = await updateProfile(email, password);
-    console.log(result)
+    console.log(result);
 
     // handling signup result
     if (result.error && result.error !== "") {
@@ -160,7 +137,7 @@ async function userUpdate() {
   <div class="element">
     <div class="form">
       <div class="auth-container">
-        <h3>Account Profile</h3>
+        <h3>Account Overview</h3>
         <BasePreview
           :primary="userName"
           :secondary="userEmail"
@@ -201,16 +178,13 @@ async function userUpdate() {
         </form>
         <div class="or-separator"><span>or</span></div>
         <BaseButton
-          id="logout"
-          color="orange"
+          id="go-overview"
+          color="default"
           button
-          @click.prevent="authLogout"
+          @click.prevent="$emit('auth-window', 'overview')"
         >
-          <template #button>logout</template>
+          <template #button>profile overview</template>
         </BaseButton>
-        <router-link to="/settings" class="auth-option go-settings"
-          >Just take me to the Settings page</router-link
-        >
       </div>
     </div>
   </div>

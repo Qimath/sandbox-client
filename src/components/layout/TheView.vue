@@ -6,7 +6,16 @@ const router = useRouter();
 let transitionName = ref("default-transition");
 
 router.beforeEach((to, from, next) => {
-  if (to.name === "home" || from.name === "home") {
+  if (
+    to.name === "home" ||
+    to.name === "settings" ||
+    to.name === "account" ||
+    to.name === "dashboard" ||
+    from.name === "home" ||
+    from.name === "settings" ||
+    from.name === "account" ||
+    from.name === "dashboard"
+  ) {
     transitionName.value = "home";
   } else {
     transitionName.value = "default";
@@ -19,7 +28,9 @@ router.beforeEach((to, from, next) => {
   <div class="view">
     <router-view v-slot="{ Component }">
       <transition :name="transitionName" mode="out-in">
-        <component :is="Component" />
+        <keep-alive include="MethodsView, DebuggingView, TicketView, ContactView, LaboratoryView, AccountView">
+          <component :is="Component" />
+        </keep-alive>
       </transition>
     </router-view>
   </div>
