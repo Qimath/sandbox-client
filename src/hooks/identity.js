@@ -191,3 +191,14 @@ export function confirmRecovery(recoveryToken) {
     return response;
   });
 }
+
+export function confirmEmailChange(emailChangeToken) {
+  return handleAuthPromise(user.update({ email_change_token: emailChangeToken })
+  ).then((response) => {
+    if (response.success) {
+      return authCallback(response.success.token.access_token);
+    }
+    return response;
+  });
+}
+

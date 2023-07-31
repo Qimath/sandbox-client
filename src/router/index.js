@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "@/stores/user.js";
 
-import { authCallback, confirmRecovery } from "@/hooks/identity.js";
+import { authCallback, confirmRecovery, confirmEmailChange } from "@/hooks/identity.js";
 import { useBanner } from "@/hooks/banner.js";
 
 import HomeView from "@/views/HomeView.vue";
@@ -111,6 +111,7 @@ router.beforeEach((to, from, next) => {
 
   const recoveryToken = hashParams.get("recovery_token");
   const callbackToken = hashParams.get("access_token");
+  const emailChangeToken = hashParams.get("email_change_token");
 
   if (callbackToken) {
     (async () => {
@@ -150,6 +151,28 @@ router.beforeEach((to, from, next) => {
           });
         } else {
           window.sessionStorage.setItem("loggedIn", "true");
+          router.push({ name: "dashboard" }).then(() => router.go());
+        }
+      } catch (error) {
+        console.error("App error => Recovery: ", error);
+      }
+    })();
+  }
+
+  if (emailChangeToken) {
+    (async () => {
+      try {
+        const result = await confirmEmailChange(emailChangeToken);
+
+        // handling recovery result
+        if (result.error && result.error !== "") {
+          displayBanner({
+            message: result.error,
+            type: "error",
+            animate: true,
+          });
+        } else {
+          window.sessionStorage.setItem("emailChanged", "true");
           router.push({ name: "dashboard" }).then(() => router.go());
         }
       } catch (error) {

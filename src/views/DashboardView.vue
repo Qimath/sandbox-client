@@ -36,6 +36,16 @@ onMounted(() => {
 
     window.sessionStorage.removeItem("loggedIn");
   }
+
+  if (window.sessionStorage.getItem("emailChanged")) {
+    displayBanner({
+      message: `Your email address has been successfully updated to <strong>${userEmail.value}</strong>`,
+      type: "success",
+      animate: true,
+    });
+
+    window.sessionStorage.removeItem("emailChanged");
+  }
 });
 </script>
 
