@@ -199,14 +199,8 @@ export function confirmEmailChange(emailChangeToken) {
     user.update({ email_change_token: emailChangeToken })
   ).then((response) => {
     if (response.success) {
-      console.log(response.success);
       const jwt = user.jwt();
-
-      console.log("dsdsdsd");
-      console.log(jwt);
-      setTimeout(() => {
-        return authCallback(jwt);
-      }, 20000);
+        // return authCallback(jwt);
     }
     return response;
   });
