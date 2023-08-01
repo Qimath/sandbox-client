@@ -73,7 +73,7 @@ async function userUpdate() {
 
   // check that user can update his information
   if (!isEmailProvider) {
-    switch (userProvider) {
+    switch (userProvider.value) {
       case "google":
         emits("banner", {
           message:
