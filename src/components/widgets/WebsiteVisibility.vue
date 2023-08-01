@@ -107,8 +107,6 @@ async function debugChatbox() {
     gptResponse.value = sentences
       .map((sentence) => `<p>${sentence}</p>`)
       .join("");
-
-    console.log("tips: ", helperTipsString);
   } catch (error) {
     gptError.value =
       "Error: " +

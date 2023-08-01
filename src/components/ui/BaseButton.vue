@@ -61,6 +61,7 @@ const isDropdownEmpty = computed(() => {
             <div></div>
             <div></div>
           </div>
+          ‎
         </span>
         <span v-else>
           <slot name="button"></slot>
