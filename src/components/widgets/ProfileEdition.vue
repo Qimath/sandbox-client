@@ -71,6 +71,36 @@ async function userUpdate() {
   const confirmPassword = userProfileCredentials.confirmPassword.value;
   const email = userProfileCredentials.email.value;
 
+  // check that user can update his information
+  if (!isEmailProvider) {
+    switch (userProvider) {
+      case "google":
+        emits("banner", {
+          message:
+            "Your account profile cannot be edited here. You can updated your information from your Google account.",
+          type: "error",
+          animate: true,
+        });
+        break;
+      case "github":
+        emits("banner", {
+          message:
+            "Your account profile cannot be edited here. You can updated your information from your Github account.",
+          type: "error",
+          animate: true,
+        });
+        break;
+      default:
+        emits("banner", {
+          message:
+            "You do not have permission to edit your account information here. Check with your provider.",
+          type: "error",
+          animate: true,
+        });
+    }
+    return;
+  }
+
   // validating user inputs
   let hasError = false;
 
@@ -109,6 +139,17 @@ async function userUpdate() {
 
   if (hasError) return;
 
+  // check that data has actually changed
+  if (email === userEmail.value) {
+    emits("banner", {
+      message:
+        "Your modifications were saved. Nothing was changed at all, congratulations!",
+      type: "warning",
+      animate: true,
+    });
+    return;
+  }
+
   try {
     const result = await updateProfile(email, password);
 
@@ -121,8 +162,9 @@ async function userUpdate() {
       });
     } else {
       emits("banner", {
-        message: "Your profile has been updated! If you requested to change your email address, an email containing a confirmation link has been sent.",
-        type: "success",
+        message:
+          "Your profile has been updated! If you requested to change your email address, an email containing a confirmation link has been sent.",
+        type: "info",
         animate: true,
       });
     }
