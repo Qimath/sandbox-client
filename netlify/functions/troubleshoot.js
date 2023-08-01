@@ -12,254 +12,175 @@ async function sendPrompt(input) {
   const messages = [
     {
       role: "system",
-      content: `
-    You are an assistant that supports the Crisp technical support team. You are tasked with analyzing data and determining whether the Crisp chatbox is visible or not. Here are the rules you need to follow:
+      content: `You are assisting the Crisp technical support team. You'll analyze data to determine if the Crisp chatbox is visible based on the following rules:
 
-    1. Does not affect chatbox visibility. If 'online' is false, the support is away, but by default the chatbox is still visible.
-    2. If 'hide_vacation' is true, the chatbox is hidden everywhere.
-    3. If 'hide_on_away' is true and 'online' is false, the chatbox is hidden.
-    4. If 'check_domain' is true, the chatbox is only visible on the 'website_url' domain.
-    5. If 'allowed_pages' are specified, the chatbox is only visible on these pages.
-    6. If a page is listed in 'blocked_pages', the chatbox is not visible on this page.
-    7. If 'blocked_countries' or 'blocked_locales' match the user's location or browser language, the chatbox is hidden.
-    8. If the user's IP is listed in 'blocked_ips', the chatbox is hidden.
-    9. 'hide_on_mobile' hides the chatbox on mobile devices.
-    10. If 'online' is false, and 'hide_on_away' is false, the chatbox will be visible.
-
-    Start by stating whether the chatbox should be visible on the 'current_page'. Then list any pages, countries, languages, or IPs where the chatbox will be hidden. Use HTML line breaks to separate items and avoid unnecessary phrases. Remain professional but lively in your responses.
-       
-    You need to provide your conclusion based on the above rules. Your response should be formatted in HTML with no more than one <br> or <p> in a row. Avoid unnecessary phrases like "based on the information provided". 
-
-    Note: If "Hide on away" is false, the chatbox will be visible regardless if the website (support) is online or not. This means being offline does not imply the chatbox is not visible.
-
-    Also make sure to use similar formatting to the ones provided in the examples you will find. Doing lists and breaking lines is capital.
-
-    Lastly, remember to carefully compare each point with pre-existing scenarios and these rules to provide an accurate diagnostic.
-  `,
+      1. 'online' - If false, support is away, but chatbox is still visible by default.
+      2. 'hide_vacation' - If true, chatbox is hidden.
+      3. 'hide_on_away' - If true and 'online' is false, chatbox is hidden.
+      4. 'check_domain' - If true, chatbox is only visible on 'website_url'.
+      5. 'allowed_pages' - If specified, chatbox is only visible here.
+      6. 'blocked_pages' - If a page is listed here, chatbox is hidden.
+      7. 'blocked_countries' or 'blocked_locales' - If they match the user's location or browser language, chatbox is hidden.
+      10. If 'online' is false and 'hide_on_away' is false, chatbox is visible.`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug
+      content: `current page: http://localhost:5173/debug
       website settings:
       online: true,
       website_url: false,
       hide_vacation: false,
       hide_on_away: true,
-      hide_on_mobile: false,
       check_domain: false,
       allowed_pages: ,
       blocked_pages: https://staging.crisp.help/en/category/workarounds-nj20g7/,https://staging.crisp.help/en/category/workarounds-nj20g7/*,https://staging.crisp.help/en/category/testing-jej7kv/,https://staging.crisp.help/en/category/testing-jej7kv/*,
       blocked_countries: ,
-      blocked_locales: ,
-      blocked_ips: 
-      `,
+      blocked_locales: ,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>Given your current settings, the chatbox should be visible on your current page (http://localhost:5173/debug).</p>
-      <p>
-      However, it is important to note that the chatbox will not be visible on the following blocked pages:<br>
-      - https://staging.crisp.help/en/category/workarounds-nj20g7/ <br>
-      - https://staging.crisp.help/en/category/workarounds-nj20g7/* <br>
-      - https://staging.crisp.help/en/category/testing-jej7kv/ <br> 
-      - https://staging.crisp.help/en/category/testing-jej7kv/* <br>
-      </p>
-      <p>
-      Additionally, the "Hide on away" setting is set to true, meaning the chatbox will be hidden if the website's support team is offline. 
-      </p>
-      <p>
-      Apart from these specific conditions, the chatbox should be visible to users. If you have any other queries or need further assistance, don't hesitate to ask.
-      </p>
-      `,
+      content: `Given your current settings, the chatbox should be visible on your current page (http://localhost:5173/debug). But please note, the chatbox will be hidden on the following blocked pages:
+      
+      - https://staging.crisp.help/en/category/workarounds-nj20g7/
+      - https://staging.crisp.help/en/category/workarounds-nj20g7/*
+      - https://staging.crisp.help/en/category/testing-jej7kv/
+      - https://staging.crisp.help/en/category/testing-jej7kv/*
+      
+      The "Hide on away" setting is set to true, meaning the chatbox will be hidden if the website's support team is offline.`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug?
+      content: `current page: http://localhost:5173/debug?
       website settings:
       online: true,
       website_url: acme.com,
       hide_vacation: true,
       hide_on_away: true,
-      hide_on_mobile: false,
       check_domain: false,
       allowed_pages: ,
       blocked_pages: ,
       blocked_countries: ,
-      blocked_locales: EN,
-      blocked_ips: 
-      `,
+      blocked_locales: EN,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>Due to the "Hide on vacation" setting being enabled, the chatbox won't be visible anywhere. It's like the chatbox is on a permanent holiday!</p>
-      <p>
-      Also, you have set to block the English locale. So, all users with 'English' as their browser language preference won't see the chatbox even if they're not on vacation!
-      </p>
-      <p>
-      No other restrictions apply here, so aside from these, we're good to go. Now, if you'll excuse me, I have a cup of digital tea waiting.
-      </p>
-      `,
+      content: `Since the "Hide on vacation" setting is enabled, the chatbox won't be visible anywhere. Additionally, English locale is blocked, which means users with 'English' as their browser language preference won't see the chatbox.`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug?
+      content: `current page: http://localhost:5173/debug?
       website settings:
       online: false,
       website_url: gimini.com,
       hide_vacation: false,
       hide_on_away: false,
-      hide_on_mobile: false,
       check_domain: true,
       allowed_pages: ,
       blocked_pages: ,
       blocked_countries: ,
-      blocked_locales: ,
-      blocked_ips: 
-      `,
+      blocked_locales: ,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>Currently, the chatbox isn't visible on your page, but it should appear just fine on the gimini.com domain.</p>
-      <p>
-      It's due to the "Lock Domain" setting being on. With this, the chatbox only shows up on the set domain, which is gimini.com in this case. So, if anyone tells you they can't see the chatbox, be sure they're on the right website!
-      </p>
-      `,
+      content: `Due to the "Lock Domain" setting being on, the chatbox isn't visible on your current page, but it should appear just fine on the gimini.com domain.`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug?
+      content: `current page: http://localhost:5173/debug?
       website settings:
       online: false,
       website_url: acme.com,
       hide_vacation: false,
       hide_on_away: true,
-      hide_on_mobile: false,
       check_domain: false,
       allowed_pages: https://chrisp-sandbox.herokuapp.com/articles/**, https://chrisp-sandbox.herokuapp.com/dashboard/**
       blocked_pages: ,
       blocked_countries: FR, UK,
-      blocked_locales: ,
-      blocked_ips: 
-      `,
+      blocked_locales: ,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>With "Hide on away" enabled and the team currently offline, the chatbox is enjoying some downtime and won't be visible.</p>
-      <p>
-      Beyond this, there are a few other things to keep in mind:
-      </p>
-      <p>
-      Our friend here has set up a couple of specific URLs for the chatbox to appear: <br>
-      - https://chrisp-sandbox.herokuapp.com/articles/** <br>
-      - https://chrisp-sandbox.herokuapp.com/dashboard/** <br>
-      This means the chatbox only shows up on these pages and their sub-pages. Note that pages before the double wildcards are not whitelisted.
-      </p>
-      <p>
-      Also, this user decided to restrict access for users from France and the United Kingdom. Quite a bold move, wouldn't you agree?
-      </p>
-      <p>
-      That's it from my end. Keep an eye on this one, looks like they love to shake things up. I'm off for a quick coffee break.
-      </p>
-      `,
+      content: `With "Hide on away" enabled and the support team currently offline, the chatbox won't be visible. However, the chatbox will be visible only on the following allowed pages:
+
+      - https://chrisp-sandbox.herokuapp.com/articles/**
+      - https://chrisp-sandbox.herokuapp.com/dashboard/**
+      
+      The chatbox won't be visible to users from France and the United Kingdom.`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug?
+      content: `current page: http://localhost:5173/debug?
       website settings:
       online: true,
       website_url: theenergycompany.com,
       hide_vacation: false,
       hide_on_away: false,
-      hide_on_mobile: false,
       check_domain: true,
       allowed_pages: ,
       blocked_pages: https://theenergycompany.com/dashboard/**,
       blocked_countries: ,
-      blocked_locales: ,
-      blocked_ips: ,
-      `,
+      blocked_locales: ,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>The chatbox won't make an appearance on your Sandbox because of the enabled locked-domain option. However, it should be rocking on the client's website: https://theenergycompany.com</p>
-      <p>
-      Do note that the chatbox won't appear on any subdirectory of their dashboard page as it has been specifically blocked: <br>
-      - https://theenergycompany.com/dashboard/** <br>
-      </p>
-      <p>
-      Apart from these pages, the chatbox should be visible on the rest of the website, as long as it's installed there. "Hide on away" is off, so it won't disappear when the support team is offline.
-      </p>
-      <p>
-      No other restrictions on countries, locales, or IPs for this one. Let me know when you've got more curveballs to throw my way!
-      </p>
-      `,
+      content: `Due to the locked-domain option, the chatbox won't appear on your Sandbox but it will be visible on theenergycompany.com, except on the following page:
+
+      - https://theenergycompany.com/dashboard/**`,
     },
     {
       role: "user",
-      content: `
-      current page: http://localhost:5173/debug?
+      content: `current page: http://localhost:5173/debug?
       website settings:
       online: false,
       website_url: ,
       hide_vacation: false,
       hide_on_away: false,
-      hide_on_mobile: false,
       check_domain: false,
       allowed_pages: ,
       blocked_pages: ,
       blocked_countries: IT, USA,
-      blocked_locales: de,
-      blocked_ips: ,
-      `,
+      blocked_locales: de,`,
     },
     {
       role: "assistant",
-      content: `
-      <p>As it stands, the chatbox won't be visible because the website is offline.</p>
-      <p>
-      This customer hasn't specified a website URL, but this doesn't matter in this case because there are no page restrictions.
-      </p>
-      <p>
-      But there are a couple of noteworthy restrictions:
-      </p>
-      <p>
-      The chatbox won't be visible to visitors from the following countries: <br>
-      - USA <br>
-      - Italy <br>
-      Furthermore, the German locale is also blocked.
-      </p>
-      <p>
-      That covers the settings for this one. Give me a shout if you have more cases that need tackling.
-      </p>
-      `,
+      content: `The chatbox should be visible, since the website is offline but "Hide on away" is not enabled. However, the chatbox won't be visible to users from USA, Italy and users with German as their browser language preference.`,
     },
     {
       role: "user",
-      content: `
-      <p>Unfortunately your last response was wrong. Even if 'online' is false, the chatbox remains visible unless 'hide_on_away' is enabled, which is not the case here.</p>
-      <p>Therefore, in this case the chatbox was visible. <br>
-      You need to pay attention to how settings interact between each others.</p>
-      `,
+      content: `current page: http://localhost:5173/debug
+      website settings:
+      online: false,
+      website_url: "domain.com",
+      hide_vacation: false,
+      hide_on_away: false,
+      check_domain: true,
+      allowed_pages: ["https://domain.com/page1", "https://domain.com/page2"],
+      blocked_pages: [],
+      blocked_countries: ["CA", "MX"],
+      blocked_locales: ["fr", "es"],`,
     },
     {
       role: "assistant",
-      content: `
-      <p>Thank you for the correction. <br>
-      If 'online' is true, the chatbox will be visible regardless if 'hide_on_away' is set to true or not. <br>
-      If 'online' is false (support is offline), the chatbox will still be visible, unless 'hide_on_away' is true, and only if it is true.</p>
-      <p>You are indeed correct, and the chatbox was visible in this case, especially as Vacation mode was disabled and there was no other restrictions present.</p>
-      `,
+      content: `Given these settings, the chatbox is only visible on 'https://domain.com/page1' and 'https://domain.com/page2' because of the 'check_domain' and 'allowed_pages' settings. Users in Canada (CA) and Mexico (MX), or users with French (fr) or Spanish (es) browser language settings, will not be able to see the chatbox.`,
     },
+    {
+      role: "user",
+      content: `current page: http://localhost:5173/debug
+      website settings:
+      online: true,
+      website_url: ,
+      hide_vacation: false,
+      hide_on_away: true,
+      check_domain: false,
+      allowed_pages: ["https://domain.com/page1", "https://domain.com/page2"],
+      blocked_pages: ["https://domain.com/page3"],
+      blocked_countries: [],
+      blocked_locales: [],`,
+    },
+    {
+      role: "assistant",
+      content: `The chatbox should currently be visible, as the support is online. However, the chatbox will be hidden if the support team is offline, because the 'hide_on_away' setting is enabled. It's visible on 'https://domain.com/page1' and 'https://domain.com/page2', but not on 'https://domain.com/page3'.`,
+    },    
     {
       role: "user",
       content: input,

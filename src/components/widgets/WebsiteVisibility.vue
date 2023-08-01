@@ -32,13 +32,11 @@ async function debugChatbox() {
       website_url: settings.check_domain,
       hide_vacation: settings.hide_vacation,
       hide_on_away: settings.hide_on_away,
-      hide_on_mobile: settings.hide_on_mobile,
       check_domain: settings.check_domain,
       allowed_pages: settings.allowed_pages,
       blocked_pages: settings.blocked_pages,
       blocked_countries: settings.blocked_countries,
       blocked_locales: settings.blocked_locales,
-      blocked_ips: settings.blocked_ips,
     };
 
     const formattedSettings = formatSettings(relevantSettings);
@@ -58,14 +56,22 @@ async function debugChatbox() {
 
     response = await response.json();
     gptResponse.value = response.message[0].message.content;
-    gptResponse.value = gptResponse.value.replace(/\n/g, "<br/>");
+
+    // Process the response for better formatting
+    let sentences = gptResponse.value.split("\n");
+    gptResponse.value = sentences
+      .map((sentence) => `<p>${sentence}</p>`)
+      .join("");
   } catch (error) {
     gptError.value =
       "Error: " +
       error.message +
-      "<br>Try again, it might very well just work. Nobody knows how any of this works anyways.";
+      "<br>Try again, it might very well just work. Nobody knows how any of this shit works anyways.";
   } finally {
     isLoading.value = false;
+    console.log("response: ", response)
+    console.log("gptResponse.value: ", gptResponse.value)
+    console.log("gptResponse.value: ", gptResponse.value)
   }
 }
 </script>

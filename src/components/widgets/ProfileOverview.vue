@@ -99,7 +99,7 @@ function goSettings() {
 .auth-container {
   flex-direction: column;
   align-items: center;
-  width: 30rem;
+  width: 35rem;
   background: var(--container-bg);
   padding: 3rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

@@ -111,7 +111,6 @@ async function userUpdate() {
 
   try {
     const result = await updateProfile(email, password);
-    console.log(result);
 
     // handling signup result
     if (result.error && result.error !== "") {
@@ -204,7 +203,7 @@ async function userUpdate() {
 .auth-container {
   flex-direction: column;
   align-items: center;
-  width: 30rem;
+  width: 35rem;
   background: var(--container-bg);
   padding: 3rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

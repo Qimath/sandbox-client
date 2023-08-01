@@ -166,13 +166,15 @@ html[data-theme="dark"] .container {
 }
 
 .home-header h1 {
-  font-weight: 900;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
   font-size: 3rem;
   color: var(--header-title);
 }
 
 .home-header h2 {
-  font-weight: 900;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
   font-size: 1.75rem;
   color: var(--blue-pri);
 }

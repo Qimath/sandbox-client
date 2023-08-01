@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
   <div class="view">
     <router-view v-slot="{ Component }">
       <transition :name="transitionName" mode="out-in">
-        <keep-alive include="MethodsView, DebuggingView, TicketView, ContactView, LaboratoryView, AccountView">
+        <keep-alive :include="['MethodsView', 'DebuggingView', 'TicketView', 'ContactView', 'LaboratoryView', 'AccountView']">
           <component :is="Component" />
         </keep-alive>
       </transition>
