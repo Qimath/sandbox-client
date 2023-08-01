@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue";
 import { useConfigStore } from "@/stores/config.js";
 
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -15,6 +15,44 @@ function formatSettings(settings) {
   return Object.entries(settings)
     .map(([key, value]) => `${key}: ${value}`)
     .join(",\n");
+}
+
+function troubleshootingHelpers() {
+  const helperTips = [];
+
+  const { online, settings } = websiteConfig.value;
+
+  if (!online && settings.hide_on_away) {
+    helperTips.push(
+      "The chatbox is not be visible, since the support team is offline while 'hide on away' is enabled"
+    );
+  }
+
+  if (online && settings.hide_on_away) {
+    helperTips.push(
+      "The chatbox will be visible as long as the support is online. However, because 'hide on away' is enabled, the chatbox will become hidden once the support is offline."
+    );
+  }
+
+  if (settings.check_domain) {
+    helperTips.push(
+      "'check domain' is enabled, if the chatbox is visible, it will only be the case on the domain specified"
+    );
+  }
+
+  if (!!settings.allowed_pages) {
+    helperTips.push(
+      "If an url is specified in 'allowed_pages', the chatbox will only be visible on these pages. No other pages will be able to display the chatbox."
+    );
+  }
+
+  if (settings.hide_vacation) {
+    helperTips.push(
+      "'vacation mode' is active, the chatbox will be hidden on all pages, anywhere."
+    );
+  }
+
+  return helperTips;
 }
 
 async function debugChatbox() {
@@ -41,7 +79,14 @@ async function debugChatbox() {
 
     const formattedSettings = formatSettings(relevantSettings);
 
-    const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}`;
+    // Call troubleshootingHelpers function to get the helper tips
+    const helperTips = troubleshootingHelpers();
+
+    // Convert helperTips array to string
+    const helperTipsString = helperTips.join("\n");
+
+    // Include helper tips in the prompt
+    const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}\n\nhelper tips:\n${helperTipsString}`;
 
     let response = await fetch(
       "https://crisp-sandbox.netlify.app/.netlify/functions/troubleshoot",
@@ -69,7 +114,7 @@ async function debugChatbox() {
     gptError.value =
       "Error: " +
       error.message +
-      "<br>Try again, it might very well just work. Nobody knows how any of this shit works anyways.";
+      "<br>Try again, it might very well just work. Nobody knows how any of this works anyways.";
   } finally {
     isLoading.value = false;
   }
