@@ -163,7 +163,7 @@ async function userUpdate() {
     } else {
       emits("banner", {
         message:
-          "Your profile has been updated! If you requested to change your email address, an email containing a confirmation link has been sent.",
+          "Your modifications have been saved. If you requested to change your email address, a confirmation link has been sent.",
         type: "info",
         animate: true,
       });
