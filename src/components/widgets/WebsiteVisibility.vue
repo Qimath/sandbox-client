@@ -40,7 +40,7 @@ function troubleshootingHelpers() {
     );
   }
 
-  if (!!settings.allowed_pages) {
+  if (settings.allowed_pages && settings.allowed_pages.length > 0) {
     helperTips.push(
       "If an url is specified in 'allowed_pages', the chatbox will only be visible on these pages. No other pages will be able to display the chatbox."
     );
@@ -108,7 +108,7 @@ async function debugChatbox() {
       .map((sentence) => `<p>${sentence}</p>`)
       .join("");
 
-    console.log("tips: ", settings.allowed_pages);
+    console.log("tips: ", helperTipsString);
   } catch (error) {
     gptError.value =
       "Error: " +
