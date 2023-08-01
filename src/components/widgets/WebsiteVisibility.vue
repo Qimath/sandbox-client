@@ -62,6 +62,9 @@ async function debugChatbox() {
     gptResponse.value = sentences
       .map((sentence) => `<p>${sentence}</p>`)
       .join("");
+
+    console.log("response: ", response);
+    console.log("gptResponse.value: ", gptResponse.value);
   } catch (error) {
     gptError.value =
       "Error: " +
@@ -69,9 +72,6 @@ async function debugChatbox() {
       "<br>Try again, it might very well just work. Nobody knows how any of this shit works anyways.";
   } finally {
     isLoading.value = false;
-    console.log("response: ", response)
-    console.log("gptResponse.value: ", gptResponse.value)
-    console.log("gptResponse.value: ", gptResponse.value)
   }
 }
 </script>
