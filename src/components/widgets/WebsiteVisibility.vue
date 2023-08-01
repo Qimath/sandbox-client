@@ -108,7 +108,7 @@ async function debugChatbox() {
       .map((sentence) => `<p>${sentence}</p>`)
       .join("");
 
-    console.log("tips: ", helperTipsString);
+    console.log("tips: ", settings.allowed_pages);
   } catch (error) {
     gptError.value =
       "Error: " +
