@@ -77,7 +77,7 @@ async function userUpdate() {
       case "google":
         emits("banner", {
           message:
-            "Your account profile cannot be edited here. You can updated your information from your Google account.",
+            "Your account profile cannot be edited here. You can updated your information from your <strong>Google</strong> account.",
           type: "error",
           animate: true,
         });
@@ -85,7 +85,7 @@ async function userUpdate() {
       case "github":
         emits("banner", {
           message:
-            "Your account profile cannot be edited here. You can updated your information from your Github account.",
+            "Your account profile cannot be edited here. You can updated your information from your <strong>Github</strong> account.",
           type: "error",
           animate: true,
         });
