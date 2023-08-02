@@ -22,7 +22,7 @@ async function sendPrompt(input) {
       6. 'blocked_pages' - If a page is listed here, chatbox is hidden.
       7. 'blocked_countries' or 'blocked_locales' - If they match the user's location or browser language, chatbox is hidden.
       8. If 'online' is false and 'hide_on_away' is false, chatbox is visible.
-      9. 'helper tips' - accurate information based on the current settings sent to help you troubleshoot the chatbox visibility.`,
+      9. 'helper tips' - Optional. These are additional information to help you generate your response and troubleshoot the chatbox visibility.`,
     },
     {
       role: "user",

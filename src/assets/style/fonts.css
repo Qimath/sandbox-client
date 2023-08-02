@@ -1,34 +1,48 @@
 @font-face {
   font-family: "Chrisp Sans";
-  src: url("@/assets/fonts/ChrispSans-black.woff2") format("opentype");
+  src: url("@/assets/fonts/ChrispSans-Black.woff2") format("opentype");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Chrisp Sans";
-  src: url("@/assets/fonts/ChrispSans-semibold.woff2") format("opentype");
+  src: url("@/assets/fonts/ChrispSans-SemiBold.woff2") format("opentype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Chrisp Sans";
-  src: url("@/assets/fonts/ChrispSans-bold.woff2") format("opentype");
+  src: url("@/assets/fonts/ChrispSans-Bold.woff2") format("opentype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Chrisp Sans";
-  src: url("@/assets/fonts/ChrispSans-medium.woff2") format("opentype");
+  src: url("@/assets/fonts/ChrispSans-Medium.woff2") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Chrisp Sans";
-  src: url("@/assets/fonts/ChrispSans-regular.woff2") format("opentype");
+  src: url("@/assets/fonts/ChrispSans-Regular.woff2") format("opentype");
   font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("@/assets/fonts/Fredoka-Bold.ttf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("@/assets/fonts/Fredoka-SemiBold.ttf") format("opentype");
+  font-weight: 600;
   font-style: normal;
 }

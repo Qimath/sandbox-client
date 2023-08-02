@@ -3,7 +3,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "@/stores/user.js";
 
-import { authCallback, confirmRecovery, confirmEmailChange } from "@/hooks/identity.js";
+import {
+  authCallback,
+  confirmRecovery,
+  confirmEmailChange,
+} from "@/hooks/identity.js";
 import { useBanner } from "@/hooks/banner.js";
 
 import HomeView from "@/views/HomeView.vue";

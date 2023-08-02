@@ -93,7 +93,7 @@ onMounted(() => {
       :rows="rows"
       :id="id"
       :value="value"
-      @input="$emit('update:value', $event.target.value)"
+      @input="$emit('update:value', $event.target.value.trim())"
       :disabled="props.disabled"
     ></textarea>
     <input
@@ -102,7 +102,7 @@ onMounted(() => {
       placeholder=" "
       :type="type"
       :value="value"
-      @input="$emit('update:value', $event.target.value)"
+      @input="$emit('update:value', $event.target.value.trim())"
       auto-complete="nope"
       data-1p-ignore
       :disabled="props.disabled"
