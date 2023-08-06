@@ -103,4 +103,10 @@ dialog form {
 .card .dual > :last-child {
   margin-left: 10px;
 }
+
+/* Zoom fix */
+.card:last-of-type .element:last-of-type {
+  padding-top: 1.475rem;
+  padding-bottom: 0.05rem;
+}
 </style>
