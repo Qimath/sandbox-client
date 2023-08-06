@@ -4,6 +4,8 @@ import { useUserStore } from "@/stores/user.js";
 import { useConfigStore } from "@/stores/config.js";
 import { useSettingsStore } from "@/stores/settings.js";
 
+import useMethodCopier from "@/hooks/copy.js";
+
 import BaseCheck from "@/components/ui/BaseCheck.vue";
 import BaseSelect from "@/components/ui/BaseSelect.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
@@ -17,6 +19,10 @@ const props = defineProps({
     default: "",
   },
   reset: {
+    type: Boolean,
+    default: false,
+  },
+  copy: {
     type: Boolean,
     default: false,
   },
@@ -42,6 +48,9 @@ const gtmIdSetting = computed(() => props.setting === "gtmId");
 const mainWebsiteSetting = computed(() => props.setting === "mainWebsite");
 
 const dataInit = ref(false);
+
+const copyResults = reactive({});
+const successTimeoutIds = reactive({});
 
 // Assign the selected setting object on component mounted
 onMounted(async () => {
@@ -90,6 +99,35 @@ async function updateSetting(setting, value) {
     selectedSetting.error = error.message;
   } finally {
     emit("settings-result", selectedSetting);
+  }
+}
+
+// handle sdk methods copy
+async function copyMethod(id) {
+  if (!copyResults[id]) {
+    copyResults[id] = reactive({ copyType: "" });
+  }
+
+  try {
+    const result = await useMethodCopier(id);
+    if (result) {
+      setTimeout(() => {
+        Object.assign(copyResults[id], result);
+        navigator.clipboard.writeText(copyResults[id].copyValue);
+      }, 1);
+
+      if (successTimeoutIds[id]) {
+        clearTimeout(successTimeoutIds[id]);
+      }
+
+      successTimeoutIds[id] = ref(
+        setTimeout(() => {
+          copyResults[id].copyType = "";
+        }, 1000)
+      );
+    }
+  } catch (error) {
+    console.error("An app error occurred:", error);
   }
 }
 
@@ -147,14 +185,28 @@ watch(
         </div>
       </div>
       <div v-else class="setting-container">
-        <div class="label">
-          <label v-if="mainWebsiteSetting" :for="selectedSetting.id">
-            {{ selectedSetting.label }}
-            <strong>{{ selectedSetting.value.name }}</strong>
-          </label>
-          <label v-else :for="selectedSetting.id">{{
-            selectedSetting.label
-          }}</label>
+        <div>
+          <div v-if="copy" class="copy-method">
+            <span
+              @click="copyMethod(props.setting)"
+              class="material-symbols-outlined"
+              >content_copy</span
+            >
+            <span
+              v-if="copy && copyResults[props.setting]?.copyType"
+              class="copy-type"
+              >{{ copyResults[props.setting]?.copyType }}</span
+            >
+          </div>
+          <div class="label">
+            <label v-if="mainWebsiteSetting" :for="selectedSetting.id">
+              {{ selectedSetting.label }}
+              <strong>{{ selectedSetting.value.name }}</strong>
+            </label>
+            <label v-else :for="selectedSetting.id">{{
+              selectedSetting.label
+            }}</label>
+          </div>
         </div>
         <div class="setting-item">
           <BaseSelect
@@ -189,7 +241,7 @@ watch(
           <BaseButton
             v-else-if="mainWebsiteSetting"
             :id="selectedSetting.id"
-            color="green"
+            color="blue"
             @click="mainWebsiteHandler"
             button
           >
@@ -221,11 +273,68 @@ div.setting-container {
 div.label label {
   font-size: 1rem;
   color: var(--main-text-normal);
+  align-items: center;
 }
 
 div.setting-item {
   width: 15rem;
   justify-content: flex-end;
   margin-left: 2rem;
+}
+
+div.copy-method {
+  margin-right: 1rem;
+  color: var(--orange-duo);
+  transition: all 0.1s linear;
+}
+
+div.copy-method span {
+  font-size: 1.5rem;
+  padding: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+div.copy-method:hover {
+  color: var(--orange-pri);
+}
+
+div.copy-method:active {
+  color: var(--orange-tri);
+}
+
+div > span.copy-type {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  left: 2.5rem;
+  top: -0.625rem;
+  user-select: none;
+  -webkit-user-select: none;
+  color: var(--main-text-reverse);
+  background: var(--orange-pri);
+  padding: 0.625rem 1.25rem 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  z-index: 100;
+  box-shadow: var(--main-shadow) 0 0 0.5rem, var(--main-shadow) 0 0 0.5rem;
+}
+
+div > span.copy-type::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0;
+  top: 50%;
+  border: 0.75rem solid transparent;
+  border-right-color: var(--orange-pri);
+  border-left: 0;
+  margin-top: -0.75rem;
+  margin-left: -0.5rem;
+  z-index: 100;
 }
 </style>

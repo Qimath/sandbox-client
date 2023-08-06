@@ -100,8 +100,8 @@ export const useMethodsStore = defineStore({
   }),
 
   getters: {
-    getMethodById: (state) => (id) => {
-      return Object.values(state).find((method) => method.id === id);
+    getMethod: (state) => (method) => {
+      return state[method];
     },
   },
 

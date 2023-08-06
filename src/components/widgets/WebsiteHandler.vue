@@ -238,6 +238,7 @@ watch(
             v-model:value="ticketSecretInput"
           />
           <BaseButton id="secrets-save" color="default" value="save & apply" />
+          <div class="or-separator"><span>or</span></div>
           <BaseButton
             id="secrets-clear"
             color="orange"
@@ -265,4 +266,24 @@ watch(
   </teleport>
 </template>
 
-<style scoped></style>
+<style scoped>
+.or-separator {
+  margin-top: calc(0.75rem + 1.5rem);
+  width: 100%;
+  margin-bottom: 1.5rem;
+  height: 0;
+  border-top: 1px solid var(--liner-tri);
+  align-items: center;
+  justify-content: center;
+  color: var(--label-tri);
+  user-select: none;
+}
+
+.or-separator span {
+  position: absolute;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--container-bg);
+  padding: 0.5rem;
+}
+</style>

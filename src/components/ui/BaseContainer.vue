@@ -16,7 +16,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="container" :class="{ grow: grow, full: full }" ref="container">
+  <div class="container" :class="{ grow, full }" ref="container">
     <span class="top-liner"></span>
     <slot name="container"></slot>
     <span class="bottom-liner"></span>

@@ -47,6 +47,10 @@ export const useUserStore = defineStore({
       onEmailChanged: false,
       onPhoneChanged: false,
       onAvatarChanged: false,
+      onMessageComposeSent: false,
+      onMessageComposeReceived: false,
+      onWebsiteAvailabilityChanged: false,
+      onHelpdeskQueried: false,
     },
   }),
 

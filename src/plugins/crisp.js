@@ -2,7 +2,7 @@ import { useConfigStore } from "@/stores/config.js";
 import { useSessionStore } from "@/stores/session.js";
 import { useUserStore } from "@/stores/user.js";
 
-import { Crisp } from "crisp-sdk-web";
+import { Crisp } from "crisp-sdk-web-dev";
 
 export default {
   install: async (app) => {
@@ -83,37 +83,60 @@ export default {
       const callbacks = userStore.getCallbacks();
 
       Crisp.chat.onChatInitiated(() => {
-        // Executed once the chat was initiated from the user
         if (callbacks.onChatInitiated) {
           console.log("chat initiated");
         }
       });
 
       Crisp.chat.onChatOpened(() => {
-        // Executed once the chat was opened
         if (callbacks.onChatOpened) {
           console.log("chat opened");
         }
       });
 
       Crisp.chat.onChatClosed(() => {
-        // Executed once the chat was closed
         if (callbacks.onChatClosed) {
           console.log("chat closed");
         }
       });
 
       Crisp.message.onMessageSent(() => {
-        // Executed once a message is submitted by the visitor
         if (callbacks.onMessageSent) {
           console.log("message sent");
         }
       });
 
       Crisp.message.onMessageReceived(() => {
-        // Executed once a message is received by the visitor
         if (callbacks.onMessageReceived) {
           console.log("message received");
+        }
+      });
+
+      Crisp.message.onMessageComposeSent(() => {
+        if (callbacks.onMessageComposeSent) {
+          console.log("compose sent");
+        }
+      });
+
+      Crisp.message.onMessageComposeReceived(() => {
+        if (callbacks.onMessageComposeReceived) {
+          console.log("compose received");
+        }
+      });
+
+      Crisp.chat.onHelpdeskQueried((search_results) => {
+        if (callbacks.onHelpdeskQueried) {
+          console.log("helpdesk queried", search_results);
+        }
+      });
+
+      Crisp.onWebsiteAvailabilityChanged((is_available) => {
+        if (callbacks.onWebsiteAvailabilityChanged) {
+          if (is_available) {
+            console.log("website availability: online");
+          } else {
+            console.log("website availability: offline");
+          }
         }
       });
 

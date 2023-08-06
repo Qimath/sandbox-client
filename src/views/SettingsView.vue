@@ -165,42 +165,72 @@ onMounted(() => {
             <SettingsHandler
               setting="onSessionLoaded"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onChatInitiated"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onChatOpened"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onChatClosed"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onMessageSent"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onMessageReceived"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onNicknameChanged"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onEmailChanged"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onPhoneChanged"
               @settingsResult="settingsResultHandler"
+              copy
             />
             <SettingsHandler
               setting="onAvatarChanged"
               @settingsResult="settingsResultHandler"
+              copy
+            />
+            <SettingsHandler
+              setting="onMessageComposeSent"
+              @settingsResult="settingsResultHandler"
+              copy
+            />
+            <SettingsHandler
+              setting="onMessageComposeReceived"
+              @settingsResult="settingsResultHandler"
+              copy
+            />
+            <SettingsHandler
+              setting="onWebsiteAvailabilityChanged"
+              @settingsResult="settingsResultHandler"
+              copy
+            />
+            <SettingsHandler
+              setting="onHelpdeskQueried"
+              @settingsResult="settingsResultHandler"
+              copy
             />
           </template>
         </BaseCard>

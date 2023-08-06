@@ -1,5 +1,5 @@
 import { reactive, computed } from "vue";
-import { Crisp } from "crisp-sdk-web";
+import { Crisp } from "crisp-sdk-web-dev";
 import { useConfigStore } from "@/stores/config.js";
 
 import useMethodGetter from "./get.js";
@@ -297,28 +297,28 @@ function doUnmute() {
   }
 }
 
-export default function useMethodPusher(id, value) {
+export default function useMethodPusher(name, value) {
   const pushers = {
-    "session-nickname": () => pushNickname(value),
-    "session-email": () => pushEmail(value),
-    "session-phone": () => pushPhone(value),
-    "session-company": () => pushCompany(value),
-    "session-avatar": () => pushAvatar(value),
-    "session-data": () => pushData(value),
-    "session-segment": () => pushSegment(value),
+    nickname: () => pushNickname(value),
+    email: () => pushEmail(value),
+    phone: () => pushPhone(value),
+    company: () => pushCompany(value),
+    avatar: () => pushAvatar(value),
+    data: () => pushData(value),
+    segment: () => pushSegment(value),
     event: () => pushEvent(value),
     trigger: () => pushTrigger(value),
-    "send-message": () => pushSendMessage(value),
-    "show-message": () => pushShowMessage(value),
-    "show-chatbox": () => doShowChatbox(),
-    "hide-chatbox": () => doHideChatbox(),
-    "open-chatbox": () => doOpenChatbox(),
-    "close-chatbox": () => doCloseChatbox(),
-    "swap-left": () => doSwapLeft(),
-    "swap-right": () => doSwapRight(),
+    sendMessage: () => pushSendMessage(value),
+    showMessage: () => pushShowMessage(value),
+    showChatbox: () => doShowChatbox(),
+    hideChatbox: () => doHideChatbox(),
+    openChatbox: () => doOpenChatbox(),
+    closeChatbox: () => doCloseChatbox(),
+    swapLeft: () => doSwapLeft(),
+    swapRight: () => doSwapRight(),
     mute: () => doMute(),
     unmute: () => doUnmute(),
   };
 
-  return pushers[id] ? pushers[id]() : null;
+  return pushers[name] ? pushers[name]() : null;
 }

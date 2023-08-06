@@ -10,7 +10,7 @@ import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 
 const props = defineProps({
-  methodId: {
+  method: {
     type: String,
     default: "",
   },
@@ -18,15 +18,16 @@ const props = defineProps({
 
 const methodsStore = useMethodsStore();
 const selectedMethod = reactive({
+  name: props.method,
   value: "",
   error: "",
   success: "",
 });
 
 onMounted(() => {
-  Object.assign(selectedMethod, methodsStore.getMethodById(props.methodId));
+  Object.assign(selectedMethod, methodsStore.getMethod(selectedMethod.name));
 
-  if (selectedMethod.id === "session-data") {
+  if (selectedMethod.name === "data") {
     selectedMethod.value = {
       dataKey: "",
       dataValue: "",
@@ -34,10 +35,11 @@ onMounted(() => {
   }
 });
 
-const isSetSessionData = computed(() => selectedMethod.id === "session-data");
+const isSetSessionData = computed(() => selectedMethod.name === "data");
 const isTextArea = computed(
   () =>
-    selectedMethod.id === "send-message" || selectedMethod.id === "show-message"
+    selectedMethod.name === "sendMessage" ||
+    selectedMethod.name === "showMessage"
 );
 
 const copyResult = reactive({});
@@ -54,7 +56,7 @@ watch(
 async function copyMethod() {
   try {
     const result = await useMethodCopier(
-      selectedMethod.id,
+      selectedMethod.name,
       selectedMethod.value
     );
     if (result) {
@@ -81,9 +83,9 @@ async function copyMethod() {
 
 async function generateMethod() {
   try {
-    const generatedValue = await useMethodGenerator(selectedMethod.id);
+    const generatedValue = await useMethodGenerator(selectedMethod.name);
 
-    if (selectedMethod.id === "session-data") {
+    if (selectedMethod.id === "data") {
       selectedMethod.value.dataKey = generatedValue.dataKey;
       selectedMethod.value.dataValue = generatedValue.dataValue;
     } else {
@@ -103,7 +105,7 @@ async function pushMethod() {
 
   try {
     const result = await useMethodPusher(
-      selectedMethod.id,
+      selectedMethod.name,
       selectedMethod.value
     );
 

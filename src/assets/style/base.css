@@ -74,6 +74,9 @@
   --color-yellow-6: hsl(45, 65%, 45%);
   --color-yellow-7: hsl(45, 85%, 30%);
 
+  --color-amber-1: hsl(45, 90%, 50%);
+  --color-amber-2: hsl(45, 85%, 40%);
+
   --color-cyan-1: hsl(200, 40%, 85%);
   --color-cyan-2: hsl(200, 35%, 75%);
   --color-cyan-3: hsl(200, 55%, 55%);
@@ -117,6 +120,9 @@
   --output-ref: var(--color-yellow-5);
   --output-ref-hover: var(--color-yellow-6);
   --output-ref-active: var(--color-yellow-7);
+
+  --note-pri: var(--color-amber-1);
+  --note-duo: var(--color-amber-2);
 
   --error-text: var(--red-duo);
   --error-liner: var(--red-pri);
@@ -189,6 +195,9 @@
   --output-ref: var(--color-yellow-5);
   --output-ref-hover: var(--color-yellow-6);
   --output-ref-active: var(--color-yellow-7);
+
+  --note-pri: var(--color-amber-1);
+  --note-duo: var(--color-amber-2);
 
   --error-text: var(--red-pri);
   --error-liner: var(--red-duo);

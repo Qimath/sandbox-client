@@ -137,7 +137,7 @@ span {
 }
 
 span.go-light {
-  color: var(--color-yellow-4);
+  color: var(--color-amber-1);
 }
 
 span.go-dark {

@@ -14,13 +14,13 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
       <template #container>
         <BaseCard>
           <template #card>
-            <PushHandler method-id="session-nickname" />
-            <PushHandler method-id="session-email" />
-            <PushHandler method-id="session-phone" />
-            <PushHandler method-id="session-company" />
-            <PushHandler method-id="session-avatar" />
-            <PushHandler method-id="session-data" />
-            <PushHandler method-id="session-segment" />
+            <PushHandler method="nickname" />
+            <PushHandler method="email" />
+            <PushHandler method="phone" />
+            <PushHandler method="company" />
+            <PushHandler method="avatar" />
+            <PushHandler method="data" />
+            <PushHandler method="segment" />
           </template>
         </BaseCard>
       </template>
@@ -29,10 +29,10 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
       <template #container>
         <BaseCard>
           <template #card>
-            <PushHandler method-id="event" />
-            <PushHandler method-id="trigger" />
-            <PushHandler method-id="send-message" />
-            <PushHandler method-id="show-message" />
+            <PushHandler method="event" />
+            <PushHandler method="trigger" />
+            <PushHandler method="sendMessage" />
+            <PushHandler method="showMessage" />
           </template>
         </BaseCard>
         <BaseCard>

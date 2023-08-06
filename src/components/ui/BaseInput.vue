@@ -263,7 +263,7 @@ div > span.copy-type {
   -webkit-user-select: none;
   color: var(--main-text-reverse);
   background: var(--green-pri);
-  padding: 0.625rem 1.25rem 0.875rem 1.25rem;
+  padding: 0.625rem 1.25rem 0.75rem 1.25rem;
   border-radius: 0.25rem;
   font-size: 1rem;
   font-weight: 700;
@@ -301,11 +301,11 @@ div > span.large {
 }
 
 div > span.large:hover {
-  color: var(--color-yellow-4);
+  color: var(--note-pri);
 }
 
 div > span.large:active {
-  color: var(--color-yellow-6);
+  color: var(--note-duo);
 }
 
 div.success label {

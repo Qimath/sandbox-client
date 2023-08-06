@@ -211,6 +211,30 @@ export const useSettingsStore = defineStore({
         label: "Console callback on avatar changed",
         default: false,
       },
+      onMessageComposeSent: {
+        // Executed once a message compose event is submitted by the visitor
+        id: "callback-compose-sent",
+        label: "Console callback on message compose sent",
+        default: false,
+      },
+      onMessageComposeReceived: {
+        // Executed once a message compose event is received by the visitor
+        id: "callback-compose-received",
+        label: "Console callback on message compose received",
+        default: false,
+      },
+      onWebsiteAvailabilityChanged: {
+        // Executed once the website's availability has changed
+        id: "callback-availability-changed",
+        label: "Console callback on website availability changed",
+        default: false,
+      },
+      onHelpdeskQueried: {
+        // Executed once a helpdesk search has been queried by the visitor
+        id: "callback-helpdesk-queried",
+        label: "Console callback on helpdesk search queried",
+        default: false,
+      },
     },
   }),
 

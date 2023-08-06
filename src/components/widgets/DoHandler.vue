@@ -9,40 +9,42 @@ import BaseButton from "@/components/ui/BaseButton.vue";
 
 const methodsStore = useMethodsStore();
 
+const test = computed(() => methodsStore.getMethod("showChatbox"));
+
 const doMethods = computed(() => ({
-  showChatbox: methodsStore.showChatbox,
-  hideChatbox: methodsStore.hideChatbox,
-  openChatbox: methodsStore.openChatbox,
-  closeChatbox: methodsStore.closeChatbox,
-  swapLeft: methodsStore.swapLeft,
-  swapRight: methodsStore.swapRight,
-  mute: methodsStore.mute,
-  unmute: methodsStore.unmute,
+  showChatbox: methodsStore.getMethod("showChatbox"),
+  hideChatbox: methodsStore.getMethod("hideChatbox"),
+  openChatbox: methodsStore.getMethod("openChatbox"),
+  closeChatbox: methodsStore.getMethod("closeChatbox"),
+  swapLeft: methodsStore.getMethod("swapLeft"),
+  swapRight: methodsStore.getMethod("swapRight"),
+  mute: methodsStore.getMethod("mute"),
+  unmute: methodsStore.getMethod("unmute"),
 }));
 
 const copyResults = reactive({});
 const successTimeoutIds = reactive({});
 
-async function copyMethod(id) {
-  if (!copyResults[id]) {
-    copyResults[id] = reactive({ copyType: "" });
+async function copyMethod(key) {
+  if (!copyResults[key]) {
+    copyResults[key] = reactive({ copyType: "" });
   }
 
   try {
-    const result = await useMethodCopier(id);
+    const result = await useMethodCopier(key);
     if (result) {
       setTimeout(() => {
-        Object.assign(copyResults[id], result);
-        navigator.clipboard.writeText(copyResults[id].copyValue);
+        Object.assign(copyResults[key], result);
+        navigator.clipboard.writeText(copyResults[key].copyValue);
       }, 1);
 
-      if (successTimeoutIds[id]) {
-        clearTimeout(successTimeoutIds[id]);
+      if (successTimeoutIds[key]) {
+        clearTimeout(successTimeoutIds[key]);
       }
 
-      successTimeoutIds[id] = ref(
+      successTimeoutIds[key] = ref(
         setTimeout(() => {
-          copyResults[id].copyType = "";
+          copyResults[key].copyType = "";
         }, 1000)
       );
     }
@@ -51,9 +53,9 @@ async function copyMethod(id) {
   }
 }
 
-async function pushMethod(id) {
+async function pushMethod(key) {
   try {
-    const result = await useMethodPusher(id);
+    const result = await useMethodPusher(key);
 
     if (result) {
       return;
@@ -69,15 +71,15 @@ async function pushMethod(id) {
     <form @submit.prevent="" name="do-method">
       <BaseButton
         v-for="(method, key) in doMethods"
-        :key="key"
+        :key="method.id"
         :id="method.id"
         color="orange"
         button
-        @click="pushMethod(method.id)"
+        @click="pushMethod(key)"
         action
         action-label="content_copy"
-        :copy-type="copyResults[method.id]?.copyType"
-        @action="copyMethod(method.id)"
+        :copy-type="copyResults[key]?.copyType"
+        @action="copyMethod(key)"
       >
         <template #button>{{ method.label }}</template>
       </BaseButton>

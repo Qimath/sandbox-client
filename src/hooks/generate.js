@@ -600,21 +600,20 @@ function generateShowMessage(showMessage) {
   return "Hello world";
 }
 
-export default function useMethodGenerator(id) {
+export default function useMethodGenerator(name) {
   const generators = {
-    "session-nickname": () =>
-      generateNickname(options.adjectives, options.nouns),
-    "session-email": generateEmail,
-    "session-phone": generatePhone,
-    "session-company": () => generateCompany(options.companies),
-    "session-avatar": () => generateAvatar(options.avatars),
-    "session-data": () => generateData(options.datas, options.values),
-    "session-segment": () => generateSegment(options.segments),
+    nickname: () => generateNickname(options.adjectives, options.nouns),
+    email: generateEmail,
+    phone: generatePhone,
+    company: () => generateCompany(options.companies),
+    avatar: () => generateAvatar(options.avatars),
+    data: () => generateData(options.datas, options.values),
+    segment: () => generateSegment(options.segments),
     event: generateEvent,
     trigger: generateTrigger,
-    "send-message": () => generateSendMessage(options.sendMessage),
-    "show-message": () => generateShowMessage(options.showMessage),
+    sendMessage: () => generateSendMessage(options.sendMessage),
+    showMessage: () => generateShowMessage(options.showMessage),
   };
 
-  return generators[id] ? generators[id]() : null;
+  return generators[name] ? generators[name]() : null;
 }
