@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 import { useSessionStore } from "@/stores/session.js";
-import { Crisp } from "crisp-sdk-web-dev";
+import { Crisp } from "crisp-sdk-web";
 
 function getNickname() {
   const result = reactive({});

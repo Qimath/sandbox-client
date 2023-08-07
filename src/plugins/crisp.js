@@ -2,7 +2,7 @@ import { useConfigStore } from "@/stores/config.js";
 import { useSessionStore } from "@/stores/session.js";
 import { useUserStore } from "@/stores/user.js";
 
-import { Crisp } from "crisp-sdk-web-dev";
+import { Crisp } from "crisp-sdk-web";
 
 export default {
   install: async (app) => {

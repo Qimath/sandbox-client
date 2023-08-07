@@ -667,7 +667,7 @@ function copyOnWebsiteAvailabilityChanged() {
     case COPY_B:
       return {
         copyType,
-        copyValue: `Crisp.utility.onWebsiteAvailabilityChanged((is_available) => {console.log(is_available ? 'website availability: online' : 'website availability: offline')});`,
+        copyValue: `Crisp.onWebsiteAvailabilityChanged((is_available) => {console.log(is_available ? 'website availability: online' : 'website availability: offline')});`,
       };
   }
 }
@@ -684,7 +684,7 @@ function copyOnHelpdeskQueried() {
     case COPY_B:
       return {
         copyType,
-        copyValue: `Crisp.utility.onHelpdeskSearchQueried((search_results) => {console.log("helpdesk queried", search_results)});`,
+        copyValue: `Crisp.chat.onHelpdeskQueried((search_results) => {console.log("helpdesk queried", search_results)});`,
       };
   }
 }

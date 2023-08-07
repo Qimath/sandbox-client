@@ -1,8 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
 
-import { Crisp } from "crisp-sdk-web-dev";
-
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import BaseCard from "@/components/ui/BaseCard.vue";
 import BaseBanner from "@/components/ui/BaseBanner.vue";

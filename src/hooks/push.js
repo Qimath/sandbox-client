@@ -1,5 +1,5 @@
 import { reactive, computed } from "vue";
-import { Crisp } from "crisp-sdk-web-dev";
+import { Crisp } from "crisp-sdk-web";
 import { useConfigStore } from "@/stores/config.js";
 
 import useMethodGetter from "./get.js";
