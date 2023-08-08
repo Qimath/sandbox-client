@@ -26,13 +26,10 @@ export default {
       const CONFIG_URL = `https://client.crisp.chat/settings/website/${websiteId}`;
 
       try {
-        const response = await fetch(CONFIG_URL, {
-          headers: {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
-        });
+        const timestamp = new Date().getTime();
+        const CONFIG_URL = `https://client.crisp.chat/settings/website/${websiteId}?t=${timestamp}`;
+
+        const response = await fetch(CONFIG_URL);
 
         if (!response.ok) {
           throw new Error("Error while fetching callback file");
