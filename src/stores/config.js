@@ -160,7 +160,13 @@ export const useConfigStore = defineStore({
       this.validity = value;
     },
     delSecrets() {
-      this.cache.secrets = {};
+      this.cache.secrets = {
+        "e93e073a-1f69-4cbc-8934-f9e1611e65bb": {
+          email: "fb022812aab8a23f1e944a74015ba827",
+          ticket:
+            "ab38ebbe00272af93805b3e0bc84467308872044c28af2508546fe631f8e0540",
+        },
+      };
     },
     delCachedWebsite(id) {
       const websiteIndex = this.cache.websites.findIndex(
