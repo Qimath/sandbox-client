@@ -178,7 +178,7 @@ async function userUpdate() {
   <div class="element">
     <div class="form">
       <div class="auth-container">
-        <h3>Account Overview</h3>
+        <h3>Account Information</h3>
         <BasePreview
           :primary="userName"
           :secondary="userEmail"
