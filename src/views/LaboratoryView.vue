@@ -10,7 +10,7 @@ import { useBanner } from "@/hooks/banner.js";
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
 onActivated(() => {
-  restrictedAccessError()
+  restrictedAccessError();
 });
 
 function restrictedAccessError() {

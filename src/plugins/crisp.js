@@ -134,10 +134,16 @@ export default {
       });
 
       Crisp.onWebsiteAvailabilityChanged((is_available) => {
-        if (callbacks.onWebsiteAvailabilityChanged) {
-          if (is_available) {
+        if (is_available) {
+          configStore.setWebsiteAvailability(true);
+
+          if (callbacks.onWebsiteAvailabilityChanged) {
             console.log("website availability: online");
-          } else {
+          }
+        } else {
+          configStore.setWebsiteAvailability(false);
+
+          if (callbacks.onWebsiteAvailabilityChanged) {
             console.log("website availability: offline");
           }
         }

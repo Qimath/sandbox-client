@@ -100,6 +100,9 @@ export const useConfigStore = defineStore({
     setWebsiteValidity(value) {
       this.validity = value;
     },
+    setWebsiteAvailability(value) {
+      this.config.online = value;
+    },
     setSecrets(id, email, ticket) {
       if (this.cache.secrets[id]) {
         this.cache.secrets[id] = {

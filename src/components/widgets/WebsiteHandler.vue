@@ -64,11 +64,20 @@ function loadStaging() {
     .then(() => router.go());
 }
 
+function sanitizeInput(input) {
+  return input
+    .replace(/\//g, "") // remove forward slashes
+    .replace(/\\/g, "") // remove backward slashes
+    .replace(/['"]/g, ""); // remove single and double quotes
+}
+
 function loadWebsite(value) {
+  const sanitizedValue = sanitizeInput(value);
+
   router
     .push({
       path: router.currentRoute.value.path,
-      query: { website_id: value.trim() },
+      query: { website_id: sanitizedValue.trim() },
     })
     .then(() => router.go());
 }

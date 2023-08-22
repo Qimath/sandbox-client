@@ -22,11 +22,20 @@ const localStorageClear = computed(() =>
 
 const sessionIdValue = ref("");
 
+function sanitizeInput(input) {
+  return input
+    .replace(/\//g, "") // remove forward slashes
+    .replace(/\\/g, "") // remove backward slashes
+    .replace(/['"]/g, ""); // remove single and double quotes
+}
+
 function loadSession(value) {
+  const sanitizedValue = sanitizeInput(value);
+
   router
     .push({
       path: router.currentRoute.value.path,
-      query: { crisp_sid: value.trim() },
+      query: { crisp_sid: sanitizedValue.trim() },
     })
     .then(() => Crisp.session.reset());
 }
