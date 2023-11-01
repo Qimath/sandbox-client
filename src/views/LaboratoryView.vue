@@ -134,6 +134,19 @@ section {
   height: 100%;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+}
+
+section.left {
+  justify-content: left;
+}
+
+section.right {
+  justify-content: right;
+}
+
+section.mid {
+  width: 15%;
 }
 
 .bot-title {
@@ -204,11 +217,6 @@ span.material-symbols-outlined {
 
 .bot-test {
   color: var(--orange-duo);
-}
-
-.bot-back,
-.bot-next {
-  width: 50px;
 }
 
 .bot-lang img {
