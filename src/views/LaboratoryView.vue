@@ -134,6 +134,7 @@ section {
   height: 100%;
   justify-content: center;
   align-items: center;
+  color: var(--color-tone-12);
 }
 
 section.left {
