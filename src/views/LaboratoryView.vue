@@ -134,19 +134,20 @@ section {
   height: 100%;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
 }
 
 section.left {
   justify-content: left;
+  width: 42%;
 }
 
 section.right {
   justify-content: right;
+  width: 42%;
 }
 
 section.mid {
-  width: 15%;
+  width: 16%;
 }
 
 .bot-title {
