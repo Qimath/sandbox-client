@@ -73,13 +73,10 @@ function swapDraftLive() {
                     <span class="label">French</span>
                     <span class="material-symbols-outlined">arrow_drop_down</span>
                   </div>
-                  <div class="bot-view">
-                    <span class="material-symbols-outlined" v-if="isLive" @click="swapSaveDeploy">visibility</span>
-                    <span class="label">live</span>
-                  </div>
-                  <div class="bot-view">
-                    <span class="material-symbols-outlined" v-if="!isLive" @click="swapSaveDeploy">visibility</span>
-                    <span class="label">draft</span>
+                  <div class="bot-view" @click="swapDraftLive">
+                    <span class="material-symbols-outlined">visibility</span>
+                    <span class="label" v-if="isLive">live</span>
+                    <span class="label" v-if="!isLive">draft</span>
                   </div>
                   <div class="bot-test">
                     <span class="material-symbols-outlined">smart_toy</span>
