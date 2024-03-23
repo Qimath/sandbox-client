@@ -100,7 +100,7 @@ async function debugChatbox() {
     );
 
     response = await response.json();
-    console.dir(response);
+    console.log(response);
     gptResponse.value = response.message;
 
     // Process the response for better formatting
