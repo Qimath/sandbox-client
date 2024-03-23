@@ -186,12 +186,18 @@ async function sendPrompt(input) {
     },
   ];
 
-  const completion = await openai.chat.completions.create({
-    model,
-    messages,
-  });
-  console.log(completion.data.choices);
-  return completion.data.choices;
+  try {
+    const completion = await openai.chat.completions.create({
+      model,
+      messages,
+    });
+    console.log(completion.data.choices); // Assuming completion.data contains the 'choices'
+    return completion.data.choices;
+  } catch (error) {
+    console.error("Error calling OpenAI API:", error);
+    // Handle the error appropriately
+  }
+  
 }
 
 exports.handler = async function (event, context) {
