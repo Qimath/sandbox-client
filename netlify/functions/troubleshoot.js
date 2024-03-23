@@ -211,7 +211,7 @@ exports.handler = async function (event, context) {
       };
     }
 
-    const answer = await main(prompt);
+    const answer = await main("are you ready?");
 
     return {
       statusCode: 200,
