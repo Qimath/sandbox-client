@@ -1,14 +1,13 @@
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 const openAI_SECRET_KEY = process.env.OPENAI_SECRET_KEY;
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: openAI_SECRET_KEY,
 });
 
-const openai = new OpenAIApi(configuration);
 
 async function sendPrompt(input) {
-  const model = "gpt-3.5-turbo";
+  const model = "gpt-4-0125-preview";
   const messages = [
     {
       role: "system",
