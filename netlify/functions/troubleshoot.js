@@ -6,7 +6,7 @@ const openai = new OpenAI({
 });
 
 async function sendPrompt(input) {
-  const model = "gpt-4-0125-preview";
+  const model = "gpt-3.5-turbo";
   const messages = [
     {
       role: "system",
