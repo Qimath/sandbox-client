@@ -5,7 +5,6 @@ const openai = new OpenAI({
   apiKey: openAI_SECRET_KEY,
 });
 
-
 async function sendPrompt(input) {
   const model = "gpt-4-0125-preview";
   const messages = [
@@ -180,14 +179,14 @@ async function sendPrompt(input) {
     {
       role: "assistant",
       content: `The chatbox should currently be visible, as the support is online. However, the chatbox will be hidden if the support team is offline, because the 'hide_on_away' setting is enabled. It's visible on 'https://domain.com/page1' and 'https://domain.com/page2', but not on 'https://domain.com/page3'.`,
-    },    
+    },
     {
       role: "user",
       content: input,
     },
   ];
 
-  const completion = await openai.createChatCompletion({
+  const completion = await openai.chat.completions.create({
     model,
     messages,
   });
