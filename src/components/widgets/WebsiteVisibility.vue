@@ -100,7 +100,8 @@ async function debugChatbox() {
     );
 
     response = await response.json();
-    gptResponse.value = response.message[0].message.content;
+    console.dir(response);
+    gptResponse.value = response.message;
 
     // Process the response for better formatting
     let sentences = gptResponse.value.split("\n");
