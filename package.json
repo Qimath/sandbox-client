@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "crisp-sdk-web": "^1.0.22",
     "crypto-js": "^4.2.0",
     "gotrue-js": "0.9.29",
     "jwt-decode": "3.1.2",
