@@ -188,6 +188,7 @@ async function main(input) {
   });
 
   console.log(completion.choices[0]?.message?.content);
+  return completion.choices[0]?.message?.content;
 }
 
 exports.handler = async function (event, context) {
