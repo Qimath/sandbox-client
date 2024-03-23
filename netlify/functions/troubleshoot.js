@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 async function main(input) {
   const completion = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-4-turbo-preview",
     messages: [
       {
         role: "system",
@@ -212,7 +212,7 @@ exports.handler = async function (event, context) {
       };
     }
 
-    const answer = await main("are you ready?");
+    const answer = await main(prompt);
 
     return {
       statusCode: 200,
