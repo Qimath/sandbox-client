@@ -191,13 +191,16 @@ async function sendPrompt(input) {
       model,
       messages,
     });
-    console.log(completion); // Assuming completion.data contains the 'choices'
-    return completion.data.choices;
+
+    const responses = completion.data.choices
+      .map((choice) => choice.message.content)
+      .join("\n");
+    console.log("Responses:", responses);
+    return responses;
   } catch (error) {
     console.error("Error calling OpenAI API:", error);
-    // Handle the error appropriately
+    return "An error occurred while processing your request.";
   }
-  
 }
 
 exports.handler = async function (event, context) {
@@ -206,12 +209,12 @@ exports.handler = async function (event, context) {
   }
 
   const { prompt } = JSON.parse(event.body);
-  const answer = await sendPrompt(prompt);
+  const response = await sendPrompt(prompt);
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: answer,
+      message: response,
     }),
   };
 };
