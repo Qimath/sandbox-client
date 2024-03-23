@@ -1,11 +1,13 @@
 <script setup>
-import { onActivated, ref } from "vue";
+import { onActivated, ref, onMounted } from "vue";
 
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import BaseCard from "@/components/ui/BaseCard.vue";
 import BaseBanner from "@/components/ui/BaseBanner.vue";
 
 import { useBanner } from "@/hooks/banner.js";
+
+import { Crisp } from "crisp-sdk-web";
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
@@ -31,6 +33,10 @@ function swapSaveDeploy() {
 function swapDraftLive() {
   isLive.value = !isLive.value;
 }
+
+onMounted(() => {
+  Crisp.message.fillText("Welcome to the lab");
+});
 </script>
 
 <template>
@@ -55,11 +61,19 @@ function swapDraftLive() {
                     <span class="material-symbols-outlined">apps</span>
                     <span class="label">actions</span>
                   </div>
-                  <div class="bot-deploy" v-if="isDeploy" @click="swapSaveDeploy">
+                  <div
+                    class="bot-deploy"
+                    v-if="isDeploy"
+                    @click="swapSaveDeploy"
+                  >
                     <span class="material-symbols-outlined">rocket_launch</span>
                     <span class="label">deploy</span>
                   </div>
-                  <div class="bot-save" v-if="!isDeploy" @click="swapSaveDeploy">
+                  <div
+                    class="bot-save"
+                    v-if="!isDeploy"
+                    @click="swapSaveDeploy"
+                  >
                     <span class="material-symbols-outlined">save</span>
                     <span class="label">save</span>
                   </div>
@@ -69,9 +83,13 @@ function swapDraftLive() {
                 </section>
                 <section class="right">
                   <div class="bot-lang">
-                    <img src="https://static.crisp.help/images/site/common/flags/fr.png" />
+                    <img
+                      src="https://static.crisp.help/images/site/common/flags/fr.png"
+                    />
                     <span class="label">French</span>
-                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                    <span class="material-symbols-outlined"
+                      >arrow_drop_down</span
+                    >
                   </div>
                   <div class="bot-view" @click="swapDraftLive">
                     <span class="material-symbols-outlined">visibility</span>
