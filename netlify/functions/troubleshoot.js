@@ -191,7 +191,7 @@ async function sendPrompt(input) {
       model,
       messages,
     });
-    console.log(completion.data.choices); // Assuming completion.data contains the 'choices'
+    console.log(completion); // Assuming completion.data contains the 'choices'
     return completion.data.choices;
   } catch (error) {
     console.error("Error calling OpenAI API:", error);
