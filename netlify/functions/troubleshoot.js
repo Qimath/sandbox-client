@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 async function main(input) {
   const completion = await openai.chat.completions.create({
-    model: "gpt-4-turbo-preview",
+    model: "gpt-4",
     messages: [
       {
         role: "system",
