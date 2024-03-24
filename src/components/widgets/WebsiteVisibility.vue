@@ -101,6 +101,12 @@ async function debugChatbox() {
 
     response = await response.json();
     gptResponse.value = response.message;
+
+    // Process the response for better formatting
+    let sentences = gptResponse.value.split("\n");
+    gptResponse.value = sentences
+      .map((sentence) => `<p>${sentence}</p>`)
+      .join("");
   } catch (error) {
     gptError.value =
       "Error: " +
@@ -163,5 +169,16 @@ pre {
   width: 100%;
   padding: 1.5rem;
   font-size: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  flex-wrap: wrap;
+}
+
+pre * {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  flex-wrap: wrap;
 }
 </style>
