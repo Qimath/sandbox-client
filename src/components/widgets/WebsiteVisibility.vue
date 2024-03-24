@@ -172,13 +172,12 @@ pre {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  flex-wrap: wrap;
+  display: inline-block;
 }
 
 pre * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  flex-wrap: wrap;
 }
 </style>
