@@ -134,10 +134,10 @@ async function debugChatbox() {
         v-if="!isLoading && !gptError && gptResponse !== ''"
         class="debugging-result"
       >
-        <pre v-html="gptResponse"></pre>
+        <section v-html="gptResponse"></section>
       </div>
       <div v-if="!isLoading && gptError !== ''" class="debugging-error">
-        <pre v-html="gptError"></pre>
+        <section v-html="gptError"></section>
       </div>
     </div>
   </div>
@@ -165,7 +165,7 @@ async function debugChatbox() {
   color: var(--error-text);
 }
 
-pre {
+section {
   width: 100%;
   padding: 1.5rem;
   font-size: 1rem;
@@ -175,7 +175,7 @@ pre {
   display: inline-block;
 }
 
-pre * {
+section * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
