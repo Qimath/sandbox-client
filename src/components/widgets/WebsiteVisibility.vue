@@ -101,12 +101,6 @@ async function debugChatbox() {
 
     response = await response.json();
     gptResponse.value = response.message;
-
-    // Process the response for better formatting
-    let sentences = gptResponse.value.split("\n");
-    gptResponse.value = sentences
-      .map((sentence) => `<p>${sentence}</p>`)
-      .join("");
   } catch (error) {
     gptError.value =
       "Error: " +
@@ -134,10 +128,10 @@ async function debugChatbox() {
         v-if="!isLoading && !gptError && gptResponse !== ''"
         class="debugging-result"
       >
-        <section v-html="gptResponse"></section>
+        <pre v-html="gptResponse"></pre>
       </div>
       <div v-if="!isLoading && gptError !== ''" class="debugging-error">
-        <section v-html="gptError"></section>
+        <pre v-html="gptError"></pre>
       </div>
     </div>
   </div>
@@ -165,20 +159,24 @@ async function debugChatbox() {
   color: var(--error-text);
 }
 
-section {
+pre {
   width: 100%;
   padding: 1.5rem;
   font-size: 1rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  display: inline-block;
+  flex-wrap: wrap;
 }
 
-section * {
+pre * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  flex-wrap: wrap;
+}
+
+pre p, pre strong, pre a {
   display: inline-block;
 }
 </style>
