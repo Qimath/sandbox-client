@@ -25,7 +25,7 @@ async function main(input) {
           How your response must be formatted: 
           - Avoid introductions ("given your current settings", etc) and suggestions. 
           - Simply resume the points that may lead to the chatbox not being visible on specific pages or under certain conditions. 
-          - You must format your response with HTML to make it more readable (list, bold, line breaks...)`,
+          - You MUST format your response with HTML to make it more readable: lists are VERY IMPORTANT, bold, line breaks, links...)`,
       },
       {
         role: "user",
@@ -226,7 +226,7 @@ exports.handler = async function (event, context) {
       };
     }
 
-    const answer = await main(prompt);
+    const answer = await main("Please review the following prompt and generate a prolerly formatted response based on the instructions that have been provided earlier. Prompt: " + prompt);
 
     return {
       statusCode: 200,
