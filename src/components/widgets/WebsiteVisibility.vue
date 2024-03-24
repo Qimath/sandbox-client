@@ -166,17 +166,15 @@ pre {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  flex-wrap: wrap;
 }
 
 pre * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  flex-wrap: wrap;
 }
 
 pre p, pre strong, pre a {
-  display: inline-block;
+  display: inline;
 }
 </style>
