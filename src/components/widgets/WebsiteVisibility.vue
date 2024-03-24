@@ -163,18 +163,5 @@ pre {
   width: 100%;
   padding: 1.5rem;
   font-size: 1rem;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-pre * {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-pre p, pre strong, pre a {
-  display: inline;
 }
 </style>
