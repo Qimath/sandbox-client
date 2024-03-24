@@ -22,7 +22,10 @@ async function main(input) {
           8. If 'online' is false and 'hide_on_away' is false, chatbox is visible.
           9. 'helper tips' - Optional. These are additional information to help you generate your response and troubleshoot the chatbox visibility.
           
-          Your analysis does not need introductions, advices or suggestions. Simply resume the points that may lead to the chatbox not being visible on specific pages or under certain conditions. You can format your response with HTML to make it more readable (list, bold, line breaks...)`,
+          How your response must be formatted: 
+          - Avoid introductions ("given your current settings", etc) and suggestions. 
+          - Simply resume the points that may lead to the chatbox not being visible on specific pages or under certain conditions. 
+          - You must format your response with HTML to make it more readable (list, bold, line breaks...)`,
       },
       {
         role: "user",
@@ -40,14 +43,15 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `Given your current settings, the chatbox should be visible on your current page (http://localhost:5173/debug). But please note, the chatbox will be hidden on the following blocked pages:
-          
-          - https://staging.crisp.help/en/category/workarounds-nj20g7/
-          - https://staging.crisp.help/en/category/workarounds-nj20g7/*
-          - https://staging.crisp.help/en/category/testing-jej7kv/
-          - https://staging.crisp.help/en/category/testing-jej7kv/*
-          
-          The "Hide on away" setting is set to true, meaning the chatbox will be hidden if the website's support team is offline.`,
+        content: `<p>Given your current settings, the chatbox should be visible on your current page (<a href="http://localhost:5173/debug">http://localhost:5173/debug</a>). However, the chatbox will be hidden on the following blocked pages:</p>
+        <ul>
+          <li><a href="https://staging.crisp.help/en/category/workarounds-nj20g7/">https://staging.crisp.help/en/category/workarounds-nj20g7/</a></li>
+          <li><a href="https://staging.crisp.help/en/category/workarounds-nj20g7/*">https://staging.crisp.help/en/category/workarounds-nj20g7/*</a></li>
+          <li><a href="https://staging.crisp.help/en/category/testing-jej7kv/">https://staging.crisp.help/en/category/testing-jej7kv/</a></li>
+          <li><a href="https://staging.crisp.help/en/category/testing-jej7kv/*">https://staging.crisp.help/en/category/testing-jej7kv/*</a></li>
+        </ul>
+        <p>The "Hide on away" setting is set to true, meaning the chatbox will be hidden if the website's support team is offline.</p>
+        `,
       },
       {
         role: "user",
@@ -65,7 +69,8 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `Since the "Hide on vacation" setting is enabled, the chatbox won't be visible anywhere. Additionally, English locale is blocked, which means users with 'English' as their browser language preference won't see the chatbox.`,
+        content: `<p>Since the <strong>"Hide on vacation"</strong> setting is enabled, the chatbox won't be visible anywhere. Additionally, the English locale is blocked, which means users with 'English' as their browser language preference won't see the chatbox.</p>
+        `,
       },
       {
         role: "user",
@@ -83,7 +88,8 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `Due to the "Lock Domain" setting being on, the chatbox isn't visible on your current page, but it should appear just fine on the gimini.com domain.`,
+        content: `<p>Due to the <strong>"Lock Domain"</strong> setting being on, the chatbox isn't visible on your current page but it should appear just fine on the <a href="http://gimini.com">gimini.com</a> domain.</p>
+        `,
       },
       {
         role: "user",
@@ -101,12 +107,13 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `With "Hide on away" enabled and the support team currently offline, the chatbox won't be visible. However, the chatbox will be visible only on the following allowed pages:
-    
-          - https://chrisp-sandbox.herokuapp.com/articles/**
-          - https://chrisp-sandbox.herokuapp.com/dashboard/**
-          
-          The chatbox won't be visible to users from France and the United Kingdom.`,
+        content: `<p>With <strong>"Hide on away"</strong> enabled and the support team currently offline, the chatbox won't be visible. However, the chatbox will be visible only on the following allowed pages:</p>
+        <ul>
+          <li><a href="https://chrisp-sandbox.herokuapp.com/articles/**">https://chrisp-sandbox.herokuapp.com/articles/**</a></li>
+          <li><a href="https://chrisp-sandbox.herokuapp.com/dashboard/**">https://chrisp-sandbox.herokuapp.com/dashboard/**</a></li>
+        </ul>
+        <p>The chatbox won't be visible to users from France and the United Kingdom.</p>
+        `,
       },
       {
         role: "user",
@@ -124,9 +131,11 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `Due to the locked-domain option, the chatbox won't appear on your Sandbox but it will be visible on theenergycompany.com, except on the following page:
-    
-          - https://theenergycompany.com/dashboard/**`,
+        content: `<p>Due to the locked-domain option, the chatbox won't appear on your Sandbox but it will be visible on <a href="http://theenergycompany.com">theenergycompany.com</a>, except on the following page:</p>
+        <ul>
+          <li><a href="https://theenergycompany.com/dashboard/**">https://theenergycompany.com/dashboard/**</a></li>
+        </ul>
+        `,
       },
       {
         role: "user",
@@ -144,7 +153,8 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `The chatbox should be visible, since the website is offline but "Hide on away" is not enabled. However, the chatbox won't be visible to users from USA, Italy and users with German as their browser language preference.`,
+        content: `<p>The chatbox should be visible since the website is offline but <strong>"Hide on away"</strong> is not enabled. However, the chatbox won't be visible to users from the USA, Italy, and users with German as their browser language preference.</p>
+        `,
       },
       {
         role: "user",
@@ -162,7 +172,8 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `Given these settings, the chatbox is only visible on 'https://domain.com/page1' and 'https://domain.com/page2' because of the 'check_domain' and 'allowed_pages' settings. Users in Canada (CA) and Mexico (MX), or users with French (fr) or Spanish (es) browser language settings, will not be able to see the chatbox.`,
+        content: `<p>The chatbox will only be visible on <strong>'https://domain.com/page1'</strong> and <strong>'https://domain.com/page2'</strong> because of the <strong>'check_domain'</strong> and <strong>'allowed_pages'</strong> settings. Users in Canada (CA) and Mexico (MX), or users with French (fr) or Spanish (es) browser language settings, will not be able to see the chatbox.</p>
+        `,
       },
       {
         role: "user",
@@ -180,7 +191,8 @@ async function main(input) {
       },
       {
         role: "assistant",
-        content: `The chatbox should currently be visible, as the support is online. However, the chatbox will be hidden if the support team is offline, because the 'hide_on_away' setting is enabled. It's visible on 'https://domain.com/page1' and 'https://domain.com/page2', but not on 'https://domain.com/page3'.`,
+        content: `<p>The chatbox should currently be visible, as the support is online. However, the chatbox will be hidden if the support team is offline, because the <strong>'hide_on_away'</strong> setting is enabled. It's visible on <strong>'https://domain.com/page1'</strong> and <strong>'https://domain.com/page2'</strong>, but not on <strong>'https://domain.com/page3'</strong>.</p>
+        `,
       },
       {
         role: "user",
