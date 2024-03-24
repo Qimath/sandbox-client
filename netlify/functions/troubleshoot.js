@@ -20,7 +20,9 @@ async function main(input) {
           6. 'blocked_pages' - If a page is listed here, chatbox is hidden.
           7. 'blocked_countries' or 'blocked_locales' - If they match the user's location or browser language, chatbox is hidden.
           8. If 'online' is false and 'hide_on_away' is false, chatbox is visible.
-          9. 'helper tips' - Optional. These are additional information to help you generate your response and troubleshoot the chatbox visibility.`,
+          9. 'helper tips' - Optional. These are additional information to help you generate your response and troubleshoot the chatbox visibility.
+          
+          Your analysis does not need introductions, advices or suggestions. Simply resume the points that may lead to the chatbox not being visible on specific pages or under certain conditions. You can format your response with HTML to make it more readable (list, bold, line breaks...)`,
       },
       {
         role: "user",
