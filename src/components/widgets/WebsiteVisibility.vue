@@ -179,5 +179,6 @@ pre * {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  display: inline-block;
 }
 </style>
