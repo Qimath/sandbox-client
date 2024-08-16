@@ -10,7 +10,7 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
 
 <template>
   <div class="view-wrapper">
-    <BaseContainer width="25rem">
+    <BaseContainer width="24rem">
       <template #container>
         <BaseCard>
           <template #card>
@@ -25,7 +25,7 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
         </BaseCard>
       </template>
     </BaseContainer>
-    <BaseContainer width="25rem">
+    <BaseContainer width="24rem">
       <template #container>
         <BaseCard>
           <template #card>

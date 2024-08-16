@@ -88,8 +88,9 @@ async function debugChatbox() {
     // Include helper tips in the prompt
     const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}\n\nhelper tips:\n${helperTipsString}`;
 
+    const locationOrigin = window.location.origin;
     let response = await fetch(
-      "https://crisp-sandbox.netlify.app/.netlify/functions/troubleshoot",
+      locationOrigin + "/.netlify/functions/troubleshoot",
       {
         method: "POST",
         headers: {

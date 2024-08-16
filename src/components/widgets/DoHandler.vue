@@ -9,8 +9,6 @@ import BaseButton from "@/components/ui/BaseButton.vue";
 
 const methodsStore = useMethodsStore();
 
-const test = computed(() => methodsStore.getMethod("showChatbox"));
-
 const doMethods = computed(() => ({
   showChatbox: methodsStore.getMethod("showChatbox"),
   hideChatbox: methodsStore.getMethod("hideChatbox"),

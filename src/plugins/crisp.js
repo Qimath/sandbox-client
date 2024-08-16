@@ -58,7 +58,7 @@ export default {
 
       Crisp.session.onLoaded(async (sessionId) => {
         if (callbacks.onSessionLoaded) {
-          console.log("session loaded");
+          console.log("session loaded: ", sessionId);
         }
 
         // Fetching Session and populating the session store
@@ -103,27 +103,27 @@ export default {
         }
       });
 
-      Crisp.message.onMessageSent(() => {
+      Crisp.message.onMessageSent((message) => {
         if (callbacks.onMessageSent) {
-          console.log("message sent");
+          console.log("message sent: ", message);
         }
       });
 
-      Crisp.message.onMessageReceived(() => {
+      Crisp.message.onMessageReceived((message) => {
         if (callbacks.onMessageReceived) {
-          console.log("message received");
+          console.log("message received: ", message);
         }
       });
 
-      Crisp.message.onMessageComposeSent(() => {
+      Crisp.message.onMessageComposeSent((compose) => {
         if (callbacks.onMessageComposeSent) {
-          console.log("compose sent");
+          console.log("compose sent: ", compose);
         }
       });
 
-      Crisp.message.onMessageComposeReceived(() => {
+      Crisp.message.onMessageComposeReceived((compose) => {
         if (callbacks.onMessageComposeReceived) {
-          console.log("compose received");
+          console.log("compose received: ", compose);
         }
       });
 
@@ -149,9 +149,9 @@ export default {
         }
       });
 
-      Crisp.user.onNicknameChanged(() => {
+      Crisp.user.onNicknameChanged((nickname) => {
         if (callbacks.onNicknameChanged) {
-          console.log("nickname changed");
+          console.log("nickname changed: ", nickname);
         }
 
         let sessionContent = { ...sessionStore.session.content };
@@ -159,9 +159,9 @@ export default {
         sessionStore.setSessionContent(sessionContent);
       });
 
-      Crisp.user.onEmailChanged(() => {
+      Crisp.user.onEmailChanged((email) => {
         if (callbacks.onEmailChanged) {
-          console.log("email changed");
+          console.log("email changed: ", email);
         }
 
         let sessionContent = { ...sessionStore.session.content };
@@ -169,9 +169,9 @@ export default {
         sessionStore.setSessionContent(sessionContent);
       });
 
-      Crisp.user.onPhoneChanged(() => {
+      Crisp.user.onPhoneChanged((phone) => {
         if (callbacks.onPhoneChanged) {
-          console.log("phone changed");
+          console.log("phone changed: ", phone);
         }
 
         let sessionContent = { ...sessionStore.session.content };
@@ -179,9 +179,9 @@ export default {
         sessionStore.setSessionContent(sessionContent);
       });
 
-      Crisp.user.onAvatarChanged(() => {
+      Crisp.user.onAvatarChanged((avatar) => {
         if (callbacks.onAvatarChanged) {
-          console.log("avatar changed");
+          console.log("avatar changed: ", avatar);
         }
 
         let sessionContent = { ...sessionStore.session.content };
@@ -189,7 +189,7 @@ export default {
         sessionStore.setSessionContent(sessionContent);
       });
     } catch (error) {
-      console.error("Error initializing Crisp:", error);
+      throw new Error("Error initializing Crisp: " + error);
     }
   },
 };

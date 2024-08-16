@@ -14,8 +14,8 @@ const websiteConfig = computed(() => configStore.getConfig);
       <BaseOutput
         id="website-url"
         label="Domain URL"
-        :value="websiteConfig.settings.domain"
-        :url="'https://' + websiteConfig.settings.domain"
+        :value="websiteConfig.domain"
+        :url="'https://' + websiteConfig.domain"
         link
         compact
       />
@@ -45,12 +45,16 @@ const websiteConfig = computed(() => configStore.getConfig);
         id="website-email"
         label="Email"
         :value="websiteConfig.channels.email"
+        :url="'mailto:' + websiteConfig.channels.email"
+        link
         compact
       />
       <BaseOutput
         id="website-phone"
         label="Phone"
         :value="websiteConfig.channels.phone"
+        :url="'tel:' + websiteConfig.channels.phone"
+        link
         compact
       />
       <BaseOutput
@@ -68,6 +72,8 @@ const websiteConfig = computed(() => configStore.getConfig);
         id="website-telegram"
         label="Telegram"
         :value="websiteConfig.channels.telegram"
+        :url="'https://t.me/' + websiteConfig.channels.telegram"
+        link
         compact
       />
       <BaseOutput
@@ -82,6 +88,8 @@ const websiteConfig = computed(() => configStore.getConfig);
         id="website-whatsapp"
         label="Whatsapp"
         :value="websiteConfig.channels.whatsapp"
+        :url="'https://wa.me/' + websiteConfig.channels.whatsapp"
+        link
         compact
       />
       <BaseOutput

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, watch } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useConfigStore } from "@/stores/config.js";
 import { useUserStore } from "@/stores/user.js";
@@ -42,6 +42,7 @@ const ticketSecretInput = ref("");
 
 const modalVisibility = ref(false);
 const dropdownVisibility = ref(false);
+const dropdownRef = ref(null);
 
 const dropdownItems = computed(() => {
   const cachedWebsites = configStore.getCachedWebsites();
@@ -50,6 +51,22 @@ const dropdownItems = computed(() => {
     label: website.name,
   }));
 });
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
+
+function handleClickOutside(event) {
+  const dropdownElement = dropdownRef.value.$el || dropdownRef.value;
+  if (dropdownElement && !dropdownElement.contains(event.target)) {
+    dropdownVisibility.value = false;
+  }
+}
+
 
 function removeCachedWebsite(id) {
   configStore.delCachedWebsite(id);
@@ -112,7 +129,7 @@ function setSecrets() {
     console.error("An app error occurred:", error);
 
     displayBanner({
-      message: "An error occured while saving the secret keys: " + value.error,
+      message: "An error occurred while saving the secret keys: " + error,
       type: "error",
       animate: true,
     });
@@ -143,14 +160,14 @@ watch(
       window.sessionStorage.removeItem("validWebsite");
     }
 
-    if (window.sessionStorage.getItem("unvalidWebsite")) {
+    if (window.sessionStorage.getItem("InvalidWebsite")) {
       displayBanner({
         message: `Website ID <strong>${websiteId.value}</strong> is invalid.`,
         type: "error",
         animate: true,
       });
 
-      window.sessionStorage.removeItem("unvalidWebsite");
+      window.sessionStorage.removeItem("invalidWebsite");
     }
   }
 );
@@ -166,9 +183,9 @@ watch(
     const websiteIdLoaded = router.currentRoute.value.query.website_id;
     if (websiteIdLoaded) {
       if (newVal !== oldVal) {
-        if (newVal == false) {
-          window.sessionStorage.setItem("unvalidWebsite", "true");
-        } else if (newVal == true) {
+        if (newVal === false) {
+          window.sessionStorage.setItem("invalidWebsite", "true");
+        } else if (newVal === true) {
           window.sessionStorage.setItem("validWebsite", "true");
         }
       }
@@ -197,6 +214,7 @@ watch(
       />
       <BaseButton id="website-submit" color="default" value="submit" />
       <BaseButton
+        ref="dropdownRef"
         id="website-staging"
         color="blue"
         button
@@ -217,11 +235,13 @@ watch(
         :value="websiteId"
         :url="'https://go.crisp.chat/chat/embed/?website_id=' + websiteId"
         link
+        compact
       />
       <BaseOutput
         id="get-website-name"
         label="Website name"
         :value="websiteName"
+        compact
       />
     </form>
   </div>

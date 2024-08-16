@@ -116,6 +116,7 @@ aside nav {
   padding: 0.25rem 0;
   user-select: none;
   -webkit-user-select: none;
+  border-right: 1px solid var(--container-border);
 }
 
 aside nav section {
@@ -224,13 +225,13 @@ aside nav section a::after {
 aside nav section a:hover::after {
   display: flex;
   position: absolute;
-  right: -0.5rem;
+  right: -8px;
   top: 50%;
   width: 0;
   height: 0;
-  margin-top: -5px;
-  margin-left: -5px;
-  border: 5px solid transparent;
+  margin-top: -7px;
+  margin-left: -7px;
+  border: 7px solid transparent;
   border-left: 0;
   border-right-color: var(--orange-pri);
   opacity: 1;

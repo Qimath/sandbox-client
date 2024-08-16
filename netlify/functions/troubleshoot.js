@@ -90,14 +90,14 @@ async function main(input) {
       },
       {
         role: "user",
-        content: `current page: http://localhost:5173/debug?
+        content: `current page: https://sandbox.chrisp.chat/debug?
           website settings:
           online: false,
           website_url: acme.com,
           hide_vacation: false,
           hide_on_away: true,
           check_domain: false,
-          allowed_pages: https://chrisp-sandbox.herokuapp.com/articles/**, https://chrisp-sandbox.herokuapp.com/dashboard/**
+          allowed_pages: https://sandbox.chrisp.chat/articles/**, https://sandbox.chrisp.chat/dashboard/**
           blocked_pages: ,
           blocked_countries: FR, UK,
           blocked_locales: ,`,
@@ -106,8 +106,8 @@ async function main(input) {
         role: "assistant",
         content: `With "Hide on away" enabled and the support team currently offline, the chatbox won't be visible. However, the chatbox will be visible only on the following allowed pages:
     
-          - https://chrisp-sandbox.herokuapp.com/articles/**
-          - https://chrisp-sandbox.herokuapp.com/dashboard/**
+          - https://sandbox.chrisp.chat/articles/**
+          - https://sandbox.chrisp.chat/dashboard/**
           
           The chatbox won't be visible to users from France and the United Kingdom.`,
       },

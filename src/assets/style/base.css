@@ -83,10 +83,10 @@
 }
 
 :root[data-theme="light"] {
-  --aside-bg: var(--color-indigo);
-  --aside-icon: var(--color-pearl-3);
-  --aside-icon-active: var(--color-tone-100);
-  --aside-icon-hover: var(--color-white-tp);
+  --aside-bg: var(--color-tone-100);
+  --aside-icon: var(--color-navy-1);
+  --aside-icon-active: var(--color-navy-5);
+  --aside-icon-hover: var(--color-black-tp);
 
   --header-sandbox: var(--color-tone-70);
   --header-title: var(--color-tone-26);

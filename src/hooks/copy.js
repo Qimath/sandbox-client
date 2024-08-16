@@ -3,6 +3,10 @@ const COPY_A = "web copy";
 const COPY_B = "npm copy";
 
 const functionStates = {
+  copyClear: {
+    lastClickTime: null,
+    useAlternateCopy: false,
+  },
   copyNickname: {
     lastClickTime: null,
     useAlternateCopy: false,
@@ -253,7 +257,7 @@ function copySegment(value = "") {
     case COPY_A:
       return {
         copyType,
-        copyValue: `$crisp.push(["set", "session:segments", ["${value}"]])`,
+        copyValue: `$crisp.push(["set", "session:segments", [["${value}"]]])`,
       };
     case COPY_B:
       return { copyType, copyValue: `Crisp.session.setSegments(["${value}"])` };
@@ -332,6 +336,20 @@ function copyShowChatbox() {
 }
 
 // do methods
+
+function copyClear() {
+  const copyType = getCopyType("copyClear");
+
+  switch (copyType) {
+    case COPY_A:
+      return {
+        copyType,
+        copyValue: `$crisp.push(["do", "session:reset"]);`,
+      };
+    case COPY_B:
+      return { copyType, copyValue: `Crisp.session.reset();` };
+  }
+}
 
 function copyHideChatbox() {
   const copyType = getCopyType("copyHideChatbox");
@@ -691,6 +709,7 @@ function copyOnHelpdeskQueried() {
 
 export default function useMethodCopier(name, value) {
   const copiers = {
+    clear: () => copyClear(value),
     nickname: () => copyNickname(value),
     email: () => copyEmail(value),
     phone: () => copyPhone(value),

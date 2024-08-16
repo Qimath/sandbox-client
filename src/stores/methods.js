@@ -97,6 +97,10 @@ export const useMethodsStore = defineStore({
       id: "unmute",
       label: "Unmute",
     },
+    clear: {
+      id: "clear",
+      label: "Clear",
+    },
   }),
 
   getters: {

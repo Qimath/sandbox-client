@@ -1,6 +1,7 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useConfigStore } from "@/stores/config.js";
 import { useSessionStore } from "@/stores/session.js";
 import { useUserStore } from "@/stores/user.js";
 import { Crisp } from "crisp-sdk-web";
@@ -8,8 +9,12 @@ import { Crisp } from "crisp-sdk-web";
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseOutput from "@/components/ui/BaseOutput.vue";
+import useMethodCopier from "@/hooks/copy";
 
 const router = useRouter();
+
+const configStore = useConfigStore();
+const websiteId = computed(() => configStore.getWebsiteId);
 
 const sessionStore = useSessionStore();
 const sessionId = computed(() => sessionStore.session.id);
@@ -21,6 +26,37 @@ const localStorageClear = computed(() =>
 );
 
 const sessionIdValue = ref("");
+
+const copyResults = reactive({});
+const successTimeoutIds = reactive({});
+
+async function copyMethod(key) {
+  if (!copyResults[key]) {
+    copyResults[key] = reactive({ copyType: "" });
+  }
+
+  try {
+    const result = await useMethodCopier(key);
+    if (result) {
+      setTimeout(() => {
+        Object.assign(copyResults[key], result);
+        navigator.clipboard.writeText(copyResults[key].copyValue);
+      }, 1);
+
+      if (successTimeoutIds[key]) {
+        clearTimeout(successTimeoutIds[key]);
+      }
+
+      successTimeoutIds[key] = ref(
+        setTimeout(() => {
+          copyResults[key].copyType = "";
+        }, 1000)
+      );
+    }
+  } catch (error) {
+    console.error("An app error occurred:", error);
+  }
+}
 
 function sanitizeInput(input) {
   return input
@@ -71,15 +107,34 @@ function clearSession() {
         v-model:value="sessionIdValue"
       />
       <BaseButton id="session-submit" color="default" value="submit" />
-      <BaseOutput id="get-session_id" label="Session ID" :value="sessionId" />
+      <BaseButton
+        id="session-clear"
+        color="red"
+        @click="clearSession"
+        action
+        action-label="content_copy"
+        :copy-type="copyResults['clear']?.copyType"
+        @action="copyMethod('clear')"
+        button
+      >
+        <template #button>reset</template>
+      </BaseButton>
+      <BaseOutput
+        id="get-session_id"
+        label="Session ID"
+        :value="sessionId"
+        :url="
+          'https://app.crisp.chat/website/' + websiteId + '/inbox/' + sessionId
+        "
+        link
+        compact
+      />
       <BaseOutput
         id="get-session_token"
         label="Token ID"
         :value="sessionToken"
+        compact
       />
-      <BaseButton id="session-clear" color="red" @click="clearSession" button>
-        <template #button>reset</template>
-      </BaseButton>
     </form>
   </div>
 </template>

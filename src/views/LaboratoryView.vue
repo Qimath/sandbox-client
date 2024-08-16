@@ -35,7 +35,11 @@ function swapDraftLive() {
 }
 
 onMounted(() => {
-  Crisp.message.fillText("Welcome to the lab");
+  console.log("hey");
+
+  setTimeout(() => {
+    Crisp.session.setSegments(["hello", "pleb"], true);
+  }, 2000);
 });
 </script>
 

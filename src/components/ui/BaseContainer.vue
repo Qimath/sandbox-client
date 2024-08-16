@@ -42,6 +42,7 @@ const props = defineProps({
   flex-grow: 1;
   width: auto;
   max-width: initial;
+  min-width: 40rem;
 }
 
 .container.full {

@@ -12,7 +12,7 @@ import WebsiteVisibility from "@/components/widgets/WebsiteVisibility.vue";
 
 <template>
   <div class="view-wrapper">
-    <BaseContainer width="50rem">
+    <BaseContainer width="48rem">
       <template #container>
         <BaseCard>
           <template #card>

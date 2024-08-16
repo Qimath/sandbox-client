@@ -103,6 +103,7 @@ async function sessionContentRefreshAll() {
         :error="refreshResult[methodsStore.nickname.id]?.error"
         @refresh="sessionContentRefresh(methodsStore.nickname.id)"
         refresh
+        compact
       />
       <BaseOutput
         :id="'get' + methodsStore.email.id"
@@ -112,6 +113,7 @@ async function sessionContentRefreshAll() {
         :error="refreshResult[methodsStore.email.id]?.error"
         @refresh="sessionContentRefresh(methodsStore.email.id)"
         refresh
+        compact
       />
       <BaseOutput
         :id="'get' + methodsStore.phone.id"
@@ -121,6 +123,7 @@ async function sessionContentRefreshAll() {
         :error="refreshResult[methodsStore.phone.id]?.error"
         @refresh="sessionContentRefresh(methodsStore.phone.id)"
         refresh
+        compact
       />
       <BaseOutput
         :id="'get' + methodsStore.company.id"
@@ -130,6 +133,7 @@ async function sessionContentRefreshAll() {
         :error="refreshResult[methodsStore.company.id]?.error"
         @refresh="sessionContentRefresh(methodsStore.company.id)"
         refresh
+        compact
       />
       <BaseOutput
         :id="'get' + methodsStore.avatar.id"
@@ -140,7 +144,7 @@ async function sessionContentRefreshAll() {
         @refresh="sessionContentRefresh(methodsStore.avatar.id)"
         refresh
         :url="sessionContent.avatar"
-        link
+        compact
       />
       <BaseOutput
         :id="'get' + methodsStore.data.id"

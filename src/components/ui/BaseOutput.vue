@@ -1,6 +1,9 @@
 <script setup>
 import { ref, watch, toRaw, reactive, onMounted } from "vue";
 
+import IconOpen from "@/assets/images/icons/IconOpen.vue";
+import IconRefresh from "@/assets/images/icons/IconRefresh.vue";
+
 defineEmits(["refresh"]);
 
 const props = defineProps({
@@ -104,7 +107,17 @@ watch(
       success: !!success || refreshSuccess['_'],
     }"
   >
-    <span class="label">{{ label }}</span>
+    <span class="label"
+      >{{ label }}
+      <span
+        v-if="refresh && typeof value === 'object'"
+        @click="$emit('refresh')"
+        class="refresh"
+      >
+        <IconRefresh />
+      </span>
+    </span>
+
     <template
       v-if="
         typeof value === 'object' &&
@@ -123,20 +136,21 @@ watch(
         <pre class="value">{{ pair[1] }}</pre>
       </div>
     </template>
-    <pre v-else-if="typeof value === 'string' && !link">{{ value }}</pre>
-    <pre
-      v-else-if="
-        typeof value === 'string' && link && value !== '' && value !== 'N/A'
-      "
-    >
-      <a :href="url" target="_blank"><span>{{ value }}</span><span class="external-url material-symbols-outlined">link</span></a></pre>
-    <pre v-else>N/A</pre>
-    <span
-      v-if="refresh"
-      class="refresh material-symbols-outlined"
-      @click="$emit('refresh')"
-      >refresh</span
-    >
+    <pre v-else-if="typeof value === 'string'">
+      <span v-if="value !== '' && value !== 'N/A'">{{ value }}</span>
+      <span v-else>N/A</span>
+      <a v-if="link && value !== '' && value !== 'N/A'" :href="url" target="_blank">
+      <span class="open">
+        <IconOpen />
+      </span>
+    </a>
+      <span v-if="refresh" @click="$emit('refresh')"
+            class="refresh"
+      >
+        <IconRefresh />
+      </span
+      >
+    </pre>
   </section>
 </template>
 
@@ -160,7 +174,6 @@ span.label {
   border-left: 1px solid var(--output-border);
   border-right: 1px solid var(--output-border);
   border-top: 1px solid var(--output-border);
-  pointer-events: none;
   font-weight: 600;
 }
 
@@ -181,27 +194,42 @@ section:last-of-type > pre {
   border-bottom: 1px solid var(--output-border);
 }
 
-span.refresh {
+span.refresh,
+a,
+a span {
   position: absolute;
-  font-size: 1.25rem;
-  color: var(--output-ref);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   right: 0;
   top: 0;
+  height: 100%;
+  width: 3rem;
   transition: all 0.1s linear;
-  padding: 0.75rem;
   z-index: 1;
   user-select: none;
   -webkit-user-select: none;
-  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 48;
 }
 
-span.refresh:hover {
-  color: var(--output-ref-hover);
+span.refresh svg,
+span.open svg {
+  fill: var(--output-ref);
+  height: 1.5rem;
+  width: 1.5rem;
+  transition: all 0.1s linear;
 }
 
-span.refresh:active {
-  color: var(--output-ref-active);
+span.refresh:hover svg,
+a:hover span svg {
+  fill: var(--output-ref-hover);
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+span.refresh:active svg,
+span.open:active svg {
+  fill: var(--output-ref-active);
 }
 
 section:first-child,
@@ -211,15 +239,18 @@ section + section {
 
 .output-container .label {
   border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
 }
 
 .output-container ~ .output-container .label {
-  border-radius: none;
   border-radius: 0;
 }
 
 .output-container:last-of-type pre {
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.output-container:last-of-type .label:last-child {
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
@@ -242,8 +273,7 @@ div.double pre {
 }
 
 .output-container div.double:last-of-type pre + pre {
-  border-radius: 0;
-  border-bottom-right-radius: 0.25rem;
+  border-radius: 0 0 0.25rem 0;
 }
 
 div.double pre + pre {
@@ -293,7 +323,7 @@ section.compact:last-child pre {
 }
 
 section.compact span.label {
-  width: 50%;
+  width: 33%;
   border: none;
   border-right: 1px solid var(--container-bg);
   align-items: center;
@@ -302,16 +332,6 @@ section.compact span.label {
 section.compact pre {
   padding: 0.75rem 1rem;
   border: none;
-}
-
-a:hover span:not(.external-url) {
-  text-decoration: underline;
-}
-
-span.external-url {
-  margin-left: 0.5rem;
-  font-size: 1.375rem;
-  font-variation-settings: "wght" 400;
 }
 
 @keyframes flashSuccess {
