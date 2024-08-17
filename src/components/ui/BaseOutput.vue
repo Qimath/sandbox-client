@@ -178,7 +178,7 @@ span.label {
 }
 
 pre {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   width: 100%;
   background: var(--output-body);
   transition: all 0.2s linear;
@@ -263,7 +263,7 @@ div.double {
 }
 
 div.double pre {
-  width: 50%;
+  width: 33%;
 }
 
 .output-container div.double:last-of-type pre {

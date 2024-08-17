@@ -3,6 +3,22 @@ import { ref, watch, onMounted, nextTick } from "vue";
 
 import IconKey from "@/assets/images/icons/IconKey.vue";
 import IconCopy from "@/assets/images/icons/IconCopy.vue";
+import IconNickname from "@/assets/images/icons/IconNickname.vue";
+import IconEmail from "@/assets/images/icons/IconEmail.vue";
+import IconPhone from "@/assets/images/icons/IconPhone.vue";
+import IconWork from "@/assets/images/icons/IconWork.vue";
+import IconPicture from "@/assets/images/icons/IconPicture.vue";
+import IconJoinLeft from "@/assets/images/icons/IconJoinLeft.vue";
+import IconJoinRight from "@/assets/images/icons/IconJoinRight.vue";
+import IconTag from "@/assets/images/icons/IconTag.vue";
+import IconEvent from "@/assets/images/icons/IconEvent.vue";
+import IconNotification from "@/assets/images/icons/IconNotification.vue";
+import IconSend from "@/assets/images/icons/IconSend.vue";
+import IconDesktop from "@/assets/images/icons/IconDesktop.vue";
+import IconWebsite from "@/assets/images/icons/IconWebsite.vue";
+import IconFingerprint from "@/assets/images/icons/IconFingerprint.vue";
+import IconLock from "@/assets/images/icons/IconLock.vue";
+import IconHelp from "@/assets/images/icons/IconHelp.vue";
 
 defineEmits(["update:value", "action"]);
 
@@ -111,7 +127,24 @@ onMounted(() => {
       :disabled="props.disabled"
     />
     <label :for="id">
-      <span class="material-symbols-outlined">{{ icon }}</span>
+      <span>
+        <IconNickname v-if="icon === 'nickname'" />
+        <IconEmail v-if="icon === 'email'" />
+        <IconPhone v-if="icon === 'phone'" />
+        <IconWork v-if="icon === 'work'" />
+        <IconPicture v-if="icon === 'picture'" />
+        <IconJoinLeft v-if="icon === 'join_left'" />
+        <IconJoinRight v-if="icon === 'join_right'" />
+        <IconTag v-if="icon === 'tag'" />
+        <IconEvent v-if="icon === 'event'" />
+        <IconNotification v-if="icon === 'notification'" />
+        <IconSend v-if="icon === 'send'" />
+        <IconDesktop v-if="icon === 'desktop'" />
+        <IconWebsite v-if="icon === 'website'" />
+        <IconFingerprint v-if="icon === 'fingerprint'" />
+        <IconKey v-if="icon === 'key'" />
+        <IconLock v-if="icon === 'lock'" />
+      </span>
       {{ error || success || label }}
     </label>
     <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
@@ -122,6 +155,7 @@ onMounted(() => {
       >
       <IconKey v-if="actionLabel === 'key'" />
       <IconCopy v-if="actionLabel === 'content_copy'" />
+      <IconHelp v-if="actionLabel === 'help'" />
     </span>
   </div>
 </template>
@@ -178,10 +212,16 @@ label {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  align-content: center;
+  justify-content: center;
   align-items: center;
   padding-top: 0.375rem;
   font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+label svg {
+  height: 1.25rem;
+  width: 1.25rem;
 }
 
 input:placeholder-shown + label,
@@ -191,6 +231,14 @@ textarea:placeholder-shown + label {
   font-size: 1rem;
 }
 
+input:placeholder-shown + label svg,
+textarea:placeholder-shown + label svg {
+  transition: all 0.1s linear;
+  height: 1.5rem;
+  width: 1.5rem;
+  fill: var(--label-pri);
+}
+
 input:focus + label,
 textarea:focus + label {
   padding-top: 0.375rem;
@@ -198,11 +246,25 @@ textarea:focus + label {
   color: var(--label-tri);
 }
 
+input:focus + label svg,
+textarea:focus + label svg {
+  fill: var(--label-tri);
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
 input:placeholder-shown:focus + label,
 textarea:placeholder-shown:focus + label {
   padding-top: 0.375rem;
   font-size: 0.875rem;
   color: var(--label-tri);
+}
+
+input:placeholder-shown:focus + label svg,
+textarea:placeholder-shown:focus + label svg {
+  fill: var(--label-tri);
+  height: 1.25rem;
+  width: 1.25rem;
 }
 
 input:disabled,
@@ -217,6 +279,11 @@ textarea:disabled + label {
   color: var(--label-tri);
 }
 
+input:disabled + label svg,
+textarea:disabled + label svg {
+  fill: var(--label-tri);
+}
+
 input + label span,
 textarea + label span {
   margin-right: 0.5em;
@@ -224,19 +291,25 @@ textarea + label span {
 
 input + label span svg,
 textarea + label span svg {
-  height: 1rem;
-  width: 1rem;
   fill: var(--label-duo);
-  transition: color 0.1s linear;
 }
 
 *:placeholder-shown + label span {
   color: var(--label-pri);
 }
 
+*:placeholder-shown + label span svg {
+  fill: var(--label-pri);
+}
+
 *:focus + label span,
 *:placeholder-shown:focus + label span {
   color: var(--label-duo);
+}
+
+*:focus + label span svg,
+*:placeholder-shown:focus + label span svg {
+  fill: var(--label-duo);
 }
 
 div > span.simple {
@@ -314,12 +387,25 @@ div > span.large {
   -webkit-user-select: none;
 }
 
+div > span.large svg {
+  fill: var(--liner-tri);
+  transition: all 0.1s linear;
+}
+
 div > span.large:hover {
   color: var(--note-pri);
 }
 
+div > span.large:hover svg {
+  fill: var(--note-pri);
+}
+
 div > span.large:active {
   color: var(--note-duo);
+}
+
+div > span.large:active svg {
+  fill: var(--note-duo);
 }
 
 div.success label {
@@ -329,6 +415,10 @@ div.success label {
 
 div.success label span {
   color: var(--success-text) !important;
+}
+
+div.success label span svg {
+  fill: var(--success-text) !important;
 }
 
 div.success input,
@@ -343,6 +433,10 @@ div.error label {
 
 div.error label span {
   color: var(--error-text) !important;
+}
+
+div.error label span svg {
+  fill: var(--error-text) !important;
 }
 
 div.error input,

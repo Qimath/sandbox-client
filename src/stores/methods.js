@@ -6,7 +6,7 @@ export const useMethodsStore = defineStore({
     nickname: {
       id: "session-nickname",
       label: "Nickname",
-      icon: "name",
+      icon: "nickname",
     },
     email: {
       id: "session-email",
@@ -53,7 +53,7 @@ export const useMethodsStore = defineStore({
     trigger: {
       id: "trigger",
       label: "Trigger",
-      icon: "notifications",
+      icon: "notification",
     },
     sendMessage: {
       id: "send-message",
@@ -63,7 +63,7 @@ export const useMethodsStore = defineStore({
     showMessage: {
       id: "show-message",
       label: "Show message",
-      icon: "display",
+      icon: "desktop",
     },
     showChatbox: {
       id: "show-chatbox",

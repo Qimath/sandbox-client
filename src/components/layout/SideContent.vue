@@ -143,7 +143,7 @@ aside nav section a {
 
 aside nav section a:hover {
   background-color: var(--aside-icon-hover);
-  color: var(--aside-icon-active);
+  color: var(--aside-icon-select);
 }
 
 aside nav section a.router-link-exact-active {

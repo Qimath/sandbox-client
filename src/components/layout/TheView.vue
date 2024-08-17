@@ -69,7 +69,7 @@ div.view {
 
 .home-enter-active,
 .home-leave-active {
-  transition: all 0.75s ease;
+  transition: all 0.5s ease;
 }
 .home-enter-from,
 .home-leave-to {

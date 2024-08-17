@@ -159,7 +159,7 @@ watch(
       window.sessionStorage.removeItem("validWebsite");
     }
 
-    if (window.sessionStorage.getItem("InvalidWebsite")) {
+    if (window.sessionStorage.getItem("invalidWebsite")) {
       displayBanner({
         message: `Website ID <strong>${websiteId.value}</strong> is invalid.`,
         type: "error",

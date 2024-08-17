@@ -148,7 +148,7 @@ async function userSignup() {
           label="Nickname"
           :error="userSignupCredentials.nickname.error"
           :success="userSignupCredentials.nickname.success"
-          icon="people"
+          icon="nickname"
           v-model:value="userSignupCredentials.nickname.value"
         />
         <BaseInput
