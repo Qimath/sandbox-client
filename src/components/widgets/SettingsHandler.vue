@@ -189,10 +189,7 @@ watch(
       <div v-else class="setting-container">
         <div>
           <div v-if="copy" class="copy-method">
-            <span
-              @click="copyMethod(props.setting)"
-              ><IconCopy /></span
-            >
+            <span @click="copyMethod(props.setting)"><IconCopy /></span>
             <span
               v-if="copy && copyResults[props.setting]?.copyType"
               class="copy-type"

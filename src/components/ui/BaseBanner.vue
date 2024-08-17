@@ -29,27 +29,11 @@ const props = defineProps({
 
 <template>
   <div class="banner" :class="[{ animate: animate }, type]">
-    <span @click="$emit('banner-close')" class="close"
-      ><IconClose /></span
-    >
-    <span v-if="type === 'info'" class="category"
-      ><IconInfo /></span
-    >
-    <span
-      v-else-if="type === 'warning'"
-      class="category"
-      ><IconWarning /></span
-    >
-    <span
-      v-else-if="type === 'success'"
-      class="category"
-      ><IconSuccess /></span
-    >
-    <span
-      v-else-if="type === 'error'"
-      class="category"
-      ><IconError /></span
-    >
+    <span @click="$emit('banner-close')" class="close"><IconClose /></span>
+    <span v-if="type === 'info'" class="category"><IconInfo /></span>
+    <span v-else-if="type === 'warning'" class="category"><IconWarning /></span>
+    <span v-else-if="type === 'success'" class="category"><IconSuccess /></span>
+    <span v-else-if="type === 'error'" class="category"><IconError /></span>
     <p v-html="message" class="message"></p>
     <button
       v-if="action && action !== ''"

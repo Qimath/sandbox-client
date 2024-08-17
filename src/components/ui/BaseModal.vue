@@ -23,8 +23,7 @@ const props = defineProps({
     <dialog open v-if="openModal">
       <header>
         <h3>{{ title }}</h3>
-        <span @click="$emit('modalClose')"><IconClose /></span
-        >
+        <span @click="$emit('modalClose')"><IconClose /></span>
       </header>
       <section>
         <slot name="modal"></slot>

@@ -261,7 +261,7 @@ aside nav section.home a svg {
 }
 
 aside nav section.pages a svg,
-aside nav section.user a svg{
+aside nav section.user a svg {
   height: 2rem;
   width: 2rem;
 }

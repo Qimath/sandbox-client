@@ -148,11 +148,7 @@ onMounted(() => {
       {{ error || success || label }}
     </label>
     <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
-    <span
-      v-if="action"
-      :class="actionType"
-      @click="$emit('action')"
-      >
+    <span v-if="action" :class="actionType" @click="$emit('action')">
       <IconKey v-if="actionLabel === 'key'" />
       <IconCopy v-if="actionLabel === 'content_copy'" />
       <IconHelp v-if="actionLabel === 'help'" />
