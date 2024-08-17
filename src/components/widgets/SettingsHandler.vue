@@ -11,6 +11,8 @@ import BaseSelect from "@/components/ui/BaseSelect.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseInput from "@/components/ui/BaseInput.vue";
 
+import IconCopy from "@/assets/images/icons/IconCopy.vue";
+
 const emit = defineEmits(["settings-result", "reset-settings"]);
 
 const props = defineProps({
@@ -189,8 +191,7 @@ watch(
           <div v-if="copy" class="copy-method">
             <span
               @click="copyMethod(props.setting)"
-              class="material-symbols-outlined"
-              >content_copy</span
+              ><IconCopy /></span
             >
             <span
               v-if="copy && copyResults[props.setting]?.copyType"
@@ -284,24 +285,29 @@ div.setting-item {
 
 div.copy-method {
   margin-right: 1rem;
-  color: var(--orange-duo);
   transition: all 0.1s linear;
 }
 
 div.copy-method span {
-  font-size: 1.5rem;
   padding: 0.25rem;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
 }
 
-div.copy-method:hover {
-  color: var(--orange-pri);
+div.copy-method span svg {
+  fill: var(--orange-duo);
+  height: 1.5rem;
+  width: 1.5rem;
+  transition: all 0.1s linear;
 }
 
-div.copy-method:active {
-  color: var(--orange-tri);
+div.copy-method:hover span svg {
+  fill: var(--orange-pri);
+}
+
+div.copy-method:active span svg {
+  fill: var(--orange-tri);
 }
 
 div > span.copy-type {

@@ -2,6 +2,7 @@
   "name": "crispsandbox",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,23 +12,23 @@
   },
   "dependencies": {
     "crisp-sdk-web": "^1.0.25",
-    "crypto-js": "^4.2.0",
+    "crypto-js": "4.2.0",
     "gotrue-js": "0.9.29",
     "jwt-decode": "3.1.2",
-    "openai": "^4.29.2",
+    "openai": "4.29.2",
     "pinia": "2.0.32",
     "vue": "3.2.47",
     "vue-gtm": "3.5.0",
     "vue-router": "4.1.6"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "1.2.0",
+    "@rushstack/eslint-patch": "^1.2.0",
     "@types/crypto-js": "4.1.1",
-    "@vitejs/plugin-vue": "4.0.0",
-    "@vue/eslint-config-prettier": "7.1.0",
-    "eslint": "8.34.0",
-    "eslint-plugin-vue": "9.9.0",
-    "prettier": "2.8.4",
-    "vite": "^4.4.7"
+    "@vitejs/plugin-vue": "^5.1.2",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "eslint": "^8.34.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "prettier": "^2.8.4",
+    "vite": "^5.4.1"
   }
 }

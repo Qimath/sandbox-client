@@ -103,7 +103,7 @@ function clearSession() {
       <BaseInput
         id="set-session_id"
         label="Session ID"
-        icon="face"
+        icon="fingerprint"
         v-model:value="sessionIdValue"
       />
       <BaseButton id="session-submit" color="default" value="submit" />

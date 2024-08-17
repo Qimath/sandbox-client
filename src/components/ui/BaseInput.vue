@@ -1,6 +1,9 @@
 <script setup>
 import { ref, watch, onMounted, nextTick } from "vue";
 
+import IconKey from "@/assets/images/icons/IconKey.vue";
+import IconCopy from "@/assets/images/icons/IconCopy.vue";
+
 defineEmits(["update:value", "action"]);
 
 const props = defineProps({
@@ -114,11 +117,12 @@ onMounted(() => {
     <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
     <span
       v-if="action"
-      class="material-symbols-outlined"
       :class="actionType"
       @click="$emit('action')"
-      >{{ actionLabel }}</span
-    >
+      >
+      <IconKey v-if="actionLabel === 'key'" />
+      <IconCopy v-if="actionLabel === 'content_copy'" />
+    </span>
   </div>
 </template>
 
@@ -216,8 +220,13 @@ textarea:disabled + label {
 input + label span,
 textarea + label span {
   margin-right: 0.5em;
-  font-size: 1.4em;
-  color: var(--label-duo);
+}
+
+input + label span svg,
+textarea + label span svg {
+  height: 1rem;
+  width: 1rem;
+  fill: var(--label-duo);
   transition: color 0.1s linear;
 }
 
@@ -236,20 +245,25 @@ div > span.simple {
   top: 0;
   justify-content: flex-end;
   padding: 0.25rem;
-  font-size: 1.25rem;
-  color: var(--liner-tri);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   transition: all 0.1s linear;
 }
 
-div > span.simple:hover {
-  color: var(--green-pri);
+div > span.simple svg {
+  fill: var(--liner-tri);
+  height: 1.25rem;
+  width: 1.25rem;
+  transition: all 0.1s linear;
 }
 
-div > span.simple:active {
-  color: var(--green-duo);
+div > span.simple:hover svg {
+  fill: var(--green-pri);
+}
+
+div > span.simple:active svg {
+  fill: var(--green-duo);
 }
 
 div > span.copy-type {

@@ -1,4 +1,6 @@
 <script setup>
+import IconClose from "@/assets/images/icons/IconClose.vue";
+
 defineEmits(["update:value", "copy", "modalClose"]);
 
 const props = defineProps({
@@ -21,8 +23,7 @@ const props = defineProps({
     <dialog open v-if="openModal">
       <header>
         <h3>{{ title }}</h3>
-        <span @click="$emit('modalClose')" class="material-symbols-outlined"
-          >close</span
+        <span @click="$emit('modalClose')"><IconClose /></span
         >
       </header>
       <section>
@@ -83,8 +84,12 @@ span {
   position: absolute;
   right: 0;
   padding: 1rem;
-  font-size: 1.75rem;
   cursor: pointer;
+}
+
+span svg {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .modal-enter-active {

@@ -223,8 +223,7 @@ span.open svg {
 span.refresh:hover svg,
 a:hover span svg {
   fill: var(--output-ref-hover);
-  height: 1.75rem;
-  width: 1.75rem;
+  transform: scale(1.15);
 }
 
 span.refresh:active svg,

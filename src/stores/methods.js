@@ -6,17 +6,17 @@ export const useMethodsStore = defineStore({
     nickname: {
       id: "session-nickname",
       label: "Nickname",
-      icon: "badge",
+      icon: "name",
     },
     email: {
       id: "session-email",
       label: "Email address",
-      icon: "mail",
+      icon: "email",
     },
     phone: {
       id: "session-phone",
       label: "Phone number",
-      icon: "call",
+      icon: "phone",
     },
     company: {
       id: "session-company",
@@ -26,7 +26,7 @@ export const useMethodsStore = defineStore({
     avatar: {
       id: "session-avatar",
       label: "Avatar",
-      icon: "landscape",
+      icon: "picture",
     },
     data: {
       id: "session-data",
@@ -43,12 +43,12 @@ export const useMethodsStore = defineStore({
     segment: {
       id: "session-segment",
       label: "Segment",
-      icon: "sell",
+      icon: "tag",
     },
     event: {
       id: "event",
       label: "Event",
-      icon: "celebration",
+      icon: "event",
     },
     trigger: {
       id: "trigger",
@@ -63,7 +63,7 @@ export const useMethodsStore = defineStore({
     showMessage: {
       id: "show-message",
       label: "Show message",
-      icon: "mark_as_unread",
+      icon: "display",
     },
     showChatbox: {
       id: "show-chatbox",

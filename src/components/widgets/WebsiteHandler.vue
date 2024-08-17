@@ -67,7 +67,6 @@ function handleClickOutside(event) {
   }
 }
 
-
 function removeCachedWebsite(id) {
   configStore.delCachedWebsite(id);
 }
@@ -204,7 +203,7 @@ watch(
       <BaseInput
         id="set-website_id"
         label="Website ID"
-        icon="public"
+        icon="website"
         v-model:value="websiteIdValue"
         :copy="false"
         action

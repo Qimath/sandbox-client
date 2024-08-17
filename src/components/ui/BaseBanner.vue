@@ -1,4 +1,10 @@
 <script setup>
+import IconClose from "@/assets/images/icons/IconClose.vue";
+import IconInfo from "@/assets/images/icons/IconInfo.vue";
+import IconSuccess from "@/assets/images/icons/IconSuccess.vue";
+import IconWarning from "@/assets/images/icons/IconWarning.vue";
+import IconError from "@/assets/images/icons/IconError.vue";
+
 defineEmits(["banner-close", "banner-action"]);
 
 const props = defineProps({
@@ -23,26 +29,26 @@ const props = defineProps({
 
 <template>
   <div class="banner" :class="[{ animate: animate }, type]">
-    <span @click="$emit('banner-close')" class="close material-symbols-outlined"
-      >close</span
+    <span @click="$emit('banner-close')" class="close"
+      ><IconClose /></span
     >
-    <span v-if="type === 'info'" class="category material-symbols-outlined"
-      >info</span
+    <span v-if="type === 'info'" class="category"
+      ><IconInfo /></span
     >
     <span
       v-else-if="type === 'warning'"
-      class="category material-symbols-outlined"
-      >warning</span
+      class="category"
+      ><IconWarning /></span
     >
     <span
       v-else-if="type === 'success'"
-      class="category material-symbols-outlined"
-      >check_circle</span
+      class="category"
+      ><IconSuccess /></span
     >
     <span
       v-else-if="type === 'error'"
-      class="category material-symbols-outlined"
-      >cancel</span
+      class="category"
+      ><IconError /></span
     >
     <p v-html="message" class="message"></p>
     <button
@@ -89,16 +95,25 @@ const props = defineProps({
   position: absolute;
   left: 0;
   padding: 1rem;
-  font-size: 1.75rem;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
+}
+
+.banner .close svg {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .banner .category {
   user-select: none;
   -webkit-user-select: none;
   margin-right: 1rem;
+}
+
+.banner .category svg {
+  height: 1.75rem;
+  width: 1.75rem;
 }
 
 .banner button {
@@ -113,16 +128,25 @@ const props = defineProps({
   cursor: pointer;
 }
 
+.banner button {
+  margin-left: 2rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 50px;
+  border: none;
+  background: hsl(0, 0%, 100%, 0.9);
+  color: hsl(0, 0%, 0%);
+  text-transform: uppercase;
+  letter-spacing: 0.0625rem;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
 .banner button:hover {
   background: hsl(0, 0%, 100%, 1);
 }
 
 .banner button:focus {
   background: var(--color-pearl-1);
-}
-
-.banner.info button {
-  border: 1px solid var(--blue-duo);
 }
 
 .banner.success button {

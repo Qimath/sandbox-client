@@ -1,6 +1,10 @@
 <script setup>
 import { computed } from "vue";
 
+import IconView from "@/assets/images/icons/IconView.vue";
+import IconCopy from "@/assets/images/icons/IconCopy.vue";
+import IconClose from "@/assets/images/icons/IconClose.vue";
+
 const emits = defineEmits(["generate", "action", "select", "website-remove"]);
 const props = defineProps({
   button: {
@@ -72,11 +76,17 @@ const isDropdownEmpty = computed(() => {
 
       <span v-if="action && copyType" class="copy-type">{{ copyType }}</span>
       <span
-        v-if="action"
+        v-if="action && actionLabel === 'content_copy'"
         class="simple material-symbols-outlined"
         @click.stop="$emit('action')"
-        >{{ actionLabel }}</span
-      >
+        ><IconCopy
+      /></span>
+      <span
+        v-else-if="action && actionLabel === 'visibility'"
+        class="simple material-symbols-outlined"
+        @click.stop="$emit('action')"
+        ><IconView
+      /></span>
     </div>
     <transition name="dropdown">
       <div v-if="dropdown && !isDropdownEmpty" class="dropdown" :class="color">
@@ -87,11 +97,9 @@ const isDropdownEmpty = computed(() => {
             @click.stop="$emit('select', item.key)"
           >
             <p>{{ item.label }}</p>
-            <span
-              @click.stop="$emit('website-remove', item.key)"
-              class="close material-symbols-outlined"
-              >close</span
-            >
+            <span @click.stop="$emit('website-remove', item.key)" class="close"
+              ><IconClose
+            /></span>
           </li>
         </ul>
       </div>
@@ -167,17 +175,23 @@ button.blue + span.simple:active {
 }
 
 input.red,
-button.red {
+button.red,
+input.red + span.simple,
+button.red + span.simple {
   background: var(--red-duo);
 }
 
 input.red:hover,
-button.red:hover {
+button.red:hover,
+input.red + span.simple:hover,
+button.red + span.simple:hover {
   background: var(--red-pri);
 }
 
 input.red:active,
-button.red:active {
+button.red:active,
+input.red + span.simple:active,
+button.red + span.simple:active {
   background: var(--red-tri);
 }
 
@@ -236,6 +250,12 @@ span.simple {
   border-left: 2px solid hsla(0, 0%, 0%, 0.1);
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
+}
+
+span.simple svg {
+  fill: var(--main-text-reverse);
+  height: 1.25rem;
+  width: 1.25rem;
 }
 
 span.copy-type {
@@ -350,7 +370,7 @@ span.copy-type::after {
 
 .dropdown li {
   width: 100%;
-  padding: 1.375rem;
+  padding: 1.25rem;
   justify-content: center;
 }
 
@@ -371,12 +391,16 @@ span.copy-type::after {
   top: 0;
   height: 100%;
   padding: 0 1rem;
-  font-size: 1.25rem;
   width: 3.25rem;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   transition: all 0.1s linear;
+}
+
+.dropdown .close svg {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .dropdown .close:hover {

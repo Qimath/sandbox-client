@@ -4,6 +4,9 @@ import { useRoute } from "vue-router";
 
 import { useUserStore } from "@/stores/user.js";
 
+import IconLight from "@/assets/images/icons/IconLight.vue";
+import IconDark from "@/assets/images/icons/IconDark.vue";
+
 const userStore = useUserStore();
 const userThemeDetect = computed(() => userStore.getSetting("themeDetect"));
 const userThemeSelected = computed(() => userStore.getSetting("themeSelected"));
@@ -64,18 +67,12 @@ function toggleTheme(theme) {
         <h2>{{ pageTitle }}</h2>
       </section>
       <section>
-        <span
+        <IconDark
           v-if="userThemeSelected === 'light'"
-          class="go-dark material-symbols-outlined"
+          class="go-dark"
           @click="toggleTheme('dark')"
-          >dark_mode</span
-        >
-        <span
-          v-else
-          class="go-light material-symbols-outlined"
-          @click="toggleTheme('light')"
-          >light_mode</span
-        >
+        />
+        <IconLight v-else class="go-light" @click="toggleTheme('light')" />
       </section>
     </nav>
   </header>
@@ -128,23 +125,24 @@ h2 {
   font-weight: 700;
 }
 
-span {
-  font-size: 2.25rem;
+svg {
+  height: 3.5rem;
+  width: 3.5rem;
   cursor: pointer;
   border-radius: 50%;
-  padding: 0.625rem;
+  padding: 0.5rem;
   transition: all 0.2s linear;
 }
 
-span.go-light {
-  color: var(--color-amber-1);
+.go-light {
+  fill: var(--color-amber-1);
 }
 
-span.go-dark {
-  color: var(--color-blue-1);
+.go-dark {
+  fill: var(--color-blue-1);
 }
 
-span:hover {
-  transform: scale(1.25);
+svg:hover {
+  transform: scale(1.15);
 }
 </style>

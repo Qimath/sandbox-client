@@ -7,8 +7,8 @@ import { login, authGoogle, authGithub } from "@/hooks/identity.js";
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 
-import IconGoogle from "@/assets/images/general/IconGoogle.vue";
-import IconGithub from "@/assets/images/general/IconGithub.vue";
+import IconGoogle from "@/assets/images/icons/IconGoogle.vue";
+import IconGithub from "@/assets/images/icons/IconGithub.vue";
 
 const emits = defineEmits(["auth-window", "banner"]);
 

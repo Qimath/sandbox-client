@@ -1,5 +1,12 @@
 <script setup>
-import IconLogo from "@/assets/images/general/IconLogo.vue";
+import IconLogo from "@/assets/images/icons/IconLogo.vue";
+import IconMethods from "@/assets/images/icons/IconMethods.vue";
+import IconDebug from "@/assets/images/icons/IconDebug.vue";
+import IconContact from "@/assets/images/icons/IconContact.vue";
+import IconTicket from "@/assets/images/icons/IconTicket.vue";
+import IconLab from "@/assets/images/icons/IconLab.vue";
+import IconAccount from "@/assets/images/icons/IconAccount.vue";
+import IconSettings from "@/assets/images/icons/IconSettings.vue";
 
 import { computed } from "vue";
 import { useRouter } from "vue-router";
@@ -56,42 +63,30 @@ const settingsTitle = computed(() => {
     <nav>
       <section class="home">
         <router-link to="/" class="home">
-          <span><IconLogo /></span>
+          <IconLogo />
         </router-link>
       </section>
 
       <section class="pages">
-        <router-link to="/methods" class="methods"
-          ><span class="material-symbols-outlined"
-            >code_blocks</span
-          ></router-link
-        >
-        <router-link to="/debug" class="debugging"
-          ><span class="material-symbols-outlined">adb</span></router-link
-        >
-        <router-link to="/ticket" class="ticket"
-          ><span class="material-symbols-outlined"
-            >confirmation_number</span
-          ></router-link
-        >
-        <router-link to="/contact" class="contact"
-          ><span class="material-symbols-outlined">chat</span></router-link
-        >
-        <router-link to="/lab" class="laboratory"
-          ><span class="material-symbols-outlined">science</span></router-link
-        >
+        <router-link to="/methods" class="methods"><IconMethods /></router-link>
+        <hr />
+        <router-link to="/debug" class="debugging"><IconDebug /></router-link>
+        <hr />
+        <router-link to="/ticket" class="ticket"><IconTicket /></router-link>
+        <hr />
+        <router-link to="/contact" class="contact"><IconContact /></router-link>
+        <hr />
+        <router-link to="/lab" class="laboratory"><IconLab /></router-link>
       </section>
 
       <section class="user">
         <router-link to="/account" class="account">
           <div v-if="isLoggedIn" class="is-logged-in"></div>
-          <span class="material-symbols-outlined"
-            >account_circle</span
-          ></router-link
-        >
+          <IconAccount
+        /></router-link>
         <router-link v-if="isLoggedIn" to="/settings" class="settings"
-          ><span class="material-symbols-outlined">settings</span></router-link
-        >
+          ><IconSettings
+        /></router-link>
       </section>
     </nav>
   </aside>
@@ -117,6 +112,12 @@ aside nav {
   user-select: none;
   -webkit-user-select: none;
   border-right: 1px solid var(--container-border);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--container-border);
+  margin: 0.25rem;
 }
 
 aside nav section {
@@ -238,21 +239,31 @@ aside nav section a:hover::after {
   animation: labelDelay 1s linear;
 }
 
-aside nav section a span {
+aside nav section a {
   font-size: inherit;
 }
 
-aside nav section a span svg {
+aside nav section a svg {
   fill: currentColor;
+}
+
+aside nav section a:hover svg {
+  fill: currentColor;
+}
+
+aside nav section a.router-link-exact-active svg {
+  fill: currentColor;
+}
+
+aside nav section.home a svg {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+aside nav section.pages a svg,
+aside nav section.user a svg{
   height: 2rem;
-}
-
-aside nav section a:hover span svg {
-  fill: currentColor;
-}
-
-aside nav section a.router-link-exact-active span svg {
-  fill: currentColor;
+  width: 2rem;
 }
 
 aside .is-logged-in {

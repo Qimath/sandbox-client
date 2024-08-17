@@ -47,9 +47,9 @@ watch(checked, (newValue) => {
 <style scoped>
 .switch {
   display: inline-block;
-  height: 2rem;
+  height: 1.75rem;
   position: relative;
-  width: 4rem;
+  width: 3.5rem;
 }
 
 .switch input {
@@ -71,11 +71,11 @@ watch(checked, (newValue) => {
   background-color: var(--container-bg);
   bottom: 0.25rem;
   content: "";
-  height: 1.5rem;
+  height: 1.25rem;
   left: 0.25rem;
   position: absolute;
   transition: 0.3s;
-  width: 1.5rem;
+  width: 1.25rem;
   pointer-events: none;
 }
 
@@ -84,11 +84,11 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(2rem);
+  transform: translateX(1.75rem);
 }
 
 .slider {
-  border-radius: 2rem;
+  border-radius: 1.75rem;
 }
 
 .slider:before {
