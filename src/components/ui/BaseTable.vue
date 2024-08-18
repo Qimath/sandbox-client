@@ -1,6 +1,9 @@
 <script setup>
 import { reactive } from "vue";
 
+import IconChevronLeft from "@/assets/images/icons/IconChevronLeft.vue";
+import IconChevronDown from "@/assets/images/icons/IconChevronDown.vue";
+
 const props = defineProps({
   config: {
     type: [Object, String, Array, Boolean],
@@ -37,12 +40,8 @@ const isEmptyObject = (obj) => {
         <span class="title" @click="toggleDrawer(key)">{{
           formatKey(key)
         }}</span>
-        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]"
-          >expand_more</span
-        >
-        <span class="toggle material-symbols-outlined" v-else
-          >chevron_left</span
-        >
+        <IconChevronDown v-if="isDrawerOpen[key]" />
+        <IconChevronLeft v-else />
       </div>
       <div class="drawer" v-show="isDrawerOpen[key]">
         <div v-if="value.length === 0" class="item-container">
@@ -67,12 +66,8 @@ const isEmptyObject = (obj) => {
         <span class="title" @click="toggleDrawer(key)">{{
           formatKey(key)
         }}</span>
-        <span class="toggle material-symbols-outlined" v-if="isDrawerOpen[key]"
-          >expand_more</span
-        >
-        <span class="toggle material-symbols-outlined" v-else
-          >chevron_left</span
-        >
+        <IconChevronDown v-if="isDrawerOpen[key]" />
+        <IconChevronLeft v-else />
       </div>
       <div class="drawer" v-show="isDrawerOpen[key]">
         <div v-if="isEmptyObject(value)" class="item-container">
@@ -161,12 +156,11 @@ div {
   border: none;
 }
 
-.toggle {
+svg {
   position: absolute;
   top: 0;
-  right: 0;
-  color: var(--main-text-reverse);
-  padding: 0 1rem;
+  right: 1rem;
+  fill: var(--main-text-reverse);
   height: 100%;
   align-items: center;
   justify-content: center;

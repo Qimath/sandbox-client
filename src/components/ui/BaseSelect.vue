@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch } from "vue";
 
+import IconDropDown from "@/assets/images/icons/IconDropDown.vue";
+
 const emits = defineEmits(["update:value"]);
 const props = defineProps({
   options: {
@@ -44,6 +46,7 @@ watch(
       </option>
     </select>
     <label :for="id">{{ label }}</label>
+    <IconDropDown />
   </div>
 </template>
 
@@ -89,5 +92,19 @@ select + label {
   align-items: center;
   padding-top: 0.375rem;
   font-size: 0.875rem;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  fill: var(--label-duo);
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 }
 </style>

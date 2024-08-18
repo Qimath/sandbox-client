@@ -89,6 +89,7 @@ async function debugChatbox() {
     const prompt = `current page: ${url}\nwebsite settings:\n${formattedSettings}\n\nhelper tips:\n${helperTipsString}`;
 
     const locationOrigin = window.location.origin;
+
     let response = await fetch(
       locationOrigin + "/.netlify/functions/troubleshoot",
       {
@@ -124,7 +125,7 @@ async function debugChatbox() {
     <div class="form">
       <BaseButton
         id="debugging-start"
-        color="green"
+        color="orange"
         button
         @click="debugChatbox"
         :loading="isLoading"

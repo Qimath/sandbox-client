@@ -19,6 +19,7 @@ import IconWebsite from "@/assets/images/icons/IconWebsite.vue";
 import IconFingerprint from "@/assets/images/icons/IconFingerprint.vue";
 import IconLock from "@/assets/images/icons/IconLock.vue";
 import IconHelp from "@/assets/images/icons/IconHelp.vue";
+import IconLink from "@/assets/images/icons/IconLink.vue";
 
 defineEmits(["update:value", "action"]);
 
@@ -144,6 +145,7 @@ onMounted(() => {
         <IconFingerprint v-if="icon === 'fingerprint'" />
         <IconKey v-if="icon === 'key'" />
         <IconLock v-if="icon === 'lock'" />
+        <IconLink v-if="icon === 'link'" />
       </span>
       {{ error || success || label }}
     </label>

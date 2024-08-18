@@ -8,6 +8,7 @@ import WebsitePreview from "@/components/widgets/WebsitePreview.vue";
 import WebsiteDetails from "@/components/widgets/WebsiteDetails.vue";
 import WebsiteSettings from "@/components/widgets/WebsiteSettings.vue";
 import WebsiteVisibility from "@/components/widgets/WebsiteVisibility.vue";
+import DomainVerifier from "@/components/widgets/DomainVerifier.vue";
 </script>
 
 <template>
@@ -23,6 +24,7 @@ import WebsiteVisibility from "@/components/widgets/WebsiteVisibility.vue";
         <BaseCard>
           <template #card>
             <WebsiteVisibility />
+            <DomainVerifier />
           </template>
         </BaseCard>
         <BaseCard>
