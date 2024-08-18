@@ -207,7 +207,7 @@ p.failure {
   justify-content: center;
   align-content: center;
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -259,8 +259,13 @@ p.failure {
   color: var(--red-duo);
 }
 
+span.item-title,
+span.item-content {
+  line-height: 1.25rem;
+}
+
 .retrieved {
-  margin-top: 0.5rem;
+  margin-top: 0.375rem;
 }
 
 .retrieved ul {
