@@ -80,17 +80,22 @@ async function debugDomain() {
 }
 
 function isValidDomain(domain) {
-  // Simple regex to check for a valid domain
   const domainPattern = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
   return domainPattern.test(domain);
 }
 
-function formatValue(value, target) {
+function formatValue(value, target, type) {
   if (!value || value === "No record found") {
     return `No record found in "${target}"`;
   }
+
+  if (target?.includes("_dmarc") && type === "TXT") {
+    return `"${value}" in "${target}"`;
+  }
+
   return `"${value}" in "${target}"`;
 }
+
 </script>
 
 <template>
@@ -142,25 +147,17 @@ function formatValue(value, target) {
           :key="index"
           class="result-item"
         >
-          <div
-            class="expected"
-            :class="{ success: result.found, failure: !result.found }"
-          >
+          <div class="expected" :class="{ success: result.found, failure: !result.found }">
             <span class="item-title">Expected {{ result.expected.type }}:</span>
             <span class="item-content">
-              {{ formatValue(result.expected.value, result.expected.target) }}
-            </span>
+    {{ formatValue(result.expected.value, result.expected.target) }}
+  </span>
           </div>
-          <div
-            class="retrieved"
-            :class="{ success: result.found, failure: !result.found }"
-          >
-            <span class="item-title"
-              >Retrieved {{ result.retrieved[0].type }}:</span
-            >
+          <div class="retrieved" :class="{ success: result.found, failure: !result.found }">
+            <span class="item-title">Retrieved {{ result.retrieved[0].type }}:</span>
             <ul>
               <li v-for="(retrieved, idx) in result.retrieved" :key="idx">
-                {{ formatValue(retrieved.value, retrieved.target) }}
+                {{ formatValue(retrieved.value, retrieved.target, retrieved.type) }}
               </li>
             </ul>
           </div>
@@ -251,11 +248,11 @@ p.failure {
   font-weight: 600;
 }
 
-.result-item .success span.item-title {
+.result-item .retrieved.success span.item-title {
   color: var(--green-duo);
 }
 
-.result-item .failure span.item-title {
+.result-item .retrieved.failure span.item-title {
   color: var(--red-duo);
 }
 
@@ -275,5 +272,10 @@ span.item-content {
 
 .debugging-error {
   color: var(--error-text);
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
 }
 </style>
