@@ -261,11 +261,11 @@ p.failure {
 
 span.item-title,
 span.item-content {
-  line-height: 1.25rem;
+  line-height: 1.5rem;
 }
 
 .retrieved {
-  margin-top: 0.375rem;
+  margin-top: 0.5rem;
 }
 
 .retrieved ul {
