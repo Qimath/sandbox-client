@@ -30,6 +30,7 @@
   --color-blue-1: hsl(215, 65%, 60%);
   --color-blue-2: hsl(215, 55%, 55%);
   --color-blue-3: hsl(215, 50%, 45%);
+  --color-blue-4: hsl(215, 45%, 25%);
 
   --color-red-1: hsl(10, 95%, 60%);
   --color-red-2: hsl(10, 85%, 55%);
@@ -77,6 +78,7 @@
   --color-amber-1: hsl(45, 90%, 50%);
   --color-amber-2: hsl(45, 85%, 40%);
 
+  --color-cyan-0: hsl(205, 100%, 95%);
   --color-cyan-1: hsl(200, 40%, 85%);
   --color-cyan-2: hsl(200, 35%, 75%);
   --color-cyan-3: hsl(200, 55%, 55%);
@@ -156,6 +158,13 @@
   --table-head: var(--color-cyan-2);
   --table-body: var(--color-cyan-1);
   --table-text: var(--color-navy-3);
+
+  --code-color: var(--color-blue-4);
+  --code-border: var(--color-cyan-2);
+  --code-bg: var(--color-cyan-0);
+  --code-color-alt: var(--color-blue-4);
+  --code-border-alt: var(--liner-duo);
+  --code-bg-alt: var(--main-bg-duo);
 }
 
 :root[data-theme="dark"] {
@@ -232,6 +241,13 @@
   --table-head: var(--color-cyan-2);
   --table-body: var(--color-cyan-1);
   --table-text: var(--color-navy-3);
+
+  --code-color: var(--color-cyan-0);
+  --code-border: var(--blue-tri);
+  --code-bg: var(--color-indigo);
+  --code-color-alt: var(--color-blue-4);
+  --code-border-alt: var(--liner-pri);
+  --code-bg-alt: var(--main-bg-duo);
 }
 
 :root {

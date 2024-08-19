@@ -46,7 +46,15 @@ class DnsChecker {
         }
       }
     }
-    this.storeRecord(record.name, targets[0], record.type, ["No record found"]);
+    if (record.name === "caa") {
+      this.storeRecord(record.name, targets[0], record.type, [
+        "No record found (Unrestricted)",
+      ]);
+    } else {
+      this.storeRecord(record.name, targets[0], record.type, [
+        "No record found",
+      ]);
+    }
   }
 
   getTargetsToCheck(record) {
@@ -186,7 +194,7 @@ class DnsChecker {
   evaluateCaaRecord(record, retrieved) {
     const unrestricted =
       retrieved.length === 0 ||
-      retrieved.every((r) => r.value === "No record found");
+      retrieved.every((r) => r.value === "No record found (Unrestricted)");
     const match =
       unrestricted || retrieved.some((r) => record.regex.test(r.value));
     return this.createResult(match, record, retrieved);

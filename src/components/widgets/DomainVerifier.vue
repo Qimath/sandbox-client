@@ -84,18 +84,22 @@ function isValidDomain(domain) {
   return domainPattern.test(domain);
 }
 
-function formatValue(value, target, type) {
-  if (!value || value === "No record found") {
-    return `No record found in "${target}"`;
-  }
+function formatValue(value, target) {
+  const formattedValue = value || "No record found";
+  const formattedTarget = target || "";
 
-  if (target?.includes("_dmarc") && type === "TXT") {
-    return `"${value}" in "${target}"`;
-  }
-
-  return `"${value}" in "${target}"`;
+  return {
+    value: formattedValue,
+    target: formattedTarget,
+  };
 }
 
+function getClassForValue(value) {
+  if (value.toLowerCase().includes("no record found")) {
+    return "no-record";
+  }
+  return "code-inline";
+}
 </script>
 
 <template>
@@ -147,17 +151,31 @@ function formatValue(value, target, type) {
           :key="index"
           class="result-item"
         >
-          <div class="expected" :class="{ success: result.found, failure: !result.found }">
+          <div
+            class="expected"
+            :class="{ success: result.found, failure: !result.found }"
+          >
             <span class="item-title">Expected {{ result.expected.type }}:</span>
             <span class="item-content">
-    {{ formatValue(result.expected.value, result.expected.target) }}
-  </span>
+              <span class="code-inline">{{ result.expected.value }}</span
+              >&nbsp; in &nbsp;<span class="code-inline">{{
+                result.expected.target
+              }}</span>
+            </span>
           </div>
-          <div class="retrieved" :class="{ success: result.found, failure: !result.found }">
-            <span class="item-title">Retrieved {{ result.retrieved[0].type }}:</span>
+          <div
+            class="retrieved"
+            :class="{ success: result.found, failure: !result.found }"
+          >
+            <span class="item-title">
+              Retrieved {{ result.retrieved[0].type }}:
+            </span>
             <ul>
               <li v-for="(retrieved, idx) in result.retrieved" :key="idx">
-                {{ formatValue(retrieved.value, retrieved.target, retrieved.type) }}
+                <span :class="getClassForValue(retrieved.value)">
+                  {{ retrieved.value }} </span
+                >&nbsp; in &nbsp;
+                <span class="code-inline">{{ retrieved.target }}</span>
               </li>
             </ul>
           </div>
@@ -210,20 +228,20 @@ p.failure {
 }
 
 p.success {
-  color: var(--green-duo);
+  color: var(--success-text);
 }
 
 p.failure {
-  color: var(--red-duo);
+  color: var(--error-text);
 }
 
 .success svg {
-  fill: var(--green-duo);
+  fill: var(--success-text);
   margin-right: 0.5rem;
 }
 
 .failure svg {
-  fill: var(--red-duo);
+  fill: var(--error-text);
   margin-right: 0.5rem;
 }
 
@@ -233,9 +251,13 @@ p.failure {
 }
 
 .result-item + .result-item {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
+}
+
+.result-item + .result-item::before {
+  content: "";
+  position: relative;
+  border-top: 1px solid var(--container-border);
+  margin: 1.5rem 3rem;
 }
 
 .expected,
@@ -249,11 +271,11 @@ p.failure {
 }
 
 .result-item .retrieved.success span.item-title {
-  color: var(--green-duo);
+  color: var(--success-text);
 }
 
 .result-item .retrieved.failure span.item-title {
-  color: var(--red-duo);
+  color: var(--error-text);
 }
 
 span.item-title,
@@ -277,5 +299,36 @@ span.item-content {
 ul {
   display: flex;
   flex-direction: column;
+}
+
+.item-content,
+li {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+.item-content::before,
+li::before {
+  content: "•";
+  margin-right: 0.5rem;
+  font-size: 2rem;
+  line-height: 1.5rem;
+}
+
+.code-inline {
+  border: 1px solid var(--code-border);
+  background-color: var(--code-bg);
+  color: var(--code-color);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.no-record {
+  border: 1px solid var(--code-border-alt);
+  background-color: var(--code-bg-alt);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
 }
 </style>
