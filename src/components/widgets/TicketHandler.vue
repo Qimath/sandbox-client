@@ -29,7 +29,7 @@ const computedHmac = computed(() => {
         title="Ticket Center"
         :src="`https://plugins.crisp.chat/urn:crisp.im:ticket-center:0/tickets/${websiteId}?email=${userEmail}&hmac=${computedHmac}`"
         referrerpolicy="origin"
-        sandbox="allow-forms allow-popups allow-modals allow-scripts allow-same-origin"
+        sandbox="allow-forms allow-popups allow-modals allow-scripts allow-same-origin allow-downloads"
         width="100%"
         height="1000px"
         frameborder="0"

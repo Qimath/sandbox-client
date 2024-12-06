@@ -38,6 +38,11 @@ onMounted(() => {
   console.log("hey");
 
   setTimeout(() => {
+    Crisp.session.setData({
+      user_id: "123456",
+      plan: "free"
+    });
+
     Crisp.session.setSegments(["hello", "pleb"], true);
   }, 2000);
 });
