@@ -207,7 +207,7 @@ function getClassForValue(value) {
   flex-direction: column;
   margin-top: 0.75rem;
   border: 1px solid var(--container-border);
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background: var(--main-bg-pri);
   width: 100%;
   max-height: 20rem;
@@ -248,9 +248,6 @@ p.failure {
 .result-item {
   display: flex;
   flex-direction: column;
-}
-
-.result-item + .result-item {
 }
 
 .result-item + .result-item::before {
@@ -322,13 +319,13 @@ li::before {
   background-color: var(--code-bg);
   color: var(--code-color);
   padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
 }
 
 .no-record {
   border: 1px solid var(--code-border-alt);
   background-color: var(--code-bg-alt);
   padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
 }
 </style>

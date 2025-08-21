@@ -1,6 +1,5 @@
 import { watch } from "vue";
 import { defineStore } from "pinia";
-import { getUser, syncUserSettings } from "@/hooks/identity.js";
 
 export const useUserStore = defineStore({
   id: "user",
@@ -105,58 +104,55 @@ export const useUserStore = defineStore({
       }
     },
     async initializeStore() {
-      const user = getUser();
+      // Load settings from localStorage if present
+      const storedOptions = localStorage.getItem("user_options");
+      const storedPreferences = localStorage.getItem("user_preferences");
+      const storedCallbacks = localStorage.getItem("user_callbacks");
 
-      const syncLocalStorage = (newTheme) => {
-        localStorage.setItem("theme", newTheme);
-      };
-
-      if (user) {
-        // populate store with identity storage when the app loads
-        const user_metadata = user.user_metadata || {};
-
-        this.account.login = true;
-        this.account.provider = user.app_metadata.provider;
-        this.account.id = user.id;
-        this.account.email = user.email;
-        this.account.nickname =
-          user_metadata.account && user_metadata.account.nickname
-            ? user_metadata.account.nickname
-            : user_metadata.full_name
-            ? user_metadata.full_name
-            : "N/A";
-        if (user_metadata.avatar_url) {
-          this.account.avatar = user_metadata.avatar_url;
-        }
-
-        this.options = user_metadata.options
-          ? { ...this.options, ...user_metadata.options }
-          : this.options;
-        this.preferences = user_metadata.preferences
-          ? { ...this.preferences, ...user_metadata.preferences }
-          : this.preferences;
-        this.callbacks = user_metadata.callbacks
-          ? { ...this.callbacks, ...user_metadata.callbacks }
-          : this.callbacks;
-
-        // synch identity storage whenever store states are updated
-        watch(() => this.options, syncUserSettings, { deep: true });
-        watch(() => this.preferences, syncUserSettings, { deep: true });
-        watch(() => this.callbacks, syncUserSettings, { deep: true });
-      } else {
-        this.account.login = false;
-
-        // Pull themeSelected from localStorage if user isn't authenticated
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme) {
-          this.preferences.themeSelected = storedTheme;
-        }
-
-        // Set themeSelected in localStorage whenever it is updated
-        watch(() => this.preferences.themeSelected, syncLocalStorage, {
-          deep: true,
-        });
+      if (storedOptions) {
+        try {
+          this.options = { ...this.options, ...JSON.parse(storedOptions) };
+        } catch (e) {}
       }
+      if (storedPreferences) {
+        try {
+          this.preferences = {
+            ...this.preferences,
+            ...JSON.parse(storedPreferences),
+          };
+        } catch (e) {}
+      }
+      if (storedCallbacks) {
+        try {
+          this.callbacks = {
+            ...this.callbacks,
+            ...JSON.parse(storedCallbacks),
+          };
+        } catch (e) {}
+      }
+
+      // Watch and persist changes to localStorage
+      watch(
+        () => this.options,
+        (val) => {
+          localStorage.setItem("user_options", JSON.stringify(val));
+        },
+        { deep: true }
+      );
+      watch(
+        () => this.preferences,
+        (val) => {
+          localStorage.setItem("user_preferences", JSON.stringify(val));
+        },
+        { deep: true }
+      );
+      watch(
+        () => this.callbacks,
+        (val) => {
+          localStorage.setItem("user_callbacks", JSON.stringify(val));
+        },
+        { deep: true }
+      );
     },
   },
 });

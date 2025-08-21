@@ -10,7 +10,22 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
 
 <template>
   <div class="view-wrapper">
-    <BaseContainer width="24rem">
+    <BaseContainer width="48rem">
+      <template #container>
+        <BaseCard>
+          <template #card>
+            <WebsiteHandler />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <SessionHandler />
+            <GetHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+    <BaseContainer width="32rem">
       <template #container>
         <BaseCard>
           <template #card>
@@ -21,14 +36,6 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
             <PushHandler method="avatar" />
             <PushHandler method="data" />
             <PushHandler method="segment" />
-          </template>
-        </BaseCard>
-      </template>
-    </BaseContainer>
-    <BaseContainer width="24rem">
-      <template #container>
-        <BaseCard>
-          <template #card>
             <PushHandler method="event" />
             <PushHandler method="trigger" />
             <PushHandler method="sendMessage" />
@@ -38,21 +45,6 @@ import GetHandler from "@/components/widgets/GetHandler.vue";
         <BaseCard>
           <template #card>
             <DoHandler />
-          </template>
-        </BaseCard>
-      </template>
-    </BaseContainer>
-    <BaseContainer grow>
-      <template #container>
-        <BaseCard>
-          <template #card>
-            <WebsiteHandler />
-            <SessionHandler />
-          </template>
-        </BaseCard>
-        <BaseCard>
-          <template #card>
-            <GetHandler />
           </template>
         </BaseCard>
       </template>

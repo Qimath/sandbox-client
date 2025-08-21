@@ -20,7 +20,12 @@ function formatSettings(settings) {
 function troubleshootingHelpers() {
   const helperTips = [];
 
-  const { online, settings } = websiteConfig.value;
+  const { online, settings, plugins } = websiteConfig.value;
+  const customizationPlugin = plugins["urn:crisp.im:customization:0"] || {};
+  const verticalOffset = parseInt(
+    customizationPlugin.position?.chatbox?.default_button_vertical || "0",
+    10
+  );
 
   if (!online && settings.hide_on_away) {
     helperTips.push(
@@ -49,6 +54,12 @@ function troubleshootingHelpers() {
   if (settings.hide_vacation) {
     helperTips.push(
       "'vacation mode' is active, the chatbox will be hidden on all pages, anywhere."
+    );
+  }
+
+  if (verticalOffset < -50) {
+    helperTips.push(
+      "The Customization plugin was used to change the vertical offset of the chatbox. It might very wel be positioned to low on the page to be visible."
     );
   }
 
@@ -149,7 +160,7 @@ async function debugChatbox() {
 .debugging-result {
   margin-top: 0.75rem;
   border: 1px solid var(--container-border);
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background: var(--main-bg-pri);
   width: 100%;
   max-height: 20rem;
@@ -159,7 +170,7 @@ async function debugChatbox() {
 .debugging-error {
   margin-top: 0.75rem;
   border: 1px solid var(--container-border);
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background: var(--main-bg-pri);
   width: 100%;
   max-height: 20rem;

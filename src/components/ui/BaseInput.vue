@@ -185,7 +185,7 @@ textarea {
   border-bottom: 2px solid var(--liner-pri);
   resize: none;
   overflow: hidden;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   transition: all 0.1s linear;
 }
 
@@ -349,7 +349,7 @@ div > span.copy-type {
   color: var(--main-text-reverse);
   background: var(--green-pri);
   padding: 0.625rem 1.25rem 0.75rem 1.25rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   font-size: 1rem;
   font-weight: 700;
   z-index: 100;

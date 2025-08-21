@@ -227,7 +227,7 @@ async function userSignup() {
   background: var(--container-bg);
   padding: 3rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
 }
 
 h3 {

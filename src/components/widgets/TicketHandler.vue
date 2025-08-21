@@ -38,4 +38,8 @@ const computedHmac = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+iframe {
+  border-radius: 0.375rem;
+}
+</style>

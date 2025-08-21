@@ -124,7 +124,7 @@ export const useConfigStore = defineStore({
 
       if (existingWebsiteIndex !== -1) {
         this.cache.websites.splice(existingWebsiteIndex, 1);
-      } else if (this.cache.websites.length === 5) {
+      } else if (this.cache.websites.length === 8) {
         this.cache.websites.pop();
       }
 

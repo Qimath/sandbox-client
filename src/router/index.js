@@ -16,7 +16,7 @@ import DebuggingView from "@/views/DebuggingView.vue";
 import TicketView from "@/views/TicketView.vue";
 import ContactView from "@/views/ContactView.vue";
 import LaboratoryView from "@/views/LaboratoryView.vue";
-import AccountView from "@/views/AccountView.vue";
+import SettingsView from "@/views/SettingsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,7 +61,7 @@ const router = createRouter({
     {
       path: "/account",
       name: "account",
-      component: AccountView,
+      component: () => import("@/views/AccountView.vue"),
       meta: { title: "Account" },
     },
     {
@@ -73,7 +73,7 @@ const router = createRouter({
     {
       path: "/settings",
       name: "settings",
-      component: () => import("@/views/SettingsView.vue"),
+      component: SettingsView,
       meta: { title: "Settings" },
     },
   ],
@@ -84,15 +84,12 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
   const isLoggedIn = userStore.getAccount().login;
-  const authenticatedRoutes = ["dashboard", "settings"];
+  const authenticatedRoutes = ["dashboard"];
 
   if (to.name === "account" && isLoggedIn) {
     // redirect to the dashboard page
     next({ name: "dashboard" });
   } else if (authenticatedRoutes.includes(to.name) && !isLoggedIn) {
-    // redirect to the account page
-    next({ name: "account" });
-  } else if (to.name === "settings" && !isLoggedIn) {
     // redirect to the account page
     next({ name: "account" });
   } else {

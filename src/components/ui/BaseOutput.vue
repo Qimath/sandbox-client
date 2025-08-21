@@ -237,7 +237,11 @@ section + section {
 }
 
 .output-container .label {
-  border-top-left-radius: 0.25rem;
+  border-top-left-radius: 0.375rem;
+}
+
+.output-container:first-of-type pre {
+  border-top-right-radius: 0.375rem;
 }
 
 .output-container ~ .output-container .label {
@@ -245,13 +249,13 @@ section + section {
 }
 
 .output-container:last-of-type pre {
-  border-bottom-right-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
 }
 
 .output-container:last-of-type .label:last-child {
-  border-bottom-right-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
 }
 
 .output-container:last-of-type .double pre {
@@ -267,12 +271,12 @@ div.double pre {
 }
 
 .output-container div.double:last-of-type pre {
-  border-bottom-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.375rem;
   border-bottom: 1px solid var(--output-border);
 }
 
 .output-container div.double:last-of-type pre + pre {
-  border-radius: 0 0 0.25rem 0;
+  border-radius: 0 0 0.375rem 0;
 }
 
 div.double pre + pre {
@@ -302,8 +306,8 @@ section.compact {
 }
 
 section.compact:first-child {
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
 }
 
 section.compact:first-child .label {
@@ -313,8 +317,8 @@ section.compact:first-child .label {
 section.compact:last-child {
   flex-direction: row;
   border: none;
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
 }
 
 section.compact:last-child pre {

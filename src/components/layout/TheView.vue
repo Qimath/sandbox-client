@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
   </div>
 </template>
 
-<style scoped>
+<style>
 div.view {
   flex-direction: row;
   justify-content: center;
@@ -92,5 +92,28 @@ div.view {
 .default-enter-to,
 .default-leave-from {
   transform: scale(1);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.button-group > * {
+  margin-top: 0 !important;
+}
+
+.button-group > :first-child {
+  margin-right: 0.75rem;
+}
+
+.void-zone {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25vh;
+  margin-bottom: 5rem;
 }
 </style>

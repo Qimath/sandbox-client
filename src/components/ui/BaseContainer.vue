@@ -17,13 +17,17 @@ const props = defineProps({
 
 <template>
   <div class="container" :class="{ grow, full }" ref="container">
-    <span class="top-liner"></span>
+    <span class="top-liner">
+      <span class="liner-border"></span>
+    </span>
     <slot name="container"></slot>
-    <span class="bottom-liner"></span>
+    <span class="bottom-liner">
+      <span class="liner-border"></span>
+    </span>
   </div>
 </template>
 
-<style scoped>
+<style>
 .container {
   flex-direction: column;
   justify-content: flex-start;
@@ -31,22 +35,29 @@ const props = defineProps({
   flex: 0 0 auto;
   overflow-y: scroll;
   overflow-x: hidden;
-  background: var(--container-bg);
   max-height: 100%;
   height: fit-content;
   min-width: 20rem;
   width: v-bind(width);
+  border-radius: 0.375rem;
 }
 
 .container.grow {
   flex-grow: 1;
   width: auto;
   max-width: initial;
-  min-width: 40rem;
+  min-width: 32rem;
 }
 
 .container.full {
   height: 100%;
+}
+
+.container.full .card,
+.container.full .top-liner,
+.container.full .bottom-liner,
+.container.full .liner-border {
+  background: transparent;
 }
 
 .top-liner,
@@ -56,8 +67,17 @@ const props = defineProps({
   max-height: 1.5rem;
   min-height: 1.5rem;
   width: 100%;
-  background: var(--container-bg);
   z-index: 5;
+  background: var(--main-bg-pri);
+}
+
+.liner-border {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--container-bg);
+  border: 1px solid var(--container-border);
 }
 
 .container.full .top-liner,
@@ -67,14 +87,22 @@ const props = defineProps({
 
 .top-liner {
   top: 0;
-  border: 1px solid var(--container-border);
-  border-bottom: none;
 }
 
 .bottom-liner {
   bottom: 0;
-  border: 1px solid var(--container-border);
-  border-top: none;
+}
+
+.top-liner .liner-border {
+  top: 0;
+  border-radius: 0.375rem 0.375rem 0 0;
+  border-bottom: 0;
+}
+
+.bottom-liner .liner-border {
+  bottom: 0;
+  border-radius: 0 0 0.375rem 0.375rem;
+  border-top: 0;
 }
 
 .container::-webkit-scrollbar {

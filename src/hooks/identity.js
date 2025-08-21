@@ -44,16 +44,11 @@ function handleAuthPromise(promise) {
 }
 
 export function signup(email, password, nickname) {
-  const userStore = useUserStore();
-
   return handleAuthPromise(
     auth.signup(email, password, {
       account: {
         nickname: nickname,
       },
-      preferences: userStore.getPreferences(),
-      options: userStore.getOptions(),
-      callbacks: userStore.getCallbacks(),
     })
   );
 }
@@ -99,35 +94,6 @@ export function recovery(email) {
 export function getUser() {
   const user = auth.currentUser();
   return user ? user : false;
-}
-
-export async function syncUserSettings() {
-  const userStore = useUserStore();
-
-  const newMeta = {
-    preferences: userStore.getPreferences(),
-    options: userStore.getOptions(),
-    callbacks: userStore.getCallbacks(),
-  };
-
-  return updateMeta(newMeta);
-}
-
-export async function updateMeta(newMeta) {
-  const user = auth.currentUser();
-
-  if (user) {
-    try {
-      const oldMeta = user.user_metadata?.data || {};
-      const mergedMeta = { ...oldMeta, ...newMeta };
-
-      const response = await user.update({ data: mergedMeta });
-      return { success: response, error: "" };
-    } catch (error) {
-      console.error("App error [Identity => updateMeta]: ", error);
-      return { success: "", error: parseErrorMessage(error) };
-    }
-  }
 }
 
 export async function updateProfile(email, password) {

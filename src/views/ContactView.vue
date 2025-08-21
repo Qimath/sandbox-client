@@ -14,8 +14,13 @@ import WebsitePreview from "@/components/widgets/WebsitePreview.vue";
       <template #container>
         <BaseCard>
           <template #card>
-            <WebsitePreview />
-            <ContactHandler />
+            <WebsiteHandler />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <SessionHandler />
+            <GetHandler />
           </template>
         </BaseCard>
       </template>
@@ -24,13 +29,8 @@ import WebsitePreview from "@/components/widgets/WebsitePreview.vue";
       <template #container>
         <BaseCard>
           <template #card>
-            <WebsiteHandler />
-            <SessionHandler />
-          </template>
-        </BaseCard>
-        <BaseCard>
-          <template #card>
-            <GetHandler />
+            <WebsitePreview />
+            <ContactHandler />
           </template>
         </BaseCard>
       </template>

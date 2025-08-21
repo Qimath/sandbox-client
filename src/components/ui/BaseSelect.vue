@@ -65,8 +65,7 @@ select {
   overflow: hidden;
   transition: all 0.1s linear;
   appearance: none;
-  border-radius: 0.25rem;
-  border-radius: 0 !important;
+  border-radius: 0.375rem;
 }
 
 select:hover {

@@ -84,7 +84,7 @@ const settingsTitle = computed(() => {
           <div v-if="isLoggedIn" class="is-logged-in"></div>
           <IconAccount
         /></router-link>
-        <router-link v-if="isLoggedIn" to="/settings" class="settings"
+        <router-link to="/settings" class="settings"
           ><IconSettings
         /></router-link>
       </section>
@@ -132,7 +132,7 @@ aside nav section:nth-of-type(2) {
 aside nav section a {
   color: var(--aside-icon);
   margin: 0.25rem 0;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   height: 4rem;
   width: 4rem;
   justify-content: center;
@@ -160,8 +160,8 @@ aside nav section a::before {
   background: var(--orange-duo);
   padding: 1rem 2rem;
   box-shadow: var(--main-shadow) 0 4px 8px, var(--main-shadow) 4px 4px 4px;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
   font-size: 1rem;
   font-weight: 700;
   opacity: 0;

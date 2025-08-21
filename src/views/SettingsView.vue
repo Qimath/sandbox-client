@@ -7,7 +7,6 @@ import BaseBanner from "@/components/ui/BaseBanner.vue";
 import SettingsHandler from "@/components/widgets/SettingsHandler.vue";
 
 import { useBanner } from "@/hooks/banner.js";
-import { updateMeta } from "@/hooks/identity.js";
 
 const { bannerOptions, displayBanner, closeBanner } = useBanner();
 
@@ -45,27 +44,13 @@ function handleBannerAction(action) {
 }
 
 async function resetSettings() {
-  const defaultMetaSettings = {
-    preferences: null,
-    options: null,
-    callbacks: null,
-  };
-
   try {
-    const result = await updateMeta(defaultMetaSettings);
-
-    // handling reset result
-    if (result.error && result.error !== "") {
-      displayBanner({
-        message: result.error,
-        type: "error",
-        animate: true,
-      });
-    } else {
-      window.sessionStorage.removeItem("settingsSaved");
-      window.sessionStorage.setItem("settingsReset", "true");
-      window.location.reload();
-    }
+    localStorage.removeItem("user_preferences");
+    localStorage.removeItem("user_options");
+    localStorage.removeItem("user_callbacks");
+    window.sessionStorage.removeItem("settingsSaved");
+    window.sessionStorage.setItem("settingsReset", "true");
+    window.location.reload();
   } catch (error) {
     console.error("App error => Reset: ", error);
   }

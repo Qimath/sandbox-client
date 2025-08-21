@@ -17,6 +17,21 @@ import DomainVerifier from "@/components/widgets/DomainVerifier.vue";
       <template #container>
         <BaseCard>
           <template #card>
+            <WebsiteHandler />
+          </template>
+        </BaseCard>
+        <BaseCard>
+          <template #card>
+            <SessionHandler />
+            <GetHandler />
+          </template>
+        </BaseCard>
+      </template>
+    </BaseContainer>
+    <BaseContainer width="48rem">
+      <template #container>
+        <BaseCard>
+          <template #card>
             <WebsitePreview />
             <WebsiteDetails />
           </template>
@@ -34,22 +49,6 @@ import DomainVerifier from "@/components/widgets/DomainVerifier.vue";
         </BaseCard>
       </template>
     </BaseContainer>
-    <BaseContainer grow>
-      <template #container>
-        <BaseCard>
-          <template #card>
-            <WebsiteHandler />
-            <SessionHandler />
-          </template>
-        </BaseCard>
-        <BaseCard>
-          <template #card>
-            <GetHandler />
-          </template>
-        </BaseCard>
-      </template>
-    </BaseContainer>
   </div>
 </template>
-
 <style scoped></style>

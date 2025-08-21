@@ -182,19 +182,21 @@ async function pushMethod() {
         action-type="simple"
         action-label="content_copy"
       />
-      <BaseButton
-        :id="'submit-push-' + selectedMethod.id"
-        color="default"
-        value="submit"
-      />
-      <BaseButton
-        :id="'generate-' + selectedMethod.id"
-        color="blue"
-        button
-        @click="generateMethod"
-      >
-        <template #button>generate</template>
-      </BaseButton>
+      <div class="button-group">
+        <BaseButton
+          :id="'submit-push-' + selectedMethod.id"
+          color="default"
+          value="submit"
+        />
+        <BaseButton
+          :id="'generate-' + selectedMethod.id"
+          color="blue"
+          button
+          @click="generateMethod"
+        >
+          <template #button>generate</template>
+        </BaseButton>
+      </div>
     </form>
   </div>
 </template>

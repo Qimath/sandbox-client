@@ -106,19 +106,21 @@ function clearSession() {
         icon="fingerprint"
         v-model:value="sessionIdValue"
       />
-      <BaseButton id="session-submit" color="default" value="submit" />
-      <BaseButton
-        id="session-clear"
-        color="red"
-        @click="clearSession"
-        action
-        action-label="content_copy"
-        :copy-type="copyResults['clear']?.copyType"
-        @action="copyMethod('clear')"
-        button
-      >
-        <template #button>reset</template>
-      </BaseButton>
+      <div class="button-group">
+        <BaseButton id="session-submit" color="default" value="submit" />
+        <BaseButton
+          id="session-clear"
+          color="red"
+          @click="clearSession"
+          action
+          action-label="content_copy"
+          :copy-type="copyResults['clear']?.copyType"
+          @action="copyMethod('clear')"
+          button
+        >
+          <template #button>reset</template>
+        </BaseButton>
+      </div>
       <BaseOutput
         id="get-session_id"
         label="Session ID"

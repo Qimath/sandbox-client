@@ -167,11 +167,34 @@ class DnsChecker {
   evaluateRecord(record, retrieved) {
     if (record.type === "MX") {
       return this.evaluateMxRecord(record, retrieved);
+    } else if (record.name === "spf") {
+      return this.evaluateSpfRecord(record, retrieved);
     } else if (record.name === "caa") {
       return this.evaluateCaaRecord(record, retrieved);
     } else {
       return this.evaluateGenericRecord(record, retrieved);
     }
+  }
+
+  evaluateSpfRecord(record, retrieved) {
+    const CRISP_REDIRECT = "redirect=_spf.crisp.email";
+    const CRISP_INCLUDE = "include:_spf.crisp.email";
+
+    let match = null;
+    for (const r of retrieved) {
+      if (!r.value.startsWith("v=spf1")) continue;
+      const redirects = r.value.match(/redirect=[^ ]+/g) || [];
+      if (redirects.length === 1 && redirects[0] === CRISP_REDIRECT) {
+        match = r;
+        break;
+      }
+
+      if (r.value.includes(CRISP_INCLUDE)) {
+        match = r;
+        break;
+      }
+    }
+    return this.createResult(!!match, record, retrieved);
   }
 
   evaluateMxRecord(record, retrieved) {
@@ -181,14 +204,14 @@ class DnsChecker {
     if (!expectedMatch) return this.createResult(false, record, retrieved);
 
     const expectedPriority = parseInt(expectedMatch.value.split(" ")[0], 10);
-    const higherPriorityExists = retrieved.some((r) => {
-      const priority = parseInt(r.value.split(" ")[0], 10);
-      return (
-        priority < expectedPriority && !record.regex.test(r.value.split(" ")[1])
-      );
+    const conflictExists = retrieved.some((r) => {
+      const [priorityStr, ...rest] = r.value.split(" ");
+      const priority = parseInt(priorityStr, 10);
+      const exchange = rest.join(" ");
+      return priority <= expectedPriority && !record.regex.test(exchange);
     });
 
-    return this.createResult(!higherPriorityExists, record, retrieved);
+    return this.createResult(!conflictExists, record, retrieved);
   }
 
   evaluateCaaRecord(record, retrieved) {

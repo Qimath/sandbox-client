@@ -119,7 +119,7 @@ div.btn-wrapper:first-child {
 
 div.btn-container {
   width: 100%;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   overflow: hidden;
 }
 
@@ -133,7 +133,7 @@ button {
   cursor: pointer;
   justify-content: center;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   color: var(--main-text-reverse);
 }
 
@@ -248,8 +248,8 @@ span.simple {
   height: 100%;
   width: 3.25rem;
   border-left: 2px solid hsla(0, 0%, 0%, 0.1);
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
 }
 
 span.simple svg {
@@ -270,8 +270,8 @@ span.copy-type {
   color: var(--main-text-reverse);
   background: var(--green-pri);
   padding: 0 0 0.25rem 3.25rem;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+  border-top-left-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
   font-size: 1rem;
   font-weight: 700;
   z-index: 100;
@@ -356,7 +356,7 @@ span.copy-type::after {
   z-index: 100;
   top: calc(100% + 0px);
   width: 100%;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   color: var(--main-text-reverse);
   transform-origin: 0 0;
 }

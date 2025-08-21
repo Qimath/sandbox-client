@@ -43,7 +43,7 @@ onMounted(() => {
       plan: "free"
     });
 
-    Crisp.session.setSegments(["hello", "pleb"], true);
+    Crisp.session.setSegments(["seg1", "seg2", "seg3"]);
   }, 2000);
 });
 </script>

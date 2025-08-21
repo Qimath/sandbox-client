@@ -211,23 +211,25 @@ watch(
         action-type="large"
         action-label="key"
       />
-      <BaseButton id="website-submit" color="default" value="submit" />
-      <BaseButton
-        ref="dropdownRef"
-        id="website-staging"
-        color="blue"
-        button
-        @click="loadStaging"
-        @action="toggleDropdown"
-        :dropdown="dropdownVisibility"
-        action
-        action-label="visibility"
-        @select="loadWebsite"
-        :dropdown-items="dropdownItems"
-        @websiteRemove="removeCachedWebsite"
-      >
-        <template #button>{{ mainWebsiteName }}</template>
-      </BaseButton>
+      <div class="button-group">
+        <BaseButton id="website-submit" color="default" value="submit" />
+        <BaseButton
+          ref="dropdownRef"
+          id="website-staging"
+          color="blue"
+          button
+          @click="loadStaging"
+          @action="toggleDropdown"
+          :dropdown="dropdownVisibility"
+          action
+          action-label="visibility"
+          @select="loadWebsite"
+          :dropdown-items="dropdownItems"
+          @websiteRemove="removeCachedWebsite"
+        >
+          <template #button>{{ mainWebsiteName }}</template>
+        </BaseButton>
+      </div>
       <BaseOutput
         id="get-website-id"
         label="Website ID"

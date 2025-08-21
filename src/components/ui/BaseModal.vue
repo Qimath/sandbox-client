@@ -49,7 +49,7 @@ dialog {
   left: 30%;
   width: 40%;
   z-index: 500;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 0;

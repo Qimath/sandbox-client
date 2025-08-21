@@ -272,6 +272,7 @@ div.label label {
   font-size: 1rem;
   color: var(--main-text-normal);
   align-items: center;
+  padding: 1rem 0;
 }
 
 div.setting-item {
@@ -319,7 +320,7 @@ div > span.copy-type {
   color: var(--main-text-reverse);
   background: var(--orange-pri);
   padding: 0.625rem 1.25rem 0.75rem 1.25rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   font-size: 1rem;
   font-weight: 700;
   z-index: 100;
