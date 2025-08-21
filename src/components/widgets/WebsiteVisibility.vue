@@ -27,7 +27,8 @@ function troubleshootingHelpers() {
     10
   );
 
-  console.log("verticalOffset", verticalOffset);
+  console.log("conf", websiteConfig.value);
+  console.log("custo", customizationPlugin);
 
   if (!online && settings.hide_on_away) {
     helperTips.push(
