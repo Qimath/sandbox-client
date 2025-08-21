@@ -23,12 +23,10 @@ function troubleshootingHelpers() {
   const { online, settings, plugins } = websiteConfig.value;
   const customizationPlugin = plugins["urn:crisp.im:customization:0"] || {};
   const verticalOffset = parseInt(
-    customizationPlugin.position?.chatbox?.default_button_vertical || "0",
+    customizationPlugin.settings?.position?.chatbox?.default_button_vertical ||
+      "0",
     10
   );
-
-  console.log("conf", websiteConfig.value);
-  console.log("custo", customizationPlugin);
 
   if (!online && settings.hide_on_away) {
     helperTips.push(
