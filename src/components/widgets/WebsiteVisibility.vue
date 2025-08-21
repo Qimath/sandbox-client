@@ -60,7 +60,7 @@ function troubleshootingHelpers() {
 
   if (verticalOffset < -50) {
     helperTips.push(
-      "The Customization plugin was used to change the vertical offset of the chatbox. It might very wel be positioned to low on the page to be visible."
+      "The 'Customization' plugin has been used to change the vertical offset of the chatbox. The chatbox might very likely now be positioned too low on the page to be visible."
     );
   }
 
