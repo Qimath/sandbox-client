@@ -27,6 +27,8 @@ function troubleshootingHelpers() {
     10
   );
 
+  console.log("verticalOffset", verticalOffset);
+
   if (!online && settings.hide_on_away) {
     helperTips.push(
       "The chatbox is not be visible, since the support team is offline while 'hide on away' is enabled"
